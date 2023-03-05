@@ -1,0 +1,74 @@
+{
+  "name": "serenity/foundation",
+  "description": "Good stuff here.",
+  "type": "project",
+  "license": "MIT",
+  "homepage": "https://serenityphp.com",
+  "support": {
+    "issues": "https://github.com/jetstreamlabs/foundation/issues",
+    "source": "https://github.com/jetstreamlabs/foundation"
+  },
+  "authors": [
+    {
+      "name": "secondman",
+      "email": "secondman@jetstreamlabs.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "ext-json": "*",
+    "bacon/bacon-qr-code": "^2.0",
+    "illuminate/console": "^10.0",
+    "illuminate/support": "^10.0",
+    "jetstreamlabs/snowflake": "^3.1",
+    "jenssegers/agent": "^2.6",
+    "pragmarx/google2fa": "^8.0",
+    "protonemedia/laravel-splade": "^1.2"
+  },
+  "require-dev": {
+    "fakerphp/faker": "^1.9.1",
+    "inertiajs/inertia-laravel": "^0.6.9",
+    "jetstreamlabs/pinte": "^1.0",
+    "laravel/sail": "^1.18",
+    "mockery/mockery": "^1.4.4",
+    "nunomaduro/collision": "^7.0",
+    "orchestra/testbench": "^8.0",
+    "phpunit/phpunit": "^10.0",
+    "spatie/laravel-ignition": "^2.0",
+    "xammie/mailbook": "^1.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Serenity\\": "src/Serenity/"
+    },
+    "files": [
+      "src/Serenity/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "conflict": {
+    "laravel/framework": "<10.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Serenity\\SerenityServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "php-http/discovery": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
