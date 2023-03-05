@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [1.0.1](https://github.com/jetstreamlabs/foundation/compare/v1.0.0...v1.0.1) (2023-03-05)
+
+
+### Task Commit
+
+* update composer description ([6c80f05](https://github.com/jetstreamlabs/foundation/commit/6c80f05febd1b58ed33b2cc8f9fca784388b1ac8))
+
 # 1.0.0 (2023-03-05)
 
 
