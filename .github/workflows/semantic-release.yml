@@ -3,7 +3,7 @@ name: Semantic Release
 on:
   push:
     branches:
-      - '1.x'
+      - main
 
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Branch
         uses: actions/checkout@v3
         with:
-          ref: '1.x'
+          ref: main
           fetch-depth: 0
           persist-credentials: false
 
