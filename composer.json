@@ -1,6 +1,6 @@
 {
   "name": "serenity/foundation",
-  "description": "Good stuff here.",
+  "description": "Base foundation for Serenity Zen PHP framework.",
   "type": "project",
   "license": "MIT",
   "homepage": "https://serenityphp.com",
