@@ -22,9 +22,7 @@ use Serenity\Contracts\UpdatesTeamNamesInterface;
 use Serenity\Contracts\UpdatesUserPasswordsInterface;
 use Serenity\Contracts\UpdatesUserProfileInformationInterface;
 use Serenity\Contracts\VerifyEmailViewInterface;
-use Serenity\Features;
 use Serenity\Responders\SimpleViewResponder;
-use Serenity\Role;
 
 class Serenity
 {

@@ -2,7 +2,6 @@
 
 namespace Serenity\Responders;
 
-use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\PasswordConfirmedInterface;
 use Serenity\Serenity;
 

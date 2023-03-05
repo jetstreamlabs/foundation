@@ -12,7 +12,7 @@ class CreateAction extends Action
   /**
    * Create a new action instance.
    *
-   * @param  \Illuminate\Contracts\Auth\StatefulGuard $guard
+   * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
    */
   public function __construct(protected StatefulGuard $guard)
   {

@@ -53,8 +53,6 @@ use Serenity\Responders\TwoFactorDisabledResponder;
 use Serenity\Responders\TwoFactorEnabledResponder;
 use Serenity\Responders\TwoFactorLoginResponder;
 use Serenity\Responders\VerifyEmailResponder;
-use Serenity\Serenity;
-use Serenity\TwoFactorAuthenticationProvider;
 
 class SerenityServiceProvider extends ServiceProvider
 {

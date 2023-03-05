@@ -5,7 +5,6 @@ namespace Serenity;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Serenity\Serenity;
 
 class LoginRateLimiter
 {

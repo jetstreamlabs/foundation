@@ -5,7 +5,6 @@ namespace Serenity\Support;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Serenity\Support\Agency;
 
 class Sessions
 {

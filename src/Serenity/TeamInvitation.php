@@ -4,7 +4,6 @@ namespace Serenity;
 
 use Illuminate\Database\Eloquent\Model;
 use Jetlabs\Snowflake\Concerns\HasSnowflakePrimary;
-use Serenity\Serenity;
 
 class TeamInvitation extends Model
 {
