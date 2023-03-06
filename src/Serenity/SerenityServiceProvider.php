@@ -55,6 +55,7 @@ use Serenity\Responders\TwoFactorEnabledResponder;
 use Serenity\Responders\TwoFactorLoginResponder;
 use Serenity\Responders\VerifyEmailResponder;
 use Serenity\Routing\Discovery\Discover;
+use Serenity\Routing\RemovableRoutesMixin;
 
 class SerenityServiceProvider extends ServiceProvider
 {
@@ -69,6 +70,8 @@ class SerenityServiceProvider extends ServiceProvider
   public function boot()
   {
     Serenity::viewPrefix('auth.');
+
+    Route::mixin(new RemovableRoutesMixin());
 
     $this->registerProviders();
     $this->registerMiddleware();
@@ -149,6 +152,17 @@ class SerenityServiceProvider extends ServiceProvider
     $this
         ->registerRoutesForActions()
         ->registerRoutesForViews();
+
+    $this->callAfterResolving('laravel-splade', function () {
+      if (app('router')->has('splade.confirmedPasswordStatus')) {
+        Route::remove('GET', config('splade.confirm_password_route'));
+        Route::get(config('splade.confirm_password_route'), \Serenity\Actions\Splade\ConfirmPassword\ShowAction::class)->name('splade.confirmedPasswordStatus');
+      }
+      if (app('router')->has('splade.confirmPassword')) {
+        Route::remove('POST', config('splade.confirm_password_route'));
+        Route::post(config('splade.confirm_password_route'), \Serenity\Actions\Splade\ConfirmPassword\StoreAction::class)->name('splade.confirmPassword');
+      }
+    });
   }
 
   /**
