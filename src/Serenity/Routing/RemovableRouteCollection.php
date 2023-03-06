@@ -11,7 +11,7 @@ class RemovableRouteCollection extends RouteCollection
   /**
    * Clone a base route collection into an removable instance
    *
-   * @param \Illuminate\Routing\RouteCollection $base
+   * @param  \Illuminate\Routing\RouteCollection  $base
    * @return \App\Routing\RouteCollection
    */
   public static function cloneFrom(RouteCollection $base)
@@ -29,8 +29,8 @@ class RemovableRouteCollection extends RouteCollection
   /**
    * Remove a Route instance from the collection by uri for any method
    *
-   * @param  mixed $methods
-   * @param  string $uri
+   * @param  mixed  $methods
+   * @param  string  $uri
    * @return static
    */
   public function remove($methods, string $uri)
@@ -55,9 +55,9 @@ class RemovableRouteCollection extends RouteCollection
   /**
    * Remove all matching routes for the given method
    *
-   * @param \Illuminate\Routing\Route $route
-   * @param string $method
-   * @param string $domainAndUri
+   * @param  \Illuminate\Routing\Route  $route
+   * @param  string  $method
+   * @param  string  $domainAndUri
    * @return void
    */
   protected function removeRoute(Route $route, string $method, string $domainAndUri)

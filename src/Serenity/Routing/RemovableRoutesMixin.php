@@ -3,7 +3,6 @@
 namespace Serenity\Routing;
 
 use Illuminate\Routing\Router;
-use Serenity\Routing\RemovableRouteCollection;
 
 class RemovableRoutesMixin
 {
