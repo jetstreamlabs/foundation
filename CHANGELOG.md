@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [1.1.2](https://github.com/jetstreamlabs/foundation/compare/v1.1.1...v1.1.2) (2023-03-06)
+
+
+### Bug Fixes
+
+* forgot action classes ([ead2bee](https://github.com/jetstreamlabs/foundation/commit/ead2bee118d49fbf223bec8f470eb461ba88cadb))
+
 ## [1.1.1](https://github.com/jetstreamlabs/foundation/compare/v1.1.0...v1.1.1) (2023-03-06)
 
 
