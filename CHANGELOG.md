@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+# [1.1.0](https://github.com/jetstreamlabs/foundation/compare/v1.0.1...v1.1.0) (2023-03-06)
+
+
+### Features
+
+* add orchid auto-routing ([1ae40a2](https://github.com/jetstreamlabs/foundation/commit/1ae40a2617d84718e1ece3dd713aaeb45998d0f9))
+
 ## [1.0.1](https://github.com/jetstreamlabs/foundation/compare/v1.0.0...v1.0.1) (2023-03-05)
 
 
