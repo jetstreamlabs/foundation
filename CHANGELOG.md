@@ -1,5 +1,17 @@
 # Serenity Foundation Changelog
 
+## [1.1.1](https://github.com/jetstreamlabs/foundation/compare/v1.1.0...v1.1.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* create removable routes for splade ([d330eab](https://github.com/jetstreamlabs/foundation/commit/d330eabf4b6a036785532bc168bf769391db993f))
+
+
+### Maintenance
+
+* styles ([924d930](https://github.com/jetstreamlabs/foundation/commit/924d9302e10c9ff8f653fd8e9091bdfd08520d05))
+
 # [1.1.0](https://github.com/jetstreamlabs/foundation/compare/v1.0.1...v1.1.0) (2023-03-06)
 
 
