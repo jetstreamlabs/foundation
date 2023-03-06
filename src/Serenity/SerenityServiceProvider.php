@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -53,6 +54,7 @@ use Serenity\Responders\TwoFactorDisabledResponder;
 use Serenity\Responders\TwoFactorEnabledResponder;
 use Serenity\Responders\TwoFactorLoginResponder;
 use Serenity\Responders\VerifyEmailResponder;
+use Serenity\Routing\Discovery\Discover;
 
 class SerenityServiceProvider extends ServiceProvider
 {
@@ -139,6 +141,14 @@ class SerenityServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../../routes/routes.php');
       });
     }
+
+    if ($this->app->routesAreCached()) {
+      return;
+    }
+
+    $this
+        ->registerRoutesForActions()
+        ->registerRoutesForViews();
   }
 
   /**
@@ -195,6 +205,36 @@ class SerenityServiceProvider extends ServiceProvider
         ];
       });
     });
+  }
+
+  public function registerRoutesForActions(): self
+  {
+    collect(config('serenity.action_directory'))
+        ->each(
+          fn (string $directory) => Discover::actions()->in($directory)
+        );
+
+    return $this;
+  }
+
+  public function registerRoutesForViews(): self
+  {
+    collect(config('serenity.responder_directory'))
+        ->each(function (array|string $directories, int|string $prefix) {
+          if (is_numeric($prefix)) {
+            $prefix = '';
+          }
+
+          $directories = Arr::wrap($directories);
+
+          foreach ($directories as $directory) {
+            Route::prefix($prefix)->group(function () use ($directory) {
+              Discover::views()->in($directory);
+            });
+          }
+        });
+
+    return $this;
   }
 
   protected function rebindLaravelDefaults(): void

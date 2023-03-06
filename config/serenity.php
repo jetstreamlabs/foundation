@@ -61,4 +61,13 @@ return [
     'email-verification' => null,
     'password-reset' => null,
   ],
+  'action_directory' => [
+    // app_path('Actions'),
+  ],
+  'responder_directory' => [
+    // 'docs' => resource_path('views/markdown'),
+  ],
+  'pending_route_transformers' => [
+    ...Serenity\Routing\Transformers::defaultRouteTransformers(),
+  ],
 ];
