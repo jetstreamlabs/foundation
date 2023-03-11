@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\TwoFactorDisabledInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class TwoFactorDisabledResponder implements TwoFactorDisabledInterface
    */
   public function toResponse($request)
   {
-    return back()->with('status', Serenity::TWO_FACTOR_AUTHENTICATION_DISABLED);
+    return $request->wantsJson()
+      ? new JsonResponse('', 200)
+      : back()->with('status', Serenity::TWO_FACTOR_AUTHENTICATION_DISABLED);
   }
 }

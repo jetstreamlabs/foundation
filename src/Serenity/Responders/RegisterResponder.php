@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\RegisterInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class RegisterResponder implements RegisterInterface
    */
   public function toResponse($request)
   {
-    return redirect()->intended(Serenity::redirects('register'));
+    return $request->wantsJson()
+      ? new JsonResponse('', 201)
+      : redirect()->intended(Serenity::redirects('register'));
   }
 }

@@ -34,13 +34,13 @@ class Serenity
 
   public static array $defaultPermissions = [];
 
-  public static string $userModel = 'App\\Models\\User';
+  public static string $userModel = 'App\\Domain\\Models\\User';
 
-  public static string $teamModel = 'App\\Models\\Team';
+  public static string $teamModel = 'App\\Domain\\Models\\Team';
 
-  public static string $membershipModel = 'App\\Models\\Membership';
+  public static string $membershipModel = 'App\\Domain\\Models\\Membership';
 
-  public static string $teamInvitationModel = 'App\\Models\\TeamInvitation';
+  public static string $teamInvitationModel = 'App\\Domain\\Models\\TeamInvitation';
 
   /**
    * The folllwing are all callable or null;

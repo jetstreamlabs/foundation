@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\PasswordConfirmedInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class PasswordConfirmedResponder implements PasswordConfirmedInterface
    */
   public function toResponse($request)
   {
-    return redirect()->intended(Serenity::redirects('password-confirmation'));
+    return $request->wantsJson()
+      ? new JsonResponse('', 201)
+      : redirect()->intended(Serenity::redirects('password-confirmation'));
   }
 }

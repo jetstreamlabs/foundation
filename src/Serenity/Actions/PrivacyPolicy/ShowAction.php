@@ -13,7 +13,7 @@ class ShowAction extends Action
    * Show the privacy policy for the application.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @return \Splade\Response
+   * @return \Inertia\Response
    */
   public function __invoke(Request $request)
   {

@@ -2,6 +2,7 @@
 
 namespace Serenity;
 
+use Illuminate\Support\Facades\Route;
 use Serenity\Contracts\PayloadInterface;
 use Serenity\Contracts\ResponderInterface;
 
@@ -9,17 +10,33 @@ abstract class Responder implements ResponderInterface
 {
   /**
    * Local payload property.
-   *
-   * @var \Serenity\Contracts\PayloadInterface
    */
-  protected $payload;
+  protected PayloadInterface $payload;
 
   /**
    * Does the given action require a payload?
-   *
-   * @var bool
    */
-  protected $expectsPayload = true;
+  protected bool $expectsPayload = true;
+
+  /**
+   * Local data prop extracted from payload.
+   */
+  protected ?array $data = [];
+
+  /**
+   * Level returned in our payload.
+   */
+  protected ?string $level = '';
+
+  /**
+   * Route returned by our payload.
+   */
+  protected ?string $route = '';
+
+  /**
+   * Message returned by our payload.
+   */
+  protected ?string $message = '';
 
   /**
    * Build up the HTTP response.
@@ -30,6 +47,8 @@ abstract class Responder implements ResponderInterface
   public function make(PayloadInterface $payload): ResponderInterface
   {
     $this->payload = $payload;
+
+    $this->compileData();
 
     return $this;
   }
@@ -45,5 +64,34 @@ abstract class Responder implements ResponderInterface
     $this->expectsPayload = $expects;
 
     return $this;
+  }
+
+  /**
+   * Extract data from the payload and store.
+   *
+   * @return void
+   */
+  public function compileData(): void
+  {
+    if ($this->expectsPayload) {
+      $data = $this->payload->getData();
+
+      if ($this->payload->expectsMessage()) {
+        $this->level = $this->payload->getLevel();
+        $this->message = $this->payload->getMessage();
+
+        $data['flash'] = [
+          $this->level => $this->message,
+        ];
+      }
+    }
+
+    $data['breadcrumbs'] = app('breadcrumb')->render();
+
+    $this->data = $data;
+
+    $this->route = Route::has($this->payload->getRoute())
+      ? route($this->payload->getRoute())
+      : $this->payload->getRoute();
   }
 }

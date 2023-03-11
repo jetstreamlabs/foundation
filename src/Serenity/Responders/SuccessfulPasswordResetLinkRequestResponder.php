@@ -2,26 +2,20 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\SuccessfulPasswordResetLinkRequestInterface;
 
 class SuccessfulPasswordResetLinkRequestResponder implements SuccessfulPasswordResetLinkRequestInterface
 {
-  /**
-   * The response status language key.
-   *
-   * @var string
-   */
-  protected $status;
-
   /**
    * Create a new response instance.
    *
    * @param  string  $status
    * @return void
    */
-  public function __construct(string $status)
-  {
-    $this->status = $status;
+  public function __construct(
+      protected string $status
+    ) {
   }
 
   /**
@@ -32,6 +26,8 @@ class SuccessfulPasswordResetLinkRequestResponder implements SuccessfulPasswordR
    */
   public function toResponse($request)
   {
-    return back()->with('status', trans($this->status));
+    return $request->wantsJson()
+      ? new JsonResponse(['message' => trans($this->status)], 200)
+      : back()->with('status', trans($this->status));
   }
 }

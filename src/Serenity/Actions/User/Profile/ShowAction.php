@@ -14,7 +14,7 @@ class ShowAction extends Action
    * Show the general profile settings screen.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @return \Splade\Response
+   * @return \Inertia\Response
    */
   public function __invoke(Request $request)
   {

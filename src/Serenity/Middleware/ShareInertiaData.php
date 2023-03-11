@@ -20,13 +20,13 @@ class ShareInertiaData
   public function handle($request, $next)
   {
     Inertia::share(array_filter([
-      'jetstream' => function () use ($request) {
+      'serenity' => function () use ($request) {
         $user = $request->user();
 
         return [
           'canCreateTeams' => $user &&
-                              Serenity::userHasTeamFeatures($user) &&
-                              Gate::forUser($user)->check('create', Serenity::newTeamModel()),
+            Serenity::userHasTeamFeatures($user) &&
+            Gate::forUser($user)->check('create', Serenity::newTeamModel()),
           'canManageTwoFactorAuthentication' => Features::canManageTwoFactorAuthentication(),
           'canUpdatePassword' => Features::enabled(Features::updatePasswords()),
           'canUpdateProfileInformation' => Features::canUpdateProfileInformation(),
@@ -39,25 +39,23 @@ class ShareInertiaData
           'managesProfilePhotos' => Serenity::managesProfilePhotos(),
         ];
       },
-      'auth' => [
-        'user' => function () use ($request) {
-          if (! $user = $request->user()) {
-            return;
-          }
+      'user' => function () use ($request) {
+        if (! $user = $request->user()) {
+          return;
+        }
 
-          $userHasTeamFeatures = Serenity::userHasTeamFeatures($user);
+        $userHasTeamFeatures = Serenity::userHasTeamFeatures($user);
 
-          if ($user && $userHasTeamFeatures) {
-            $user->currentTeam;
-          }
+        if ($user && $userHasTeamFeatures) {
+          $user->currentTeam;
+        }
 
-          return array_merge($user->toArray(), array_filter([
-            'all_teams' => $userHasTeamFeatures ? $user->allTeams()->values() : null,
-          ]), [
-            'two_factor_enabled' => ! is_null($user->two_factor_secret),
-          ]);
-        },
-      ],
+        return array_merge($user->toArray(), array_filter([
+          'all_teams' => $userHasTeamFeatures ? $user->allTeams()->values() : null,
+        ]), [
+          'two_factor_enabled' => ! is_null($user->two_factor_secret),
+        ]);
+      },
       'errorBags' => function () {
         return collect(optional(Session::get('errors'))->getBags() ?: [])->mapWithKeys(function ($bag, $key) {
           return [$key => $bag->messages()];

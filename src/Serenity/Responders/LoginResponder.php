@@ -15,6 +15,8 @@ class LoginResponder implements LoginInterface
    */
   public function toResponse($request)
   {
-    return redirect()->intended(Serenity::redirects('login'));
+    return $request->wantsJson()
+      ? response()->json(['two_factor' => false])
+      : redirect()->intended(Serenity::redirects('login'));
   }
 }

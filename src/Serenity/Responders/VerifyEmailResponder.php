@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\VerifyEmailViewInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class VerifyEmailResponder implements VerifyEmailViewInterface
    */
   public function toResponse($request)
   {
-    return redirect()->intended(Serenity::redirects('email-verification').'?verified=1');
+    return $request->wantsJson()
+      ? new JsonResponse('', 204)
+      : redirect()->intended(Serenity::redirects('email-verification').'?verified=1');
   }
 }

@@ -2,9 +2,9 @@
 
 namespace Serenity\Contracts;
 
-use Illuminate\Contracts\Support\Responsable;
+use Serenity\Contracts\PayloadInterface;
 
-interface ResponderInterface extends Responsable
+interface ResponderInterface
 {
   /**
    * Build up the HTTP response.

@@ -2,27 +2,21 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\PasswordResetInterface;
 use Serenity\Serenity;
 
 class PasswordResetResponder implements PasswordResetInterface
 {
   /**
-   * The response status language key.
-   *
-   * @var string
-   */
-  protected $status;
-
-  /**
    * Create a new response instance.
    *
    * @param  string  $status
    * @return void
    */
-  public function __construct(string $status)
-  {
-    $this->status = $status;
+  public function __construct(
+    protected string $status
+    ) {
   }
 
   /**
@@ -33,6 +27,8 @@ class PasswordResetResponder implements PasswordResetInterface
    */
   public function toResponse($request)
   {
-    return redirect(Serenity::redirects('password-reset', config('serenity.views', true) ? route('login') : null))->with('status', trans($this->status));
+    return $request->wantsJson()
+      ? new JsonResponse(['message' => trans($this->status)], 200)
+      : redirect(Serenity::redirects('password-reset', config('serenity.views', true) ? route('login') : null))->with('status', trans($this->status));
   }
 }

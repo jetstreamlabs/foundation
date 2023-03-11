@@ -19,7 +19,7 @@ return [
     'path' => env('COLLECTION_PATH', 'resources/content/collections'),
   ],
 
-  'stack' => 'splade',
+  'stack' => 'inertia',
   'guard' => 'sanctum',
   'auth_guard' => 'web',
   'passwords' => 'users',
@@ -64,8 +64,8 @@ return [
   'action_directory' => [
     // app_path('Actions'),
   ],
-  'responder_directory' => [
-    // 'docs' => resource_path('views/markdown'),
+  'docs_directory' => [
+    // 'docs' => resource_path('views/docs'),
   ],
   'pending_route_transformers' => [
     ...Serenity\Routing\Transformers::defaultRouteTransformers(),

@@ -11,21 +11,14 @@ use Serenity\Serenity;
 class LockoutResponder implements LockoutInterface
 {
   /**
-   * The login rate limiter instance.
-   *
-   * @var \Serenity\LoginRateLimiter
-   */
-  protected $limiter;
-
-  /**
    * Create a new response instance.
    *
    * @param  \Serenity\LoginRateLimiter  $limiter
    * @return void
    */
-  public function __construct(LoginRateLimiter $limiter)
-  {
-    $this->limiter = $limiter;
+  public function __construct(
+      protected LoginRateLimiter $limiter
+    ) {
   }
 
   /**

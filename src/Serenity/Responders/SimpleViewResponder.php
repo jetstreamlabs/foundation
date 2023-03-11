@@ -14,21 +14,14 @@ use Serenity\Contracts\VerifyEmailViewInterface;
 class SimpleViewResponder implements LoginViewInterface, ResetPasswordViewInterface, RegisterViewInterface, RequestPasswordResetLinkViewInterface, TwoFactorChallengeViewInterface, VerifyEmailViewInterface, ConfirmPasswordViewInterface
 {
   /**
-   * The name of the view or the callable used to generate the view.
-   *
-   * @var callable|string
-   */
-  protected $view;
-
-  /**
    * Create a new response instance.
    *
    * @param  callable|string  $view
    * @return void
    */
-  public function __construct($view)
-  {
-    $this->view = $view;
+  public function __construct(
+      protected $view
+    ) {
   }
 
   /**

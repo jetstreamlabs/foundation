@@ -14,7 +14,7 @@ class ShowAction extends Action
    *
    * @param  \Illuminate\Http\Request  $request
    * @param  int  $teamId
-   * @return \Splade\Response
+   * @return \Inertia\Response
    */
   public function __invoke(Request $request, $teamId)
   {

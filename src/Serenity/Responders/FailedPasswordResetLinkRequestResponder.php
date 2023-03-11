@@ -8,21 +8,14 @@ use Serenity\Contracts\FailedPasswordResetLinkRequestInterface;
 class FailedPasswordResetLinkRequestResponder implements FailedPasswordResetLinkRequestInterface
 {
   /**
-   * The response status language key.
-   *
-   * @var string
-   */
-  protected $status;
-
-  /**
    * Create a new response instance.
    *
    * @param  string  $status
    * @return void
    */
-  public function __construct(string $status)
-  {
-    $this->status = $status;
+  public function __construct(
+    protected string $status
+    ) {
   }
 
   /**
@@ -40,7 +33,7 @@ class FailedPasswordResetLinkRequestResponder implements FailedPasswordResetLink
     }
 
     return back()
-            ->withInput($request->only('email'))
-            ->withErrors(['email' => trans($this->status)]);
+      ->withInput($request->only('email'))
+      ->withErrors(['email' => trans($this->status)]);
   }
 }

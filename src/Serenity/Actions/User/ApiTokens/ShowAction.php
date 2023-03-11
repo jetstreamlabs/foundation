@@ -12,7 +12,7 @@ class ShowAction extends Action
    * Show the user API token screen.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @return \Splade\Response
+   * @return \Inertia\Response
    */
   public function __invoke(Request $request)
   {

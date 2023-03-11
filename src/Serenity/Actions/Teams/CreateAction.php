@@ -13,7 +13,7 @@ class CreateAction extends Action
    * Show the team creation screen.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @return \Splade\Response
+   * @return \Inertia\Response
    */
   public function __invoke(Request $request)
   {

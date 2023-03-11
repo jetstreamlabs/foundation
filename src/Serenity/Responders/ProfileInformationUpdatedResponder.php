@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\ProfileInformationUpdatedInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class ProfileInformationUpdatedResponder implements ProfileInformationUpdatedInt
    */
   public function toResponse($request)
   {
-    return back()->with('status', Serenity::PROFILE_INFORMATION_UPDATED);
+    return $request->wantsJson()
+      ? new JsonResponse('', 200)
+      : back()->with('status', Serenity::PROFILE_INFORMATION_UPDATED);
   }
 }

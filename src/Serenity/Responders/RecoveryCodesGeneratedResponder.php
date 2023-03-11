@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\PasswordUpdateInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class RecoveryCodesGeneratedResponder implements PasswordUpdateInterface
    */
   public function toResponse($request)
   {
-    return back()->with('status', Serenity::RECOVERY_CODES_GENERATED);
+    return $request->wantsJson()
+      ? new JsonResponse('', 200)
+      : back()->with('status', Serenity::RECOVERY_CODES_GENERATED);
   }
 }

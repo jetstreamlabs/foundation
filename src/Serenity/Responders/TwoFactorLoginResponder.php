@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\TwoFactorLoginInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class TwoFactorLoginResponder implements TwoFactorLoginInterface
    */
   public function toResponse($request)
   {
-    return redirect()->intended(Serenity::redirects('login'));
+    return $request->wantsJson()
+      ? new JsonResponse('', 204)
+      : redirect()->intended(Serenity::redirects('login'));
   }
 }

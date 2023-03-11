@@ -4,8 +4,8 @@ namespace Serenity\Actions\User;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
-use ProtoneMedia\Splade\Facades\Splade;
 use Serenity\Action;
 use Serenity\Contracts\DeletesUsersInterface;
 use Serenity\Operations\ConfirmPassword;
@@ -38,6 +38,6 @@ class DestroyAction extends Action
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return Splade::redirectAway(url('/'));
+    return Redirect::to(url('/'));
   }
 }

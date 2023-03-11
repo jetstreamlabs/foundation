@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\LogoutInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class LogoutResponder implements LogoutInterface
    */
   public function toResponse($request)
   {
-    return redirect(Serenity::redirects('logout', '/'));
+    return $request->wantsJson()
+      ? new JsonResponse('', 204)
+      : redirect(Serenity::redirects('logout', '/'));
   }
 }

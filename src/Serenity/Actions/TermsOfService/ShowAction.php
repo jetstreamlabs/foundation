@@ -13,7 +13,7 @@ class ShowAction extends Action
    * Show the terms of service for the application.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @return \Splade\Response
+   * @return \Inertia\Response
    */
   public function __invoke(Request $request)
   {

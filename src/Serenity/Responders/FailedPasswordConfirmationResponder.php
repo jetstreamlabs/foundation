@@ -17,8 +17,12 @@ class FailedPasswordConfirmationResponder implements FailedPasswordConfirmationI
   {
     $message = __('The provided password was incorrect.');
 
-    throw ValidationException::withMessages([
-      'password' => [$message],
-    ]);
+    if ($request->wantsJson()) {
+      throw ValidationException::withMessages([
+        'password' => [$message],
+      ]);
+    }
+
+    return back()->withErrors(['password' => $message]);
   }
 }

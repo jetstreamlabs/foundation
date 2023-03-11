@@ -2,6 +2,7 @@
 
 namespace Serenity\Responders;
 
+use Illuminate\Http\JsonResponse;
 use Serenity\Contracts\PasswordUpdateInterface;
 use Serenity\Serenity;
 
@@ -15,6 +16,8 @@ class PasswordUpdateResponder implements PasswordUpdateInterface
    */
   public function toResponse($request)
   {
-    return back()->with('status', Serenity::PASSWORD_UPDATED);
+    return $request->wantsJson()
+      ? new JsonResponse('', 200)
+      : back()->with('status', Serenity::PASSWORD_UPDATED);
   }
 }
