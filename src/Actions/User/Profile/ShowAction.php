@@ -3,13 +3,10 @@
 namespace Serenity\Actions\User\Profile;
 
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Serenity\Action;
 use Serenity\Contracts\UserProfileShow;
-use Serenity\Features;
 use Serenity\Services\ProfileService;
 use Serenity\Support\ConfirmsTwoFactor;
-use Serenity\Support\Sessions;
 
 class ShowAction extends Action
 {

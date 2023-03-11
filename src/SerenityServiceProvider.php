@@ -22,7 +22,6 @@ use Serenity\Contracts\TwoFactorAuthenticationProvider as TwoFactorAuthenticatio
 use Serenity\Middleware\MuteActions;
 use Serenity\Middleware\ShareInertiaData;
 use Serenity\Routing\Discovery\Discover;
-use Serenity\TwoFactorAuthenticationProvider;
 
 class SerenityServiceProvider extends ServiceProvider
 {
