@@ -1,5 +1,17 @@
 # Serenity Foundation Changelog
 
+# [2.1.0](https://github.com/jetstreamlabs/foundation/compare/v2.0.0...v2.1.0) (2023-03-11)
+
+
+### Features
+
+* changed structure, renamed interfaces ([1523b67](https://github.com/jetstreamlabs/foundation/commit/1523b67acfa41595987b0c7774a7091eae7b5999))
+
+
+### Maintenance
+
+* styles ([7954814](https://github.com/jetstreamlabs/foundation/commit/7954814c561420b8fc645c7b19e3d7ad8a7927f6))
+
 # [2.0.0](https://github.com/jetstreamlabs/foundation/compare/v1.1.2...v2.0.0) (2023-03-11)
 
 
