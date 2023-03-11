@@ -1,5 +1,18 @@
 # Serenity Foundation Changelog
 
+# [2.0.0](https://github.com/jetstreamlabs/foundation/compare/v1.1.2...v2.0.0) (2023-03-11)
+
+
+### Breaking
+
+* remove splade back to inertia ([ea78b82](https://github.com/jetstreamlabs/foundation/commit/ea78b82c610c2791a612d9883d79b20aefb8b8ab))
+
+
+### Maintenance
+
+* styles ([7b8301c](https://github.com/jetstreamlabs/foundation/commit/7b8301c03183345d9837c5e4cdfd4ec4c1fdc3ad))
+* version bump ([193c6ef](https://github.com/jetstreamlabs/foundation/commit/193c6efb4e2717e7c4ae3fb69be2686ba7406b4b))
+
 ## [1.1.2](https://github.com/jetstreamlabs/foundation/compare/v1.1.1...v1.1.2) (2023-03-06)
 
 
