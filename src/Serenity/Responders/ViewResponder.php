@@ -16,7 +16,7 @@ abstract class ViewResponder extends Responder implements ViewResponderInterface
   /**
    * Instantiate the class.
    *
-   * @param  \Inertia\ResponseFactory $view
+   * @param  \Inertia\ResponseFactory  $view
    */
   public function __construct(
       protected ResponseFactory $view

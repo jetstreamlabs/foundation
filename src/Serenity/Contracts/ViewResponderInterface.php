@@ -2,8 +2,6 @@
 
 namespace Serenity\Contracts;
 
-use Serenity\Contracts\ResponderInterface;
-
 interface ViewResponderInterface extends ResponderInterface
 {
   /**

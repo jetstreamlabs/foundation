@@ -2,8 +2,6 @@
 
 namespace Serenity\Contracts;
 
-use Serenity\Contracts\PayloadInterface;
-
 interface ResponderInterface
 {
   /**
