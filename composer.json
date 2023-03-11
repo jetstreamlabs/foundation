@@ -37,10 +37,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Serenity\\": "src/Serenity/"
+      "Serenity\\": "src/"
     },
     "files": [
-      "src/Serenity/helpers.php"
+      "src/helpers.php"
     ]
   },
   "autoload-dev": {
