@@ -266,7 +266,7 @@ class SerenityServiceProvider extends ServiceProvider
    * @param  string  $contract
    * @return bool
    */
-  protected function hasInterface(string $concrete, string $contract): bool
+  protected function hasInterface(string $concrete, string $contract)
   {
     $reflected = new \ReflectionClass($concrete);
     $interfaces = $reflected->getInterfaces();

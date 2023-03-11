@@ -3,7 +3,7 @@
 namespace Serenity\Responders;
 
 use Illuminate\Http\JsonResponse;
-use Serenity\Contracts\PasswordUpdate as RecoveryCodesGeneratedInterface;
+use Serenity\Contracts\RecoveryCodesGenerated as RecoveryCodesGeneratedInterface;
 use Serenity\Serenity;
 
 class RecoveryCodesGenerated implements RecoveryCodesGeneratedInterface

@@ -3,10 +3,10 @@
 namespace Serenity\Responders;
 
 use Illuminate\Http\JsonResponse;
-use Serenity\Contracts\VerifyEmailView;
+use Serenity\Contracts\VerifyEmail as VerifyEmailInterface;
 use Serenity\Serenity;
 
-class VerifyEmail implements VerifyEmailView
+class VerifyEmail implements VerifyEmailInterface
 {
   /**
    * Create an HTTP response that represents the object.
