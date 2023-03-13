@@ -1,5 +1,20 @@
 # Serenity Foundation Changelog
 
+## [2.1.2](https://github.com/jetstreamlabs/foundation/compare/v2.1.1...v2.1.2) (2023-03-13)
+
+
+### Bug Fixes
+
+* more adjustments for errors ([6e42de4](https://github.com/jetstreamlabs/foundation/commit/6e42de461d58a79ae4fde96c5988407726394a84))
+
+
+* Merge branch 'develop' ([7c00001](https://github.com/jetstreamlabs/foundation/commit/7c00001a47a9f58fee348bb1baa772a1b2ab4de2))
+
+
+### Maintenance
+
+* remove unused imports :pinte ([369c71c](https://github.com/jetstreamlabs/foundation/commit/369c71c2aa132ee192018194c4023eff38694386))
+
 ## [2.1.1](https://github.com/jetstreamlabs/foundation/compare/v2.1.0...v2.1.1) (2023-03-11)
 
 
