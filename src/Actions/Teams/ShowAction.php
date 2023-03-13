@@ -5,10 +5,21 @@ namespace Serenity\Actions\Teams;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Serenity\Action;
+use Serenity\Contracts\TeamsShow;
 use Serenity\Serenity;
+use Serenity\Services\TeamsService;
 
 class ShowAction extends Action
 {
+  public function __construct(
+      protected TeamsShow $responder,
+      protected TeamsService $service
+    ) {
+    $this->with('Teams/Show', true);
+
+    bcs('Team Settings', 'last');
+  }
+
   /**
    * Show the team management screen.
    *
@@ -22,17 +33,8 @@ class ShowAction extends Action
 
     Gate::authorize('view', $team);
 
-    return view('teams.show', [
-      'team' => $team->load('owner', 'users', 'teamInvitations'),
-      'availableRoles' => array_values(Serenity::$roles),
-      'availablePermissions' => Serenity::$permissions,
-      'defaultPermissions' => Serenity::$defaultPermissions,
-      'permissions' => [
-        'canAddTeamMembers' => Gate::check('addTeamMember', $team),
-        'canDeleteTeam' => Gate::check('delete', $team),
-        'canRemoveTeamMembers' => Gate::check('removeTeamMember', $team),
-        'canUpdateTeam' => Gate::check('update', $team),
-      ],
-    ]);
+    return $this->responder->make(
+      $this->service->handle($request, $team)
+    )->send();
   }
 }

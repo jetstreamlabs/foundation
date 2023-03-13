@@ -116,7 +116,6 @@ Route::group(['middleware' => config('serenity.middleware', ['web'])], function 
       if (Serenity::hasApiFeatures()) {
         Route::get('/user/api-tokens', \Serenity\Actions\User\ApiTokens\ShowAction::class)->name('api-tokens.index');
         Route::post('/user/api-tokens', \Serenity\Actions\User\ApiTokens\StoreAction::class)->name('api-tokens.store');
-        Route::get('/user/api-tokens/{token}', \Serenity\Actions\User\ApiTokens\EditAction::class)->name('api-tokens.edit');
         Route::put('/user/api-tokens/{token}', \Serenity\Actions\User\ApiTokens\UpdateAction::class)->name('api-tokens.update');
         Route::delete('/user/api-tokens/{token}', \Serenity\Actions\User\ApiTokens\DestroyAction::class)->name('api-tokens.destroy');
       }
@@ -130,7 +129,6 @@ Route::group(['middleware' => config('serenity.middleware', ['web'])], function 
         Route::delete('/teams/{team}', \Serenity\Actions\Teams\DestroyAction::class)->name('teams.destroy');
         Route::put('/current-team', \Serenity\Actions\Teams\Current\UpdateAction::class)->name('current-team.update');
         Route::post('/teams/{team}/members', \Serenity\Actions\Teams\Members\StoreAction::class)->name('team-members.store');
-        Route::get('/teams/{team}/members/{user}', \Serenity\Actions\Teams\Members\EditAction::class)->name('team-members.edit');
         Route::put('/teams/{team}/members/{user}', \Serenity\Actions\Teams\Members\UpdateAction::class)->name('team-members.update');
         Route::delete('/teams/{team}/members/{user}', \Serenity\Actions\Teams\Members\DestroyAction::class)->name('team-members.destroy');
         Route::get('/teams/invitations/{invitation}', \Serenity\Actions\Teams\Invitations\AcceptAction::class)->middleware(['signed'])->name('team-invitations.accept');
