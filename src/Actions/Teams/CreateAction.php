@@ -5,10 +5,19 @@ namespace Serenity\Actions\Teams;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Serenity\Action;
+use Serenity\Contracts\TeamsCreate;
 use Serenity\Serenity;
 
 class CreateAction extends Action
 {
+  public function __construct(
+      protected TeamsCreate $responder
+    ) {
+    $this->with('Teams/Create');
+
+    bcs('Create a New Team', 'last');
+  }
+
   /**
    * Show the team creation screen.
    *
@@ -19,6 +28,6 @@ class CreateAction extends Action
   {
     Gate::authorize('create', Serenity::newTeamModel());
 
-    return view('teams.create');
+    return $this->responder->send();
   }
 }

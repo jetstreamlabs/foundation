@@ -6,5 +6,5 @@ use Illuminate\Contracts\Support\Responsable;
 
 interface RequestPasswordResetLinkView extends Responsable
 {
-    //
+  //
 }

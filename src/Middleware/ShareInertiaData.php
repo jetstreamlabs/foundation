@@ -3,6 +3,7 @@
 namespace Serenity\Middleware;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Serenity\Features;
@@ -21,6 +22,7 @@ class ShareInertiaData
   {
     Inertia::share(array_filter([
       'breadcrumbs' => app('breadcrumbs')->render(),
+      'canLogin' => Route::has('login'),
       'serenity' => function () use ($request) {
         $user = $request->user();
 
