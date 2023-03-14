@@ -38,8 +38,8 @@ class ContractMapper implements ContractsContractMapper
   /**
    * Make a new instance via facade.
    *
-   * @param  string $base_path
-   * @param  string $namespace
+   * @param  string  $base_path
+   * @param  string  $namespace
    * @return self
    */
   public function make(string $base_path, string $namespace = ''): self
@@ -109,7 +109,7 @@ class ContractMapper implements ContractsContractMapper
   /**
    * Set the namespace for binding classes.
    *
-   * @param  string $namespace
+   * @param  string  $namespace
    * @return self
    */
   public function setNamespace(string $namespace): self
@@ -122,7 +122,7 @@ class ContractMapper implements ContractsContractMapper
   /**
    * Set the path to our concrete directory.
    *
-   * @param  string $path
+   * @param  string  $path
    * @return self
    */
   public function setConcretePath(string $path): self
@@ -147,7 +147,7 @@ class ContractMapper implements ContractsContractMapper
   /**
    * Set the path to our interface directory.
    *
-   * @param  string $path
+   * @param  string  $path
    * @return void
    */
   public function setInterfacePath(string $path): self
@@ -172,7 +172,7 @@ class ContractMapper implements ContractsContractMapper
   /**
    * Bind our interfaces and concretes to container.
    *
-   * @param  \Illuminate\Support\Collection $bindings
+   * @param  \Illuminate\Support\Collection  $bindings
    * @return void
    */
   protected function bind(Collection $bindings): void
