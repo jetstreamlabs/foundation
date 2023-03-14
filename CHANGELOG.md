@@ -1,5 +1,17 @@
 # Serenity Foundation Changelog
 
+## [2.1.3](https://github.com/jetstreamlabs/foundation/compare/v2.1.2...v2.1.3) (2023-03-14)
+
+
+### Bug Fixes
+
+* new contract mapper to resolve windows error ([d56ab25](https://github.com/jetstreamlabs/foundation/commit/d56ab25508dfb9d316020bf1dd5316381dc2977a))
+
+
+### Maintenance
+
+* styles from pinte ([8fe98b8](https://github.com/jetstreamlabs/foundation/commit/8fe98b8331dda31f4599361278083a0c4db80685))
+
 ## [2.1.2](https://github.com/jetstreamlabs/foundation/compare/v2.1.1...v2.1.2) (2023-03-13)
 
 
