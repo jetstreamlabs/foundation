@@ -79,13 +79,13 @@ Route::group(['middleware' => config('serenity.middleware', ['web'])], function 
       ? [config('serenity.auth_middleware', 'auth').':'.config('serenity.guard'), 'password.confirm']
       : [config('serenity.auth_middleware', 'auth').':'.config('serenity.guard')];
 
-    Route::post('/user/two-factor/authentication', \Serenity\Actions\User\TwoFactor\Authentication\StoreAction::class)->middleware($twoFactorMiddleware)->name('two-factor.enable');
-    Route::post('/user/two-factor/confirmed', \Serenity\Actions\User\TwoFactor\Authentication\UpdateAction::class)->middleware($twoFactorMiddleware)->name('two-factor.confirm');
-    Route::delete('/user/two-factor/authentication', \Serenity\Actions\User\TwoFactor\Authentication\DestroyAction::class)->middleware($twoFactorMiddleware)->name('two-factor.disable');
-    Route::get('/user/two-factor/code', \Serenity\Actions\User\TwoFactor\QrCode\ShowAction::class)->middleware($twoFactorMiddleware)->name('two-factor.qr-code');
-    Route::get('/user/two-factor/secret-key', \Serenity\Actions\User\TwoFactor\SecretKey\ShowAction::class)->middleware($twoFactorMiddleware)->name('two-factor.secret-key');
-    Route::get('/user/two-factor/recovery/codes', \Serenity\Actions\User\TwoFactor\Recovery\ShowAction::class)->middleware($twoFactorMiddleware)->name('two-factor.recovery-codes');
-    Route::post('/user/two-factor/recovery/codes', \Serenity\Actions\User\TwoFactor\Recovery\StoreAction::class)->middleware($twoFactorMiddleware)->name('two-factor.store');
+    Route::post('/user/two-factor-authentication', \Serenity\Actions\User\TwoFactor\Authentication\StoreAction::class)->middleware($twoFactorMiddleware)->name('two-factor.enable');
+    Route::post('/user/confirmed-two-factor-authentication', \Serenity\Actions\User\TwoFactor\Authentication\UpdateAction::class)->middleware($twoFactorMiddleware)->name('two-factor.confirm');
+    Route::delete('/user/two-factor-authentication', \Serenity\Actions\User\TwoFactor\Authentication\DestroyAction::class)->middleware($twoFactorMiddleware)->name('two-factor.disable');
+    Route::get('/user/two-factor-qr-code', \Serenity\Actions\User\TwoFactor\QrCode\ShowAction::class)->middleware($twoFactorMiddleware)->name('two-factor.qr-code');
+    Route::get('/user/two-factor-secret-key', \Serenity\Actions\User\TwoFactor\SecretKey\ShowAction::class)->middleware($twoFactorMiddleware)->name('two-factor.secret-key');
+    Route::get('/user/two-factor-recovery-codes', \Serenity\Actions\User\TwoFactor\Recovery\ShowAction::class)->middleware($twoFactorMiddleware)->name('two-factor.recovery-codes');
+    Route::post('/user/two-factor-recovery-codes', \Serenity\Actions\User\TwoFactor\Recovery\StoreAction::class)->middleware($twoFactorMiddleware)->name('two-factor.store');
   }
 
   if (Serenity::hasTermsAndPrivacyPolicyFeature()) {
@@ -104,6 +104,7 @@ Route::group(['middleware' => config('serenity.middleware', ['web'])], function 
   Route::group(['middleware' => array_values(array_filter([$authMiddleware, $authSessionMiddleware]))], function () {
     // User & Profile...
     Route::get('/user/profile', \Serenity\Actions\User\Profile\ShowAction::class)->name('profile.show');
+    Route::get('/user/settings', \Serenity\Actions\User\Account\ShowAction::class)->name('settings.show');
     Route::delete('/user/browsers/delete', \Serenity\Actions\User\Browsers\DestroyAction::class)->name('other-browser-sessions.destroy');
     Route::delete('/user/profile-photo', \Serenity\Actions\User\Profile\Photo\DestroyAction::class)->name('current-user-photo.destroy');
 

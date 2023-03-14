@@ -55,7 +55,10 @@
     "laravel": {
       "providers": [
         "Serenity\\SerenityServiceProvider"
-      ]
+      ],
+      "aliases": {
+        "ContractBinder": "Serenity\\Support\\ContractBinder"
+      }
     }
   },
   "config": {
