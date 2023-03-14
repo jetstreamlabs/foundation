@@ -7,8 +7,8 @@ interface ContractMapper
   /**
    * Make a new instance via facade.
    *
-   * @param  string $base_path
-   * @param  string $namespace
+   * @param  string  $base_path
+   * @param  string  $namespace
    * @return self
    */
   public function make(string $base_path, string $namespace = ''): self;
@@ -23,7 +23,7 @@ interface ContractMapper
   /**
    * Set the namespace for binding classes.
    *
-   * @param  string $namespace
+   * @param  string  $namespace
    * @return self
    */
   public function setNamespace(string $namespace): self;
@@ -31,7 +31,7 @@ interface ContractMapper
   /**
    * Set the path to our concrete directory.
    *
-   * @param  string $path
+   * @param  string  $path
    * @return self
    */
   public function setConcretePath(string $path): self;
@@ -39,7 +39,7 @@ interface ContractMapper
   /**
    * Set the path to our interface directory.
    *
-   * @param  string $path
+   * @param  string  $path
    * @return void
    */
   public function setInterfacePath(string $path): self;
