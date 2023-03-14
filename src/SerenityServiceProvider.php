@@ -18,6 +18,7 @@ use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 use PragmaRX\Google2FA\Google2FA;
 use Serenity\Console\InstallCommand;
+use Serenity\Contracts\ContractMapper;
 use Serenity\Contracts\TwoFactorAuthenticationProvider as TwoFactorAuthenticationProviderInterface;
 use Serenity\Middleware\MuteActions;
 use Serenity\Middleware\ShareInertiaData;
@@ -95,6 +96,10 @@ class SerenityServiceProvider extends ServiceProvider
 
       return $breadcrumbs;
     });
+
+    $this->app->bind(ContractMapper::class, function (Application $app) {
+      return $app->make(\Serenity\Support\ContractMapper::class);
+    });
   }
 
   protected function configurePublishing()
@@ -142,40 +147,19 @@ class SerenityServiceProvider extends ServiceProvider
     }
   }
 
-  protected function registerResponseBindings()
+  /**
+   * Auto-bind all of our responders to their interfaces.
+   *
+   * @return void
+   */
+  protected function registerResponseBindings(): void
   {
-    $directory = __DIR__.'/Responders';
+    $mapper = $this->app->make(ContractMapper::class);
+    $mapper
+      ->setConcretePath('Responders')
+      ->setInterfacePath('Contracts');
 
-    if (is_dir($directory)) {
-      $files = File::allFiles($directory);
-
-      $bindings = collect($files)->map(function ($file) {
-        $path = $file->getRelativePath();
-
-        if (! empty($path)) {
-          $path = '\\'.$path;
-        }
-
-        $fileClass = rtrim($file, '.'.$file->getExtension());
-        $contract = 'Serenity\\Contracts'.$path.'\\'.basename($fileClass);
-        $concrete = 'Serenity\\'.str_replace('/', '\\', ltrim($fileClass, __DIR__));
-
-        if ($this->hasInterface($concrete, $contract)) {
-          return [
-            'contract' => $contract,
-            'concrete' => $concrete,
-          ];
-        }
-      }, collect([]));
-    }
-
-    if (! $bindings->isEmpty()) {
-      $bindings->each(function ($binding) {
-        if (! is_null($binding)) {
-          $this->app->bind($binding['contract'], $binding['concrete']);
-        }
-      });
-    }
+    $mapper->map();
   }
 
   protected function bootInertia()
@@ -257,21 +241,6 @@ class SerenityServiceProvider extends ServiceProvider
         });
 
     return $this;
-  }
-
-  /**
-   * Determine if the repository has an interface to bind.
-   *
-   * @param  string  $concrete
-   * @param  string  $contract
-   * @return bool
-   */
-  protected function hasInterface(string $concrete, string $contract)
-  {
-    $reflected = new \ReflectionClass($concrete);
-    $interfaces = $reflected->getInterfaces();
-
-    return array_key_exists($contract, $interfaces);
   }
 
   protected function rebindLaravelDefaults(): void

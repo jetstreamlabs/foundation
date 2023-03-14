@@ -23,6 +23,10 @@ class ShareInertiaData
     Inertia::share(array_filter([
       'breadcrumbs' => app('breadcrumbs')->render(),
       'canLogin' => Route::has('login'),
+      'canRegister' => Route::has('register'),
+      'copyright' => '&copy; '.date('Y').'Jetstream Labs, LLC.',
+      'serenityVersion' => Serenity::version(),
+      'phpVersion' => PHP_VERSION,
       'serenity' => function () use ($request) {
         $user = $request->user();
 
