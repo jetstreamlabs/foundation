@@ -1,5 +1,17 @@
 # Serenity Foundation Changelog
 
+## [2.1.4](https://github.com/jetstreamlabs/foundation/compare/v2.1.3...v2.1.4) (2023-03-19)
+
+
+### Code Refactoring
+
+* initial generator work ([a12b857](https://github.com/jetstreamlabs/foundation/commit/a12b857029c579b5f19ea8d588e5f1bc23b7bc9c))
+
+
+### Maintenance
+
+* pinte fixes ([80264ab](https://github.com/jetstreamlabs/foundation/commit/80264ab765d88657b730c6550e203f616e14e927))
+
 ## [2.1.3](https://github.com/jetstreamlabs/foundation/compare/v2.1.2...v2.1.3) (2023-03-14)
 
 
