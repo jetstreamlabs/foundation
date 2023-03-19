@@ -8,6 +8,11 @@ use Serenity\Contracts\PrivacyPolicyShow;
 
 class ShowAction extends Action
 {
+  /**
+   * Instantiate the action.
+   *
+   * @param  \Serenity\Contracts\PrivacyPolicyShow  $responder
+   */
   public function __construct(
      protected PrivacyPolicyShow $responder
     ) {

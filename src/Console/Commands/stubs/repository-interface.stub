@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+interface DummyClass
+{
+	/**
+	 * Return the Model for the repository.
+	 *
+	 * @return \Illuminate\Database\Eloquent\Model
+	 */
+	public function entity();
+}

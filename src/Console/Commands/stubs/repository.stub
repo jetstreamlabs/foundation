@@ -1,0 +1,20 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyRootNamespaceDomain\Contracts\Repositories\DummyClass as DummyClassContract;
+use DummyRootNamespaceDomain\Models\DummyEntity;
+use Serenity\Repository;
+
+class DummyClass extends Repository implements DummyClassContract
+{
+  /**
+   * Return the Model for the repository.
+   *
+   * @return \Illuminate\Database\Eloquent\Model
+   */
+  public function entity()
+  {
+    return DummyEntity::class;
+  }
+}

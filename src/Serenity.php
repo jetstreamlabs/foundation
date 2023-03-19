@@ -85,6 +85,17 @@ class Serenity
   }
 
   /**
+   * Return the base path of the application.
+   *
+   * @param  string  $path
+   * @return string
+   */
+  public static function basePath($path = ''): string
+  {
+    return app()->basePath($path);
+  }
+
+  /**
    * Determine if Serenity has registered roles.
    *
    * @return bool

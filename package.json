@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "fix": "./vendor/bin/pinte --dirty"
+    "fix": "./vendor/bin/pinte --dirty",
+    "pinte": "./vendor/bin/pinte"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
