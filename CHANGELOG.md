@@ -1,5 +1,29 @@
 # Serenity Foundation Changelog
 
+## [2.1.5](https://github.com/jetstreamlabs/foundation/compare/v2.1.4...v2.1.5) (2023-03-19)
+
+
+### Bug Fixes
+
+* new contract mapper to resolve windows error ([1df1a12](https://github.com/jetstreamlabs/foundation/commit/1df1a128e1b05de6876163d94216d2bfb30c3a11))
+
+
+### Code Refactoring
+
+* initial generator work ([268f71d](https://github.com/jetstreamlabs/foundation/commit/268f71d70bbda4ebbd0c47066d2baa10bf75fa3b))
+
+
+* Merge branch 'main' into develop ([f743ceb](https://github.com/jetstreamlabs/foundation/commit/f743cebfc4b7a6914f71c8d77f5980007ef516eb))
+
+
+### Maintenance
+
+* pinte fixes ([ed5ecb1](https://github.com/jetstreamlabs/foundation/commit/ed5ecb169a5dae59fbac632c45bc47d36dd3d936))
+* **release:** 2.1.1 [skip ci] ([8a3ff0c](https://github.com/jetstreamlabs/foundation/commit/8a3ff0c5f35a5bb4a967754a087a79552e8dc07f))
+* **release:** 2.1.2 [skip ci] ([1aed453](https://github.com/jetstreamlabs/foundation/commit/1aed453d6b8910a985d5c3f0cf0636d44b9c3ed4))
+* **release:** 2.1.3 [skip ci] ([10331a3](https://github.com/jetstreamlabs/foundation/commit/10331a348bc1d5b6d428d18c11bb118a390c76d4))
+* styles from pinte ([a2ff368](https://github.com/jetstreamlabs/foundation/commit/a2ff3687e880f17841263b55836d13717e565a80))
+
 ## [2.1.4](https://github.com/jetstreamlabs/foundation/compare/v2.1.3...v2.1.4) (2023-03-19)
 
 
