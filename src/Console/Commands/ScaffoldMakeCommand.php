@@ -224,7 +224,7 @@ class ScaffoldMakeCommand extends GeneratorCommand
   /**
    * Create a service class for the application.
    *
-   * @param  string $model
+   * @param  string  $model
    * @return void
    */
   protected function createService(string $model): void

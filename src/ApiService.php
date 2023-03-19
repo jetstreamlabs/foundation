@@ -17,9 +17,9 @@ abstract class ApiService implements Service
   /**
    * Return a response for the Api.
    *
-   * @param  array   $data
+   * @param  array  $data
    * @param  string  $message
-   * @param  int     $status
+   * @param  int  $status
    * @return \Illuminate\Http\Response
    */
   public function respond(array $data): Response
