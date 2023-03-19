@@ -1,0 +1,10 @@
+<?php
+
+namespace DummyNamespace;
+
+use Serenity\Action;
+
+class DummyClass extends Action
+{
+  //
+}

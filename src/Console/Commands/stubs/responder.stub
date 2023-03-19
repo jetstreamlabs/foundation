@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyRootNamespaceResponder;
+use InterfaceClass\DummyClass as DummyClassContract;
+
+class DummyClass extends Responder implements DummyClassContract
+{
+  public function toResponse()
+  {
+    return $this->view->render($this->component);
+  }
+}

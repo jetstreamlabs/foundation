@@ -2,12 +2,15 @@
 
 namespace Serenity;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
 use Serenity\Contracts\Action as ActionInterface;
 use Serenity\Contracts\Service as ServiceInterface;
 
 abstract class Action extends Controller implements ActionInterface
 {
+  use AuthorizesRequests;
+
   /**
    * Register middleware on the controller.
    *

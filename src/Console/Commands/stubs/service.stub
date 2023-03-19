@@ -1,0 +1,230 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyDeleteRequest;
+use DummyDestroyRequest;
+use DummyRestoreRequest;
+use DummyStoreRequest;
+use DummyUpdateRequest;
+use Illuminate\Http\Request;
+use Serenity\Payload;
+use Serenity\Service;
+
+class DummyClass extends Service
+{
+  /**
+   * Create a new instance of the service.
+   */
+  public function __construct()
+  {
+    //
+  }
+
+  /**
+   * Return the payload for an index response.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @return \Serenity\Payload
+   */
+  public function index(Request $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+
+  /**
+   * Return the payload for a create response.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @return \Serenity\Payload
+   */
+  public function create(Request $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+
+  /**
+   * Return the payload for a show response.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @return \Serenity\Payload
+   */
+  public function show(Request $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+
+  /**
+   * Return the payload for an edit response.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @return \Serenity\Payload
+   */
+  public function edit(Request $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+
+  /**
+   * Return the payload for a store response.
+   *
+   * @param  DocBlockStore $request
+   * @return \Serenity\Payload
+   */
+  public function store({{ dummyStore }} $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+
+  /**
+   * Return the payload for an update response.
+   *
+   * @param  DocBlockUpdate $request
+   * @return \Serenity\Payload
+   */
+  public function update({{ dummyUpdate }} $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+
+  /**
+   * Return the payload for a delete response.
+   *
+   * @param  DocBlockDelete $request
+   * @return \Serenity\Payload
+   */
+  public function delete({{ dummyDelete }} $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+
+  /**
+   * Return the payload for a restore response.
+   *
+   * @param  DocBlockRestore $request
+   * @return \Serenity\Payload
+   */
+  public function restore({{ dummyRestore }} $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+
+  /**
+   * Return the payload for a destroy response.
+   *
+   * @param  DocBlockDestroy $request
+   * @return \Serenity\Payload
+   */
+  public function destroy({{ dummyDestroy }} $request): Payload
+  {
+    if ($request->session()->has('error')) {
+      return $this->payloadResponse([
+        'message' => '',
+        'level' => 'error',
+        'data' => [],
+      ]);
+    }
+
+    return $this->payloadResponse([
+      'message' => '',
+      'level' => 'error',
+      'data' => [],
+    ]);
+  }
+}
