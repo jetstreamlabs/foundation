@@ -1,17 +1,17 @@
 <?php
 
-namespace DummyNamespace;
+namespace {{ namespace }};
 
-use DummyDeleteRequest;
-use DummyDestroyRequest;
-use DummyRestoreRequest;
-use DummyStoreRequest;
-use DummyUpdateRequest;
+use {{ serviceDeleteRequest }};
+use {{ serviceDestroyRequest }};
+use {{ serviceRestoreRequest }};
+use {{ serviceStoreRequest }};
+use {{ serviceUpdateRequest }};
 use Illuminate\Http\Request;
 use Serenity\Payload;
 use Serenity\Service;
 
-class DummyClass extends Service
+class {{ class }} extends Service
 {
   /**
    * Create a new instance of the service.
@@ -116,10 +116,10 @@ class DummyClass extends Service
   /**
    * Return the payload for a store response.
    *
-   * @param  DocBlockStore $request
+   * @param  {{ docBlockStore }} $request
    * @return \Serenity\Payload
    */
-  public function store({{ dummyStore }} $request): Payload
+  public function store({{ requestStore }} $request): Payload
   {
     if ($request->session()->has('error')) {
       return $this->payloadResponse([
@@ -139,10 +139,10 @@ class DummyClass extends Service
   /**
    * Return the payload for an update response.
    *
-   * @param  DocBlockUpdate $request
+   * @param  {{ docBlockUpdate }} $request
    * @return \Serenity\Payload
    */
-  public function update({{ dummyUpdate }} $request): Payload
+  public function update({{ requestUpdate }} $request): Payload
   {
     if ($request->session()->has('error')) {
       return $this->payloadResponse([
@@ -162,10 +162,10 @@ class DummyClass extends Service
   /**
    * Return the payload for a delete response.
    *
-   * @param  DocBlockDelete $request
+   * @param  {{ docBlockDelete }} $request
    * @return \Serenity\Payload
    */
-  public function delete({{ dummyDelete }} $request): Payload
+  public function delete({{ requestDelete }} $request): Payload
   {
     if ($request->session()->has('error')) {
       return $this->payloadResponse([
@@ -185,10 +185,10 @@ class DummyClass extends Service
   /**
    * Return the payload for a restore response.
    *
-   * @param  DocBlockRestore $request
+   * @param  {{ docBlockRestore }} $request
    * @return \Serenity\Payload
    */
-  public function restore({{ dummyRestore }} $request): Payload
+  public function restore({{ requestRestore }} $request): Payload
   {
     if ($request->session()->has('error')) {
       return $this->payloadResponse([
@@ -208,10 +208,10 @@ class DummyClass extends Service
   /**
    * Return the payload for a destroy response.
    *
-   * @param  DocBlockDestroy $request
+   * @param  {{ docBlockDestroy }} $request
    * @return \Serenity\Payload
    */
-  public function destroy({{ dummyDestroy }} $request): Payload
+  public function destroy({{ requestDestroy }} $request): Payload
   {
     if ($request->session()->has('error')) {
       return $this->payloadResponse([

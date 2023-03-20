@@ -1,11 +1,11 @@
 <?php
 
-namespace DummyNamespace;
+namespace {{ namespace }};
 
-use DummyRootNamespaceResponder;
-use InterfaceClass\DummyClass as DummyClassContract;
+use {{ rootNamespace }}Responder;
+use {{ interface }}\{{ class }} as {{ class }}Contract;
 
-class DummyClass extends Responder implements DummyClassContract
+class {{ class }} extends Responder implements {{ class }}Contract
 {
   public function toResponse()
   {

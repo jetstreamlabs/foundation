@@ -1,14 +1,14 @@
 <?php
 
-namespace DummyNamespace;
+namespace {{ namespace }};
 
 use Illuminate\Http\Request;
 use Serenity\Action;
-use DummyRootNamespaceApi\Services\DummyService;
+use {{ rootNamespace }}Api\Services\{{ service }};
 
 class DummyClass extends Action
 {
-  public function __construct(protected DummyService $service)
+  public function __construct(protected {{ service }} $service)
   {
     //
   }

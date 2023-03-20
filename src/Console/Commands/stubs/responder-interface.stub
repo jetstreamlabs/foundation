@@ -1,10 +1,10 @@
 <?php
 
-namespace DummyNamespace;
+namespace {{ namespace }};
 
 use Serenity\Contracts\ViewResponder;
 
-interface DummyClass extends ViewResponder
+interface {{ class }} extends ViewResponder
 {
   //
 }

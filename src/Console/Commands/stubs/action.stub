@@ -1,19 +1,19 @@
 <?php
 
-namespace DummyNamespace;
+namespace {{ namespace }};
 
-use DummyResponderContract;
+use {{ responderContract }};
 use {{ namespacedViewRequest }};
 use Serenity\Action;
 
-class DummyClass extends Action
+class {{ class }} extends Action
 {
   /**
    * Instantiate the action.
    */
-  public function __construct(protected DummyResponder $responder)
+  public function __construct(protected {{ responder }} $responder)
   {
-    $this->with('{{ dummyPage }}');
+    $this->with('{{ inertiaPage }}');
 
     bcs();
   }

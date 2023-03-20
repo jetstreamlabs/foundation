@@ -94,10 +94,6 @@ class RequestMakeCommand extends GeneratorCommand
    */
   protected function getDefaultNamespace($rootNamespace)
   {
-    if ($this->option('api')) {
-      return $rootNamespace.'Api\Requests';
-    }
-
     return $rootNamespace.'\Domain\Requests';
   }
 
@@ -125,7 +121,6 @@ class RequestMakeCommand extends GeneratorCommand
   protected function getOptions()
   {
     return [
-      ['api', 'a', InputOption::VALUE_NONE, 'Create requests for your Api.'],
       ['model', 'm', InputOption::VALUE_REQUIRED, 'The model that the request applies to'],
     ];
   }

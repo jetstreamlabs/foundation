@@ -42,21 +42,21 @@ class ScaffoldMakeCommand extends GeneratorCommand
    */
   public function handle()
   {
-    dd($this->option('all'));
-
     if ($this->option('basic')) {
-      $this->createBasicActions();
       $this->createModel();
+      $this->createBasicActions();
     }
 
     if ($this->option('api')) {
-      $this->createApiActions();
       $this->createModel();
+      $this->createService();
+      $this->createApiActions();
     }
 
     if ($this->option('all')) {
-      $this->createBasicActions();
       $this->createModel();
+      $this->createService();
+      $this->createBasicActions();
       $this->createRepository();
       $this->createObserver();
     }
@@ -81,22 +81,7 @@ class ScaffoldMakeCommand extends GeneratorCommand
 
     $namespace = Str::studly(class_basename($this->argument('name')));
 
-    if ($this->argument('visibility')) {
-      $visibility = match (mb_strtolower($this->argument('visibility'))) {
-        'g' => 'Public',
-        'm' => 'Protected',
-        'a' => 'Private',
-        'n' => ''
-      };
-
-      $namespace = $visibility.DIRECTORY_SEPARATOR.$namespace;
-    }
-
-    if ($this->option('model')) {
-      $model = Str::singular($this->option('model'));
-    } else {
-      $model = Str::singular($this->argument('name'));
-    }
+    $model = Str::studly(Str::singular($this->argument('name')));
 
     foreach ($files as $file) {
       $action = $namespace
@@ -105,14 +90,13 @@ class ScaffoldMakeCommand extends GeneratorCommand
 
       $this->call('make:action', [
         'name' => "{$action}Action",
+        'visibility' => $this->argument('visibility'),
         '--model' => $model,
+        '--resp' => true,
       ]);
 
-      $this->createResponder($file);
       $this->createPage($file);
     }
-
-    $this->createService($model);
   }
 
   /**
@@ -126,22 +110,7 @@ class ScaffoldMakeCommand extends GeneratorCommand
 
     $namespace = Str::studly(class_basename($this->argument('name')));
 
-    if ($this->argument('visibility')) {
-      $visibility = match (mb_strtolower($this->argument('visibility'))) {
-        'g' => 'Public',
-        'm' => 'Protected',
-        'a' => 'Private',
-        'n' => '',
-      };
-
-      $namespace = $visibility.DIRECTORY_SEPARATOR.$namespace;
-    }
-
-    if ($this->option('model')) {
-      $model = Str::singular($this->option('model'));
-    } else {
-      $model = Str::singular($this->argument('name'));
-    }
+    $model = Str::studly(Str::singular($this->argument('name')));
 
     foreach ($files as $file) {
       $action = $namespace
@@ -150,33 +119,11 @@ class ScaffoldMakeCommand extends GeneratorCommand
 
       $this->call('make:action', [
         'name' => "{$action}Action",
+        'visibility' => 'N',
         '--model' => $model,
         '--api' => true,
       ]);
     }
-
-    $this->createService($model);
-  }
-
-  /**
-   * Create a new responder and interface.
-   *
-   * @param  string  $file
-   * @return void
-   */
-  protected function createResponder(string $file): void
-  {
-    $namespace = Str::studly(class_basename($this->argument('name')));
-
-    $responder = $namespace.DIRECTORY_SEPARATOR.$file;
-
-    $this->call('make:responder', [
-      'name' => "{$responder}Responder",
-    ]);
-
-    $this->call('make:responder-contract', [
-      'name' => "{$responder}Responder",
-    ]);
   }
 
   /**
@@ -213,7 +160,7 @@ class ScaffoldMakeCommand extends GeneratorCommand
       $this->info('This model already exists, skipping');
     } else {
       $this->call('make:model', [
-        'name' => Str::singular($this->argument('name')),
+        'name' => Str::studly(Str::singular($this->argument('name'))),
         '--migration' => true,
         '--factory' => true,
         '--policy' => true,
@@ -227,9 +174,11 @@ class ScaffoldMakeCommand extends GeneratorCommand
    * @param  string  $model
    * @return void
    */
-  protected function createService(string $model): void
+  protected function createService(): void
   {
     $service = Str::singular($this->argument('name'));
+
+    $model = Str::studly(Str::singular($this->argument('name')));
 
     $this->call('make:service', [
       'name' => "{$service}Service",
@@ -242,9 +191,7 @@ class ScaffoldMakeCommand extends GeneratorCommand
   {
     $name = Str::singular($this->argument('name'));
 
-    $model = $this->option('model')
-      ? $this->option('model')
-      : $name;
+    $model = Str::studly(Str::singular($this->argument('name')));
 
     $this->call('make:repository', [
       'name' => "{$name}Repository",
@@ -256,9 +203,7 @@ class ScaffoldMakeCommand extends GeneratorCommand
   {
     $name = Str::singular($this->argument('name'));
 
-    $model = $this->option('model')
-      ? $this->option('model')
-      : $name;
+    $model = Str::studly(Str::singular($this->argument('name')));
 
     $this->call('make:observer', [
       'name' => "{$name}Observer",
@@ -303,8 +248,6 @@ class ScaffoldMakeCommand extends GeneratorCommand
       ['all', null, InputOption::VALUE_NONE, 'Create all classes for a namespace.'],
       ['api', null, InputOption::VALUE_NONE, 'Create all classes for an Api namespace.'],
       ['basic', null, InputOption::VALUE_NONE, 'Include actions, responders, model and service.'],
-      ['model', 'm', InputOption::VALUE_OPTIONAL, 'Include a model.'],
-      ['service', null, InputOption::VALUE_NONE, 'Include a service'],
       ['repo', null, InputOption::VALUE_NONE, 'Include a repository.'],
       ['observer', null, InputOption::VALUE_NONE, 'Include an observer.'],
     ];

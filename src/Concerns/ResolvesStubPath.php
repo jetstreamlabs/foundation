@@ -59,22 +59,38 @@ trait ResolvesStubPath
       ->all();
   }
 
-    /**
-     * Get a list of possible event names.
-     *
-     * @return array<int, string>
-     */
-    protected function possibleEvents()
-    {
-      $eventPath = app_path('Domain/Events');
+  /**
+   * Get a list of possible event names.
+   *
+   * @return array<int, string>
+   */
+  protected function possibleEvents()
+  {
+    $eventPath = app_path('Domain/Events');
 
-      if (! is_dir($eventPath)) {
-        return [];
-      }
-
-      return collect((new Finder)->files()->depth(0)->in($eventPath))
-          ->map(fn ($file) => $file->getBasename('.php'))
-          ->values()
-          ->all();
+    if (! is_dir($eventPath)) {
+      return [];
     }
+
+    return collect((new Finder)->files()->depth(0)->in($eventPath))
+      ->map(fn ($file) => $file->getBasename('.php'))
+      ->values()
+      ->all();
+  }
+
+  /**
+   * Grab the default namespace from another command.
+   *
+   * @param  string  $command
+   * @return string
+   */
+  public function replacementNamespace(string $command): string
+  {
+    $name = app($command)->getDefaultNamespace($this->rootNamespace());
+
+    $rootNamespace = trim($this->rootNamespace(), '\\');
+    $namespace = Str::replaceFirst($this->rootNamespace(), '', $name);
+
+    return $rootNamespace.$namespace;
+  }
 }

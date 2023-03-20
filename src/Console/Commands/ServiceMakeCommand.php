@@ -87,37 +87,46 @@ class ServiceMakeCommand extends GeneratorCommand
     );
   }
 
+  /**
+   * Build request replacements for the service.
+   *
+   * @param  [type] $name
+   * @return void
+   */
   protected function buildRequestReplacements($name)
   {
-    $base = Str::replace('Service', '', class_basename($name));
+    $directory = Str::replace('Service', '', class_basename($name));
 
-    $directory = Str::plural($base);
+    $namespace = $this->replacementNamespace(RequestMakeCommand::class);
 
-    $main = 'App\\Domain\\Requests\\'.$directory;
-    $mainDoc = '\\App\\Domain\\Requests\\'.$directory;
+    $namespace = $namespace.'\\'.$directory;
 
     $files = ['Store', 'Update', 'Delete', 'Restore', 'Destroy'];
 
     $replacements = [];
 
     foreach ($files as $file) {
-      $replacements['Dummy'.$file.'Request'] = $main.'\\'.$file.'Request';
-      $replacements['DocBlock'.$file] = $mainDoc.'\\'.$file.'Request';
-      $replacements['{{ dummy'.$file.' }}'] = $file.'Request';
+      $replacements["{{ service{$file}Request }}"] = $namespace.'\\'."{$file}Request";
+      $replacements["{{ docBlock{$file} }}"] = '\\'.$namespace.'\\'."{$file}Request";
+      $replacements["{{ request{$file} }}"] = "{$file}Request";
     }
 
     return $replacements;
   }
 
+  /**
+   * Build our request classes for the service.
+   *
+   * @param  string  $name
+   * @return void
+   */
   protected function buildRequests(string $name): void
   {
-    if ($this->option('model')) {
-      $model = $this->option('model');
-    } else {
-      $model = Str::replace('Service', '', class_basename($name));
-    }
+    $directory = class_basename($name);
 
-    $directory = Str::plural($model);
+    if (Str::endsWith($directory, 'Service')) {
+      $directory = Str::replace('Service', '', $directory);
+    }
 
     $files = ['Store', 'Update', 'Delete', 'Restore', 'Destroy'];
 
@@ -125,7 +134,7 @@ class ServiceMakeCommand extends GeneratorCommand
       $request = $directory.DIRECTORY_SEPARATOR.$file;
       $this->callSilent('make:request', [
         'name' => "{$request}Request",
-        '--model' => $model,
+        '--model' => $this->option('model'),
       ]);
     }
   }
@@ -155,10 +164,10 @@ class ServiceMakeCommand extends GeneratorCommand
   protected function getDefaultNamespace($rootNamespace)
   {
     if ($this->option('api')) {
-      return $rootNamespace.'\\Api\\Services';
+      return $rootNamespace.'\Api\Services';
     }
 
-    return $rootNamespace.'\\Domain\\Services';
+    return $rootNamespace.'\Domain\Services';
   }
 
   /**

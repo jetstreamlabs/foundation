@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Serenity\Concerns\ResolvesStubPath;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'make:action')]
 class ActionMakeCommand extends GeneratorCommand
@@ -41,7 +40,19 @@ class ActionMakeCommand extends GeneratorCommand
 
   public function handle()
   {
-    if ($this->validate()) {
+    if ($this->validateName() && $this->validate()) {
+      if ($this->option('api')) {
+        return parent::handle();
+      }
+
+      if ($this->option('resp')) {
+        $responder = Str::replace('Action', 'Responder', $this->argument('name'));
+
+        $this->call('make:responder', [
+          'name' => "{$responder}",
+        ]);
+      }
+
       return parent::handle();
     }
   }
@@ -55,7 +66,7 @@ class ActionMakeCommand extends GeneratorCommand
   {
     $stub = null;
 
-    if ($this->option('basic')) {
+    if ($this->option('plain')) {
       $stub = '/stubs/action.plain.stub';
     } elseif ($this->option('api')) {
       $stub = '/stubs/action.api.stub';
@@ -76,18 +87,60 @@ class ActionMakeCommand extends GeneratorCommand
   {
     if ($this->option('api')) {
       return $rootNamespace.'\Api';
-    }
+    } elseif ($this->argument('visibility')) {
+      $visibility = match (mb_strtolower($this->argument('visibility'))) {
+        'g' => '\Actions\Public',
+        'm' => '\Actions\Protected',
+        'a' => '\Actions\Private',
+        'n' => '\Actions'
+      };
 
-    return $rootNamespace.'\Actions';
+      return $rootNamespace.$visibility;
+    } else {
+      return $rootNamespace.'\Actions';
+    }
   }
 
-  protected function validate()
+  /**
+   * Validate our model option to ensure it's been set.
+   *
+   * @return bool
+   */
+  protected function validate(): bool
   {
     $validator = Validator::make($this->option(),
       [
         'model' => 'required',
+        '',
       ], [
         'model.required' => 'The model option is required',
+      ]);
+
+    if (! $validator->passes()) {
+      $messages = $validator->messages()->toArray();
+
+      foreach ($messages as $message) {
+        $this->error($message['0']);
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Validate our name argument to make sure it ends in Action.
+   *
+   * @return bool
+   */
+  protected function validateName(): bool
+  {
+    $validator = Validator::make($this->argument(),
+      [
+        'name' => 'ends_with:Action',
+      ], [
+        'name.ends_with' => "An action must end with the word Action in it's name",
       ]);
 
     if (! $validator->passes()) {
@@ -133,17 +186,17 @@ class ActionMakeCommand extends GeneratorCommand
   /**
    * Build replacements for Services.
    *
-   * @param  string  $actionClass
+   * @param  string  $name
    * @return array
    */
-  protected function buildServiceReplacements(string $actionClass): array
+  protected function buildServiceReplacements(string $name): array
   {
-    $service = Str::singular(class_basename($actionClass)).'Service';
+    $service = Str::singular(class_basename($name)).'Service';
 
     $action = Str::replace('Action', '', class_basename($this->argument('name')));
 
     return [
-      'DummyService' => $service,
+      '{{ service }}' => $service,
       '{{ serviceAction }}' => Str::lower($action),
     ];
   }
@@ -158,19 +211,18 @@ class ActionMakeCommand extends GeneratorCommand
   {
     $responder = Str::replace('Action', 'Responder', class_basename($name));
 
-    $classes = [
-      '\\App\\Domain\\Contracts\\Responders\\'.class_basename($this->getNamespace($name)),
-      $responder,
-    ];
+    $directory = class_basename($this->getNamespace($name));
 
-    $responderContract = implode('\\', $classes);
+    $namespace = $this->replacementNamespace(ResponderInterfaceMakeCommand::class);
+
+    $namespace = $namespace.'\\'.$directory;
 
     $page = Str::replace('Action', '', implode('/', array_slice(explode('\\', $name), -2)));
 
     return [
-      'DummyResponderContract' => $responderContract,
-      'DummyResponder' => $responder,
-      '{{ dummyPage }}' => $page,
+      '{{ responderContract }}' => $namespace.'\\'.$responder,
+      '{{ responder }}' => $responder,
+      '{{ inertiaPage }}' => $page,
     ];
   }
 
@@ -235,35 +287,39 @@ class ActionMakeCommand extends GeneratorCommand
    *
    * @return array
    */
-  protected function getOptions()
+  protected function getArguments()
   {
     return [
-      ['standard', null, InputOption::VALUE_NONE, 'Generate a standard actions for the given namespace'],
-      ['api', 'a', InputOption::VALUE_NONE, 'Exclude the create and edit action from the namespace'],
-      ['basic', 'b', InputOption::VALUE_OPTIONAL, 'Generate a basic actions for the given namespace'],
-      ['model', 'm', InputOption::VALUE_REQUIRED, 'The model that the request applies to'],
+      ['name', InputArgument::REQUIRED, 'The '.strtolower($this->type).' to create for the app'],
+      ['visibility', InputArgument::REQUIRED, 'Set the visibility for the namespace (G: Public, M: Protected, A: Private)'],
     ];
   }
 
   /**
-   * Interact further with the user if they were prompted for missing arguments.
+   * Prompt for missing input arguments using the returned questions.
    *
-   * @param  \Symfony\Component\Console\Input\InputInterface  $input
-   * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-   * @return void
+   * @return array
    */
-  protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output)
+  protected function promptForMissingArgumentsUsing()
   {
-    if ($this->didReceiveOptions($input)) {
-      return;
-    }
+    return [
+      'name' => 'The '.strtolower($this->type).' to create for the app?',
+      'visibility' => 'Set the visibility for the namespace (G: Public, M: Protected, A: Private N: None/Api)',
+    ];
+  }
 
-    $type = $this->components->choice('Which type of action would you like?', [
-      'standard',
-      'basic',
-      'api',
-    ], default: 0);
-
-    $input->setOption($type, true);
+  /**
+   * Get the console command options.
+   *
+   * @return array
+   */
+  protected function getOptions()
+  {
+    return [
+      ['plain', 'p', InputOption::VALUE_NONE, 'Generate an empty action class'],
+      ['api', 'a', InputOption::VALUE_NONE, 'Generate action for your Api namespace'],
+      ['resp', 'r', InputOption::VALUE_NONE, 'Generate a responder for UI actions'],
+      ['model', 'm', InputOption::VALUE_REQUIRED, 'The model that the request applies to'],
+    ];
   }
 }
