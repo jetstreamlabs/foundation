@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "fix": "./vendor/bin/pinte --dirty",
-    "pinte": "./vendor/bin/pinte"
+    "pinte": "./vendor/bin/pinte",
+    "cn": "composer update && npm update"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
