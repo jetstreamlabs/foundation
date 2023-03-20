@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [2.1.6](https://github.com/jetstreamlabs/foundation/compare/v2.1.5...v2.1.6) (2023-03-20)
+
+
+### Bug Fixes
+
+* update to fix errors in generators ([e905e4c](https://github.com/jetstreamlabs/foundation/commit/e905e4cd72437484c9d038f0b89e6d44923cae20))
+
 ## [2.1.5](https://github.com/jetstreamlabs/foundation/compare/v2.1.4...v2.1.5) (2023-03-19)
 
 
