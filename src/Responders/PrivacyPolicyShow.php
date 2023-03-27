@@ -2,7 +2,6 @@
 
 namespace Serenity\Responders;
 
-use Inertia\Inertia;
 use Serenity\Concerns\ProvidesResponderMethods;
 use Serenity\Contracts\PrivacyPolicyShow as ContractsPrivacyPolicyShow;
 
@@ -12,6 +11,6 @@ class PrivacyPolicyShow extends ViewResponder implements ContractsPrivacyPolicyS
 
   public function toResponse()
   {
-    return Inertia::render($this->component);
+    return $this->view->render($this->component);
   }
 }

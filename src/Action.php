@@ -6,10 +6,17 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
 use Serenity\Contracts\Action as ActionInterface;
 use Serenity\Contracts\Service as ServiceInterface;
+use Serenity\Routing\Attributes\DoNotDiscover;
 
 abstract class Action extends Controller implements ActionInterface
 {
   use AuthorizesRequests;
+
+  #[DoNotDiscover]
+  public function __construct()
+  {
+    //
+  }
 
   /**
    * Register middleware on the controller.

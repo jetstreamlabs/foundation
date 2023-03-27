@@ -64,7 +64,7 @@ class PendingRouteAction
     if (! in_array($this->method->getName(), $this->commonControllerMethodNames())) {
       $uri = Str::kebab($this->method->getName());
     }
-
+    //dd($uri);
     /** @phpstan-ignore-next-line */
     if ($modelParameter) {
       if ($uri !== '') {

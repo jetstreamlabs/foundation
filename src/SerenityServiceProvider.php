@@ -5,6 +5,7 @@ namespace Serenity;
 use App\Domain\Middleware\HandleInertiaRequests;
 use Illuminate\Cache\Repository;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
@@ -15,21 +16,47 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use League\CommonMark\ConverterInterface;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Environment\EnvironmentBuilderInterface;
+use League\CommonMark\Environment\EnvironmentInterface;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
+use League\CommonMark\MarkdownConverter;
 use PragmaRX\Google2FA\Google2FA;
 use Serenity\Console\InstallCommand;
 use Serenity\Contracts\ContractMapper;
+use Serenity\Contracts\DocumentationRepository;
 use Serenity\Contracts\TwoFactorAuthenticationProvider as TwoFactorAuthenticationProviderInterface;
+use Serenity\Markdown\Compiler\CommonMarkCompiler;
+use Serenity\Markdown\Directive\CommonMarkDirective;
+use Serenity\Markdown\Directive\DirectiveInterface;
+use Serenity\Markdown\Highlighters\HighlightCodeExtension;
+use Serenity\Markdown\MarkdownRenderer;
+use Serenity\Markdown\Renderers\AnchorHeadingRenderer;
 use Serenity\Middleware\MuteActions;
 use Serenity\Middleware\ShareInertiaData;
 use Serenity\Routing\Discovery\Discover;
+use Serenity\Routing\Finder\Find;
 
 class SerenityServiceProvider extends ServiceProvider
 {
   public function register()
   {
     $this->mergeConfigFrom(
-      __DIR__.'/../config/serenity.php',
-      'serenity'
+      __DIR__.'/../config/serenity.php', 'serenity'
+    );
+
+    $this->mergeConfigFrom(
+      __DIR__.'/../config/markdown.php', 'markdown'
+    );
+
+    $this->mergeConfigFrom(
+      __DIR__.'/../config/docs.php', 'docs'
     );
   }
 
@@ -99,14 +126,27 @@ class SerenityServiceProvider extends ServiceProvider
     $this->app->bind(ContractMapper::class, function (Application $app) {
       return $app->make(\Serenity\Support\ContractMapper::class);
     });
+
+    $this->app->singleton(DocumentationRepository::class, function (Application $app) {
+      return $app->make(\Serenity\Entities\DocumentationRepository::class);
+    });
+
+    $this->registerEnvironment();
+    $this->registerMarkdown();
+    $this->registerCompiler();
+    $this->registerDirective();
+
+    $this->app->singleton(ParseHandlerr::class, function (Container $app) {
+      return $app->make(\Serenity\Markdown\Renderers\ParseHandler::class);
+    });
   }
 
   protected function configurePublishing()
   {
     if ($this->app->runningInConsole()) {
       $this->publishes([
-        __DIR__.'/../../stubs/config/serenity.php' => config_path('serenity.php'),
-        __DIR__.'/../../stubs/config/app.php' => config_path('app.php'),
+        __DIR__.'/../config/serenity.php' => config_path('serenity.php'),
+        __DIR__.'/../config/markdown.php' => config_path('markdown.php'),
       ], 'serenity-config');
     }
   }
@@ -212,12 +252,98 @@ class SerenityServiceProvider extends ServiceProvider
     });
   }
 
+  /**
+   * Register the environment class.
+   *
+   * @return void
+   */
+  private function registerEnvironment(): void
+  {
+    $this->app->singleton('markdown.environment', function (Container $app): Environment {
+      $config = $app->config->get('markdown');
+
+      $environment = new Environment(Arr::except($config, ['extensions']));
+
+      foreach ((array) Arr::get($config, 'extensions') as $extension) {
+        $environment->addExtension($app->make($extension));
+      }
+
+      $environment->addExtension(new CommonMarkCoreExtension());
+      $environment->addExtension(new TableExtension());
+      $environment->addExtension(new HighlightCodeExtension());
+      $environment->addExtension(new FrontMatterExtension());
+      $environment->addExtension(new GithubFlavoredMarkdownExtension());
+      $environment->addExtension(new TableOfContentsExtension());
+      $environment->addExtension(new HeadingPermalinkExtension());
+
+      $environment->addRenderer(Heading::class, new AnchorHeadingRenderer());
+
+      return $environment;
+    });
+
+    $this->app->alias('markdown.environment', Environment::class);
+    $this->app->alias('markdown.environment', EnvironmentInterface::class);
+    $this->app->alias('markdown.environment', EnvironmentBuilderInterface::class);
+  }
+
+  /**
+   * Register the markdowm class.
+   *
+   * @return void
+   */
+  private function registerMarkdown(): void
+  {
+    $this->app->singleton('markdown.converter', function (Container $app): MarkdownConverter {
+      $environment = $app['markdown.environment'];
+
+      return new MarkdownConverter($environment);
+    });
+
+    $this->app->alias('markdown.converter', MarkdownConverter::class);
+    $this->app->alias('markdown.converter', ConverterInterface::class);
+  }
+
+  /**
+   * Register the markdown compiler class.
+   *
+   * @return void
+   */
+  private function registerCompiler(): void
+  {
+    $this->app->singleton('markdown.compiler', function (Container $app): CommonMarkCompiler {
+      $converter = $app['markdown.converter'];
+      $files = $app['files'];
+      $storagePath = $app->config->get('view.compiled');
+
+      return new CommonMarkCompiler($converter, $files, $storagePath);
+    });
+
+    $this->app->alias('markdown.compiler', CommonMarkCompiler::class);
+  }
+
+  /**
+   * Register the markdown directive class.
+   *
+   * @return void
+   */
+  private function registerDirective(): void
+  {
+    $this->app->singleton('markdown.directive', function (Container $app): CommonMarkDirective {
+      $converter = $app['markdown.converter'];
+
+      return new CommonMarkDirective($converter);
+    });
+
+    $this->app->alias('markdown.directive', CommonMarkDirective::class);
+    $this->app->alias('markdown.directive', DirectiveInterface::class);
+  }
+
   public function registerRoutesForActions(): self
   {
     collect(config('serenity.action_directory'))
-        ->each(
-          fn (string $directory) => Discover::actions()->in($directory)
-        );
+      ->each(
+        fn (string $directory) => Find::actions()->in($directory)
+      );
 
     return $this;
   }
@@ -225,19 +351,19 @@ class SerenityServiceProvider extends ServiceProvider
   public function registerRoutesForViews(): self
   {
     collect(config('serenity.docs_directory'))
-        ->each(function (array|string $directories, int|string $prefix) {
-          if (is_numeric($prefix)) {
-            $prefix = '';
-          }
+      ->each(function (array|string $directories, int|string $prefix) {
+        if (is_numeric($prefix)) {
+          $prefix = '';
+        }
 
-          $directories = Arr::wrap($directories);
+        $directories = Arr::wrap($directories);
 
-          foreach ($directories as $directory) {
-            Route::prefix($prefix)->group(function () use ($directory) {
-              Discover::views()->in($directory);
-            });
-          }
-        });
+        foreach ($directories as $directory) {
+          Route::prefix($prefix)->group(function () use ($directory) {
+            Find::docs()->in($directory);
+          });
+        }
+      });
 
     return $this;
   }
@@ -257,6 +383,11 @@ class SerenityServiceProvider extends ServiceProvider
 
     public function provides()
     {
-      //return array_merge(array_values($this->devCommands));
+      return [
+        'markdown.environment',
+        'markdown.converter',
+        'markdown.compiler',
+        'markdown.directive',
+      ];
     }
 }

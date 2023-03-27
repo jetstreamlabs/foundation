@@ -1,10 +1,10 @@
 <?php
 
-namespace Serenity\Routing\Discovery;
+namespace Serenity\Routing\Finder;
 
 use Serenity\Routing\RouteRegistrar;
 
-class DiscoverActions
+class FindActions
 {
   protected string $basePath = '';
 

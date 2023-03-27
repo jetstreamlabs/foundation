@@ -12,6 +12,6 @@ class TermsOfServiceShow extends ViewResponder implements ContractsTermsOfServic
 
   public function toResponse()
   {
-    return Inertia::render($this->component);
+    return $this->view->render($this->component);
   }
 }
