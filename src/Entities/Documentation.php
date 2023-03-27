@@ -22,8 +22,8 @@ class Documentation extends Entity
   /**
    * Create a new documentation instance.
    *
-   * @param \Illuminate\Filesystem\Filesystem $files
-   * @param \Serenity\Support\CacheManager $cache
+   * @param  \Illuminate\Filesystem\Filesystem  $files
+   * @param  \Serenity\Support\CacheManager  $cache
    */
   public function __construct(
       protected Filesystem $files,
@@ -60,9 +60,9 @@ class Documentation extends Entity
   /**
    * Get the TOC from the current page for the TOC component.
    *
-   * @param string $version
-   * @param string $page
-   * @param array $data
+   * @param  string  $version
+   * @param  string  $page
+   * @param  array  $data
    * @return mixed
    */
   public function getToc($version, $page, $data = [])
@@ -98,7 +98,7 @@ class Documentation extends Entity
    *
    * @param $version
    * @param $page
-   * @param array $data
+   * @param  array  $data
    * @return mixed
    */
   public function get($version, $page, $data = [])
@@ -175,7 +175,7 @@ class Documentation extends Entity
   /**
    * Add styles for index h2s
    *
-   * @param  string $content
+   * @param  string  $content
    * @return string
    */
   public function styleHeaders($content)
@@ -192,7 +192,7 @@ class Documentation extends Entity
   /**
    * Add styles for index links.
    *
-   * @param  string $content
+   * @param  string  $content
    * @return string
    */
   public function styleLinks($content)

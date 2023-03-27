@@ -12,7 +12,7 @@ class DocumentationService extends Service
   /**
    * Create an new instance of the class.
    *
-   * @param \Serenity\Contracts\DocumentationRepository $docs
+   * @param  \Serenity\Contracts\DocumentationRepository  $docs
    */
   public function __construct(
       protected DocumentationRepository $docs

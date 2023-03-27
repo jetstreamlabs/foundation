@@ -24,9 +24,9 @@ final class CommonMarkCompiler extends Compiler implements CompilerInterface
   private ConverterInterface $converter;
 
   /**
-   * @param \League\CommonMark\ConverterInterface $converter
-   * @param \Illuminate\Filesystem\Filesystem     $files
-   * @param string                                $cachePath
+   * @param  \League\CommonMark\ConverterInterface  $converter
+   * @param  \Illuminate\Filesystem\Filesystem  $files
+   * @param  string  $cachePath
    * @return void
    */
   public function __construct(ConverterInterface $converter, Filesystem $files, string $cachePath)
@@ -39,7 +39,7 @@ final class CommonMarkCompiler extends Compiler implements CompilerInterface
   /**
    * Compile the view at the given path.
    *
-   * @param string $path
+   * @param  string  $path
    * @return void
    */
   public function compile($path): void

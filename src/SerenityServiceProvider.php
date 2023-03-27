@@ -36,11 +36,9 @@ use Serenity\Markdown\Compiler\CommonMarkCompiler;
 use Serenity\Markdown\Directive\CommonMarkDirective;
 use Serenity\Markdown\Directive\DirectiveInterface;
 use Serenity\Markdown\Highlighters\HighlightCodeExtension;
-use Serenity\Markdown\MarkdownRenderer;
 use Serenity\Markdown\Renderers\AnchorHeadingRenderer;
 use Serenity\Middleware\MuteActions;
 use Serenity\Middleware\ShareInertiaData;
-use Serenity\Routing\Discovery\Discover;
 use Serenity\Routing\Finder\Find;
 
 class SerenityServiceProvider extends ServiceProvider

@@ -21,7 +21,7 @@ final class CommonMarkDirective implements DirectiveInterface
   private ConverterInterface $converter;
 
   /**
-   * @param \League\CommonMark\ConverterInterface $converter
+   * @param  \League\CommonMark\ConverterInterface  $converter
    * @return void
    */
   public function __construct(ConverterInterface $converter)
@@ -32,7 +32,7 @@ final class CommonMarkDirective implements DirectiveInterface
   /**
    * Normalize and render the markdown.
    *
-   * @param string $markdown
+   * @param  string  $markdown
    * @return string
    */
   public function render(string $markdown): string
@@ -43,7 +43,7 @@ final class CommonMarkDirective implements DirectiveInterface
   /**
    * Adjust for indentation.
    *
-   * @param string $markdown
+   * @param  string  $markdown
    * @return string
    */
   private static function adjust(string $markdown): string

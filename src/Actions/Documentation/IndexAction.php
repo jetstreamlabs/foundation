@@ -13,8 +13,8 @@ class IndexAction extends Action
   /**
    * Create a new action instance.
    *
-   * @param \Serenity\Contracts\DocumentationIndex $responder
-   * @param \Serenity\Services\DocumentationService $service
+   * @param  \Serenity\Contracts\DocumentationIndex  $responder
+   * @param  \Serenity\Services\DocumentationService  $service
    */
   public function __construct(
       protected DocumentationIndex $responder,
@@ -25,7 +25,7 @@ class IndexAction extends Action
   /**
    * Invoke our action, handle domain, respond.
    *
-   * @param  \Illuminate\Http\Request $request
+   * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\RedirectResponse
    */
   public function __invoke(Request $request): RedirectResponse

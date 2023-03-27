@@ -3,7 +3,6 @@
 namespace Serenity\Responders;
 
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 use Serenity\Concerns\ProvidesResponderMethods;
 use Serenity\Contracts\DocumentationIndex as DocumentationIndexContract;
 

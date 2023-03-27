@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 trait Indexable
 {
   /**
-   * @param  $version
+   * @param    $version
    * @return mixed
    */
   public function index($version)
@@ -50,7 +50,7 @@ trait Indexable
   }
 
   /**
-   * @param  $version
+   * @param    $version
    * @return mixed
    */
   protected function getPages($version)

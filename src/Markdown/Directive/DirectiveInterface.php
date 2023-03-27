@@ -19,7 +19,7 @@ interface DirectiveInterface
   /**
    * Normalize and render the markdown.
    *
-   * @param string $markdown
+   * @param  string  $markdown
    * @return string
    */
   public function render(string $markdown): string;

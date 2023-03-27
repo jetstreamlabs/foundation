@@ -5,7 +5,6 @@ namespace Serenity\Entities;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Serenity\Concerns\HasDocumentationAttributes;
 use Serenity\Contracts\DocumentationRepository as RepositoryContract;
-use Serenity\Entities\Documentation;
 use Serenity\Repository;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -38,8 +37,8 @@ class DocumentationRepository extends Repository implements RepositoryContract
 
   /**
    * @param $version
-   * @param null $page
-   * @param array $data
+   * @param  null  $page
+   * @param  array  $data
    * @return $this|DocumentationRepository
    */
   public function get($version, $page = null, $data = [])

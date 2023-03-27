@@ -10,7 +10,7 @@ trait HasBladeParser
    * Render markdown contain blade syntax.
    *
    * @param $content
-   * @param array $data
+   * @param  array  $data
    * @return false|string
    *
    * @throws \Exception
@@ -44,7 +44,7 @@ trait HasBladeParser
   /**
    * Compile blade content, except within code blocks.
    *
-   * @param  $rawContent
+   * @param    $rawContent
    * @return string
    */
   public function compileBlade($rawContent)

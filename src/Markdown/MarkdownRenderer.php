@@ -5,20 +5,10 @@ namespace Serenity\Markdown;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Extension\ExtensionInterface;
-use League\CommonMark\Extension\FrontMatter\Data\SymfonyYamlFrontMatterParser;
-use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
-use League\CommonMark\Extension\FrontMatter\FrontMatterParser;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
-use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
-use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Output\RenderedContentInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
-use Serenity\Markdown\HighlightCodeExtension;
-use Serenity\Markdown\Renderers\AnchorHeadingRenderer;
-use Torchlight\Commonmark\V2\TorchlightExtension;
 
 class MarkdownRenderer
 {

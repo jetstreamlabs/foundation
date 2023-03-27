@@ -12,7 +12,7 @@ use League\CommonMark\Util\HtmlElement;
 class AnchorHeadingRenderer implements NodeRendererInterface
 {
   /**
-   * @param Node|Heading $node
+   * @param  Node|Heading  $node
    */
   public function render(Node $node, ChildNodeRendererInterface $childRenderer)
   {
@@ -26,7 +26,7 @@ class AnchorHeadingRenderer implements NodeRendererInterface
   }
 
   /**
-   * @param Node|Heading $node
+   * @param  Node|Heading  $node
    */
   protected function createElement(Node $node, ChildNodeRendererInterface $childRenderer): HtmlElement
   {

@@ -12,8 +12,8 @@ class ShowAction extends Action
   /**
    * Create a new action instance.
    *
-   * @param \Serenity\Contracts\DocumentationShow $responder
-   * @param \Serenity\Services\DocumentationService $service
+   * @param  \Serenity\Contracts\DocumentationShow  $responder
+   * @param  \Serenity\Services\DocumentationService  $service
    */
   public function __construct(
       protected DocumentationShow $responder,
@@ -25,7 +25,7 @@ class ShowAction extends Action
   /**
    * Invoke our action, handle domain, respond.
    *
-   * @param  \Illuminate\Http\Request $request
+   * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Contracts\Support\Responsable
    */
   public function __invoke($version, $page = null): Responsable

@@ -2,7 +2,6 @@
 
 namespace Serenity\Concerns;
 
-use App\Domain\Support\ParsedownExtra;
 use League\CommonMark\ConverterInterface;
 
 trait HasMarkdownParser

@@ -2,7 +2,6 @@
 
 namespace Serenity\Responders;
 
-use Inertia\Inertia;
 use Serenity\Concerns\ProvidesResponderMethods;
 use Serenity\Contracts\TermsOfServiceShow as ContractsTermsOfServiceShow;
 
