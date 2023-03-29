@@ -77,7 +77,7 @@ class Shiki
 
   public function getWorkingDirPath(): string
   {
-    return realpath(resource_path('js/Shiki'));
+    return realpath(config('markdown.shiki.path'));
   }
 
   protected function callShiki(...$arguments): string

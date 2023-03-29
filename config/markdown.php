@@ -124,4 +124,8 @@ return [
     'unique' => 'document',
   ],
 
+  'shiki' => [
+    'path' => resource_path('js/serenity/shiki.js'),
+  ],
+
 ];
