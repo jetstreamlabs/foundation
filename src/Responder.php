@@ -73,6 +73,8 @@ abstract class Responder implements ResponderInterface
    */
   public function compileData(): void
   {
+    $data = [];
+
     if ($this->expectsPayload) {
       $data = $this->payload->getData();
 

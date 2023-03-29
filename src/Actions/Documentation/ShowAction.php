@@ -28,12 +28,13 @@ class ShowAction extends Action
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Contracts\Support\Responsable
    */
-  public function __invoke($version, $page = null): Responsable
+  public function __invoke($version, $page = null)
   {
-    bcs([]);
+    $payload = $this->service->show($version, $page);
+    $data = $payload->getData();
 
-    return $this->responder->make(
-      $this->service->getDocs($version, $page)
-    )->send();
+    app('breadcrumbs')->add($data['title'], 'last');
+
+    return $this->responder->make($payload)->send();
   }
 }

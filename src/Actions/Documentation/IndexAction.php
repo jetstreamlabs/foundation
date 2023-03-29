@@ -2,7 +2,6 @@
 
 namespace Serenity\Actions\Documentation;
 
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Serenity\Action;
 use Serenity\Contracts\DocumentationIndex;
@@ -28,7 +27,7 @@ class IndexAction extends Action
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\RedirectResponse
    */
-  public function __invoke(Request $request): RedirectResponse
+  public function __invoke(Request $request)
   {
     return $this->responder->make(
       $this->service->handle($request)

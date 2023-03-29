@@ -16,8 +16,6 @@ class ShowAction extends Action
       protected TeamsService $service
     ) {
     $this->with('Teams/Show', true);
-
-    bcs('Team Settings', 'last');
   }
 
   /**
@@ -32,6 +30,8 @@ class ShowAction extends Action
     $team = Serenity::newTeamModel()->findOrFail($teamId);
 
     Gate::authorize('view', $team);
+
+    app('breadcrumbs')->add('Team Settings', 'last');
 
     return $this->responder->make(
       $this->service->handle($request, $team)

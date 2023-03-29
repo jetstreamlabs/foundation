@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use Serenity\Contracts\Breadcrumbs;
 use Serenity\Features;
 use Serenity\Serenity;
 
@@ -24,7 +25,7 @@ class ShareInertiaData
       'breadcrumbs' => app('breadcrumbs')->render(),
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),
-      'copyright' => '&copy; '.date('Y').'Jetstream Labs, LLC.',
+      'copyright' => '&copy; '.date('Y').'. Jetstream Labs, LLC.',
       'serenityVersion' => Serenity::version(),
       'phpVersion' => PHP_VERSION,
       'serenity' => function () use ($request) {

@@ -16,6 +16,13 @@ return [
     'middleware' => ['web'],
   ],
 
+  'styles' => [
+    'sidebar' => [
+      'headings' => 'font-medium text-gray-900 dark:text-white',
+      'links' => 'block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full',
+    ],
+  ],
+
   /*
     |--------------------------------------------------------------------------
     | Documentation Versions
@@ -52,7 +59,7 @@ return [
 
   'cache' => [
     'enabled' => false,
-    'period' => 5,
+    'period' => 108000,
   ],
 
   /*
@@ -82,43 +89,6 @@ return [
     ],
   ],
 
-  /*
-    |--------------------------------------------------------------------------
-    | Appearance
-    |--------------------------------------------------------------------------
-    |
-    | Here you can add configure the appearance of your docs. For example,
-    | you can set the primary and secondary colors that will give your
-    | documentation a unique look. You can set the fav of your docs.
-    |
-    |
-    */
-
-  'ui' => [
-    'code_theme' => 'dark', // or: light
-    'fav' => '',     // eg: fav.png
-    'fa_v4_shims' => true, // Add FontAwesome v4 shims prevent BC break
-    'show_side_bar' => true,
-    'colors' => [
-      'primary' => '#787AF6',
-      'secondary' => '#2b9cf2',
-    ],
-
-    'theme_order' => null, // ['RecipeDarkTheme', 'customTheme']
-  ],
-
-  /*
-    |--------------------------------------------------------------------------
-    | SEO
-    |--------------------------------------------------------------------------
-    |
-    | These options configure the SEO settings of your docs. You can set the
-    | author, the description and the keywords. Also, Recipe by default
-    | sets the canonical link to the viewed page's link automatically.
-    |
-    |
-    */
-
   'seo' => [
     'author' => '',
     'description' => '',
@@ -130,45 +100,6 @@ return [
       'image' => '',
       'description' => '',
     ],
-  ],
-
-  /*
-   |--------------------------------------------------------------------------
-   | Forum
-   |--------------------------------------------------------------------------
-   |
-   | Giving a chance to your users to post their questions or feedback
-   | directly on your docs, is pretty nice way to engage them more.
-   | However, you can also enable/disable the forum's visibility.
-   |
-   | Supported Services: 'disqus'
-   |
-   */
-
-  'forum' => [
-    'enabled' => false,
-    'default' => 'disqus',
-    'services' => [
-      'disqus' => [
-        'site_name' => '', // yoursite.disqus.com
-      ],
-    ],
-  ],
-
-  /*
-    |--------------------------------------------------------------------------
-    | Components and Packages
-    |--------------------------------------------------------------------------
-    |
-    | Once you create a new asset or theme, its directory will be
-    | published under `Recipe-components` folder. However, If
-    | you want a different location, feel free to change it.
-    |
-    |
-    */
-
-  'packages' => [
-    'path' => 'Recipe-components',
   ],
 
   'blade-parser' => [

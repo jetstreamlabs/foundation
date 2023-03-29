@@ -32,6 +32,13 @@ class Breadcrumbs implements BreadcrumbsInterface
    */
   public function render(): array
   {
+    if (request()->user()) {
+      $this->breadcrumbs[0] = [
+        'text' => __('Dashboard'),
+        'route' => route('dashboard'),
+      ];
+    }
+
     return $this->breadcrumbs;
   }
 }

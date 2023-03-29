@@ -15,7 +15,7 @@ class CreateAction extends Action
     ) {
     $this->with('Teams/Create');
 
-    bcs('Create a New Team', 'last');
+    app('breadcrumbs')->add('Create a New Team', 'last');
   }
 
   /**

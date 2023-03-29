@@ -116,17 +116,13 @@ class SerenityServiceProvider extends ServiceProvider
 
     $this->app->singleton('breadcrumbs', function (Application $app) {
       $breadcrumbs = $app->make(\Serenity\Contracts\Breadcrumbs::class);
-      $breadcrumbs->add('Dashboard', route('dashboard'));
+      $breadcrumbs->add(env('APP_NAME'), route('home'));
 
       return $breadcrumbs;
     });
 
     $this->app->bind(ContractMapper::class, function (Application $app) {
       return $app->make(\Serenity\Support\ContractMapper::class);
-    });
-
-    $this->app->singleton(DocumentationRepository::class, function (Application $app) {
-      return $app->make(\Serenity\Entities\DocumentationRepository::class);
     });
 
     $this->registerEnvironment();

@@ -137,10 +137,10 @@ Route::group(['middleware' => config('serenity.middleware', ['web'])], function 
       }
     });
   });
+
+  Route::get('/docs', \Serenity\Actions\Documentation\IndexAction::class)->name('docs.index');
+
+  Route::get('/docs/{version}/{page?}', \Serenity\Actions\Documentation\ShowAction::class)
+    ->where('page', '(.*)')
+    ->name('docs.show');
 });
-
-Route::get('/docs', \Serenity\Actions\Documentation\IndexAction::class)->name('docs.index');
-
-Route::get('/docs/{version}/{page?}', \Serenity\Actions\Documentation\ShowAction::class)
-  ->where('page', '(.*)')
-  ->name('docs.show');
