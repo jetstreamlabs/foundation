@@ -1,5 +1,24 @@
 # Serenity Foundation Changelog
 
+# [2.2.0](https://github.com/jetstreamlabs/foundation/compare/v2.1.6...v2.2.0) (2023-03-29)
+
+
+### Code Refactoring
+
+* move documentation core to foundation ([2bcc667](https://github.com/jetstreamlabs/foundation/commit/2bcc6679f883fafff8f8276ee1099fb21951c1cd))
+
+
+### Features
+
+* add markdown, docs, rename routing ([e3d9cd5](https://github.com/jetstreamlabs/foundation/commit/e3d9cd5ee08a561594d7ee4dce51b9e893f43f3b))
+
+
+### Maintenance
+
+* unused imports ([f36762b](https://github.com/jetstreamlabs/foundation/commit/f36762b7916236e56fa5a363a3802323a23920f3))
+* unused imports ([70941da](https://github.com/jetstreamlabs/foundation/commit/70941da22e02a97484ff14720acd103c9073a086))
+* update node dependencies ([d59c395](https://github.com/jetstreamlabs/foundation/commit/d59c395b485b3ae5fb0da607da4989324f5ff441))
+
 ## [2.1.6](https://github.com/jetstreamlabs/foundation/compare/v2.1.5...v2.1.6) (2023-03-20)
 
 
