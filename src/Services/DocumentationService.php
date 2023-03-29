@@ -4,9 +4,7 @@ namespace Serenity\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use League\CommonMark\ConverterInterface;
-use Serenity\Contracts\DocumentationRepository;
 use Serenity\Contracts\Payload;
 use Serenity\Service;
 use Serenity\Support\CacheManager;
@@ -46,8 +44,8 @@ class DocumentationService extends Service
   /**
    * Create an new instance of the class.
    *
-   * @param  \League\CommonMark\ConverterInterface $converter
-   * @param  \Serenity\Support\CacheManager $cache
+   * @param  \League\CommonMark\ConverterInterface  $converter
+   * @param  \Serenity\Support\CacheManager  $cache
    */
   public function __construct(
       protected ConverterInterface $converter,
@@ -102,9 +100,9 @@ class DocumentationService extends Service
   /**
    * Generate our requested documentation page.
    *
-   * @param  string      $version
-   * @param  string|null $page
-   * @param  array       $data
+   * @param  string  $version
+   * @param  string|null  $page
+   * @param  array  $data
    * @return \Serenity\Payload
    */
   protected function make(string $version, string $page = null, array $data = []): Payload

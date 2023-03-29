@@ -30,7 +30,6 @@ use League\CommonMark\MarkdownConverter;
 use PragmaRX\Google2FA\Google2FA;
 use Serenity\Console\InstallCommand;
 use Serenity\Contracts\ContractMapper;
-use Serenity\Contracts\DocumentationRepository;
 use Serenity\Contracts\TwoFactorAuthenticationProvider as TwoFactorAuthenticationProviderInterface;
 use Serenity\Markdown\Compiler\CommonMarkCompiler;
 use Serenity\Markdown\Directive\CommonMarkDirective;

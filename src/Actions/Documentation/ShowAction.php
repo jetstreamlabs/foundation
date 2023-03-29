@@ -2,7 +2,6 @@
 
 namespace Serenity\Actions\Documentation;
 
-use Illuminate\Contracts\Support\Responsable;
 use Serenity\Action;
 use Serenity\Contracts\DocumentationShow;
 use Serenity\Services\DocumentationService;
