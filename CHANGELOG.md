@@ -1,5 +1,20 @@
 # Serenity Foundation Changelog
 
+## [2.2.1](https://github.com/jetstreamlabs/foundation/compare/v2.2.0...v2.2.1) (2023-03-29)
+
+
+### Code Refactoring
+
+* make shiki path configurable ([66c521c](https://github.com/jetstreamlabs/foundation/commit/66c521cbdc9ae9afd5fa83907cac5f005c63e64c))
+
+
+### Maintenance
+
+* **deps-dev:** bump @commitlint/cli from 17.4.4 to 17.5.0 ([596f22f](https://github.com/jetstreamlabs/foundation/commit/596f22f8a3e572ca286857e2c03f2688c25bfa35))
+* **deps-dev:** bump @semantic-release/changelog from 6.0.2 to 6.0.3 ([e392dbe](https://github.com/jetstreamlabs/foundation/commit/e392dbecd1ff1e7fcdf842361f27cd95debeef4e))
+* **deps-dev:** bump semantic-release from 20.1.3 to 21.0.0 ([0c09cd5](https://github.com/jetstreamlabs/foundation/commit/0c09cd5c13beaa70793a2b121c94560ab9d549f0))
+* **dev-deps:** update dev dependencies —dp-bot ([e4e2ee5](https://github.com/jetstreamlabs/foundation/commit/e4e2ee58d03e721ac56c20c1df16dfcd1c5ed84b))
+
 # [2.2.0](https://github.com/jetstreamlabs/foundation/compare/v2.1.6...v2.2.0) (2023-03-29)
 
 
