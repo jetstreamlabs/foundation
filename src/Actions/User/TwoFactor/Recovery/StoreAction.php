@@ -3,8 +3,8 @@
 namespace Serenity\Actions\User\TwoFactor\Recovery;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\RecoveryCodesGenerated;
+use Serenity\Foundation\Action;
 use Serenity\Operations\GenerateNewRecoveryCodes;
 
 class StoreAction extends Action

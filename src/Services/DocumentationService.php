@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use League\CommonMark\ConverterInterface;
 use Serenity\Contracts\Payload;
-use Serenity\Service;
 use Serenity\Support\CacheManager;
 
 class DocumentationService extends Service
@@ -51,9 +50,9 @@ class DocumentationService extends Service
       protected ConverterInterface $converter,
       protected CacheManager $cache
     ) {
-    $this->docsRoute = route('docs.index');
-    $this->defaultVersion = config('docs.versions.default');
-    $this->publishedVersions = config('docs.versions.published');
+    $this->docsRoute = route('docs.home');
+    $this->defaultVersion = config('serenity.versions.default');
+    $this->publishedVersions = config('serenity.versions.published');
     $this->defaultVersionUrl = route('docs.show', ['version' => $this->defaultVersion]);
   }
 
@@ -66,7 +65,7 @@ class DocumentationService extends Service
   {
     $route = route('docs.show', [
       'version' => $this->defaultVersion,
-      'page' => config('docs.docs.landing'),
+      'page' => config('serenity.docs.landing'),
     ]);
 
     return $this->payloadResponse([
@@ -84,8 +83,8 @@ class DocumentationService extends Service
   {
     if ($this->isNotPublishedVersion($version)) {
       $route = route('docs.show', [
-        'version' => config('docs.versions.default'),
-        'page' => config('docs.docs.landing'),
+        'version' => config('serenity.versions.default'),
+        'page' => config('serenity.docs.landing'),
       ]);
 
       return $this->payloadResponse([
@@ -108,9 +107,9 @@ class DocumentationService extends Service
   protected function make(string $version, string $page = null, array $data = []): Payload
   {
     $this->version = $version;
-    $this->sectionPage = $page ?: config('docs.docs.landing');
+    $this->sectionPage = $page ?: config('serenity.docs.landing');
 
-    $menu = config('docs.docs.path')
+    $menu = config('serenity.docs.path')
       .DIRECTORY_SEPARATOR
       .$version
       .DIRECTORY_SEPARATOR
@@ -120,7 +119,7 @@ class DocumentationService extends Service
 
     $this->toc = [];
 
-    $path = config('docs.docs.path')
+    $path = config('serenity.docs.path')
       .DIRECTORY_SEPARATOR
       .$version
       .DIRECTORY_SEPARATOR
@@ -156,14 +155,14 @@ class DocumentationService extends Service
           'versions' => $this->publishedVersions,
           'currentVersion' => $this->version,
           'currentSection' => $this->currentSection,
-          'github' => config('docs.docs.github'),
-          'twitter' => config('docs.docs.twitter'),
+          'github' => config('serenity.docs.github'),
+          'twitter' => config('serenity.docs.twitter'),
           'status' => $this->statusCode,
         ]);
       }, 'docs.'.$version.'.'.$page);
     }
 
-    $pathNotFound = config('docs.docs.path').'/404.md';
+    $pathNotFound = config('serenity.docs.path').'/404.md';
 
     $content = $this->converter->convert(File::get($pathNotFound));
 
@@ -186,8 +185,8 @@ class DocumentationService extends Service
       'versions' => $this->publishedVersions,
       'currentVersion' => $this->version,
       'currentSection' => $this->currentSection,
-      'github' => config('docs.docs.github'),
-      'twitter' => config('docs.docs.twitter'),
+      'github' => config('serenity.docs.github'),
+      'twitter' => config('serenity.docs.twitter'),
       'status' => $this->statusCode,
     ]);
   }

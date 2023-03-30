@@ -3,8 +3,8 @@
 namespace Serenity\Actions\User\Profile;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\UserProfileShow;
+use Serenity\Foundation\Action;
 
 class ShowAction extends Action
 {

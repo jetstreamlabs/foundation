@@ -3,10 +3,10 @@
 namespace Serenity\Actions\Teams\Members;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\AddsTeamMembers;
 use Serenity\Contracts\InvitesTeamMembers;
-use Serenity\Features;
+use Serenity\Foundation\Action;
+use Serenity\Foundation\Features;
 use Serenity\Serenity;
 
 class StoreAction extends Action

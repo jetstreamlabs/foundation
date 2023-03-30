@@ -8,8 +8,8 @@ use {{ serviceRestoreRequest }};
 use {{ serviceStoreRequest }};
 use {{ serviceUpdateRequest }};
 use Illuminate\Http\Request;
-use Serenity\Payload;
-use Serenity\Service;
+use Serenity\Payloads\Payload;
+use Serenity\Services\Service;
 
 class {{ class }} extends Service
 {

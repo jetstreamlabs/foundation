@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Teams\Invitations;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\AddsTeamMembers;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 
 class AcceptAction extends Action

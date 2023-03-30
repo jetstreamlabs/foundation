@@ -3,10 +3,10 @@
 namespace Serenity\Actions\TwoFactor\Challenge;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Serenity\Action;
 use Serenity\Contracts\FailedTwoFactorLogin;
 use Serenity\Contracts\TwoFactorLogin;
 use Serenity\Events\RecoveryCodeReplaced;
+use Serenity\Foundation\Action;
 use Serenity\Requests\TwoFactorLoginRequest;
 
 class StoreAction extends Action

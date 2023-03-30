@@ -3,9 +3,9 @@
 namespace Serenity\Actions\User\Profile;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\ProfileInformationUpdated;
 use Serenity\Contracts\UpdatesUserProfileInformation;
+use Serenity\Foundation\Action;
 
 class UpdateAction extends Action
 {

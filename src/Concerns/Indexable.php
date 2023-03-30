@@ -24,7 +24,7 @@ trait Indexable
           continue;
         }
 
-        $indexableNodes = implode(',', config('docs.search.engines.internal.index'));
+        $indexableNodes = implode(',', config('serenity.search.engines.internal.index'));
 
         $nodes = (new Crawler($pageContent))
             ->filter($indexableNodes)
@@ -46,7 +46,7 @@ trait Indexable
       }
 
       return $result;
-    }, 'docs.docs.'.$version.'.search');
+    }, 'docs.'.$version.'.search');
   }
 
   /**
@@ -55,7 +55,7 @@ trait Indexable
    */
   protected function getPages($version)
   {
-    $path = base_path(config('docs.docs.path').'/'.$version.'/index.md');
+    $path = base_path(config('serenity.docs.path').'/'.$version.'/index.md');
 
     // match all markdown urls => [title](url)
     preg_match_all('/\(([^)]+)\)/', $this->files->get($path), $matches);

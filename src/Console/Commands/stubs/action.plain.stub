@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use Serenity\Action;
+use Serenity\Foundation\Action;
 
 class DummyClass extends Action
 {

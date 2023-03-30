@@ -63,11 +63,28 @@ class PendingRouteFactory
   {
     $class = trim(Str::replaceFirst($this->basePath, '', (string) $file->getRealPath()), DIRECTORY_SEPARATOR);
 
+    if (! Str::startsWith($class, basename(app_path()).DIRECTORY_SEPARATOR)) {
+      //return $this->getClassNameForPackageActions($file);
+    }
+
     $class = str_replace(
       [DIRECTORY_SEPARATOR, 'App\\'],
       ['\\', app()->getNamespace()],
       ucfirst(Str::replaceLast('.php', '', $class))
     );
+
+    return $this->rootNamespace.$class;
+  }
+
+  protected function getClassNameForPackageActions(SplFileInfo $file)
+  {
+    $packageNamespace = Str::of(get_class($this))->before('\\')->append('\\')->value();
+    $class = trim(Str::replaceFirst(dirname(dirname(__DIR__)), '', (string) $file->getRealPath()), DIRECTORY_SEPARATOR);
+
+    $class = Str::of($class)
+      ->before('.php')
+      ->replace(DIRECTORY_SEPARATOR, '\\')
+      ->prepend($packageNamespace)->value();
 
     return $this->rootNamespace.$class;
   }

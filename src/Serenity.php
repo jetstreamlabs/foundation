@@ -22,6 +22,9 @@ use Serenity\Contracts\UpdatesTeamNames;
 use Serenity\Contracts\UpdatesUserPasswords;
 use Serenity\Contracts\UpdatesUserProfileInformation;
 use Serenity\Contracts\VerifyEmailView;
+use Serenity\Foundation\Features;
+use Serenity\Foundation\InertiaManager;
+use Serenity\Foundation\Role;
 use Serenity\Responders\SimpleView;
 
 class Serenity
@@ -56,7 +59,7 @@ class Serenity
   /**
    * The Inertia manager instance.
    *
-   * @var \Serenity\InertiaManager
+   * @var \Serenity\Foundation\InertiaManager
    */
   public static $inertiaManager;
 
@@ -223,8 +226,8 @@ class Serenity
   public static function userHasTeamFeatures($user)
   {
     return (array_key_exists(HasTeams::class, class_uses_recursive($user)) ||
-            method_exists($user, 'currentTeam')) &&
-            static::hasTeamFeatures();
+      method_exists($user, 'currentTeam')) &&
+      static::hasTeamFeatures();
   }
 
   /**
@@ -465,7 +468,7 @@ class Serenity
   /**
    * Manage Serenity's Inertia settings.
    *
-   * @return \Serenity\InertiaManager
+   * @return \Serenity\Foundation\InertiaManager
    */
   public static function inertia()
   {

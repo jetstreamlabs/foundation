@@ -5,7 +5,7 @@ namespace Serenity\Actions\User\Browsers;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 use Serenity\Operations\ConfirmPassword;
 use Serenity\Support\Sessions;
 

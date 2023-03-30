@@ -5,7 +5,7 @@ namespace Serenity\Operations;
 use Illuminate\Support\Collection;
 use Serenity\Contracts\TwoFactorAuthenticationProvider;
 use Serenity\Events\TwoFactorAuthenticationEnabled;
-use Serenity\RecoveryCode;
+use Serenity\Support\RecoveryCode;
 
 class EnableTwoFactorAuthentication
 {

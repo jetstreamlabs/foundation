@@ -4,7 +4,7 @@ namespace DummyNamespace;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Serenity\ApiService;
+use Serenity\Services\ApiService;
 
 class DummyClass extends ApiService
 {

@@ -4,8 +4,8 @@ namespace Serenity\Actions\User\Password;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\ConfirmPasswordView;
+use Serenity\Foundation\Action;
 
 class CreateAction extends Action
 {

@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Teams;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\CreatesTeams;
+use Serenity\Foundation\Action;
 use Serenity\Support\Redirection;
 
 class StoreAction extends Action

@@ -4,8 +4,8 @@ namespace Serenity\Actions\Logout;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\Logout;
+use Serenity\Foundation\Action;
 
 class DestroyAction extends Action
 {

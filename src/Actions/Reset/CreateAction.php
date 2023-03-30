@@ -4,8 +4,8 @@ namespace Serenity\Actions\Reset;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\ResetPasswordView;
+use Serenity\Foundation\Action;
 
 class CreateAction extends Action
 {

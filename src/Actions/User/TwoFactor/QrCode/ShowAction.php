@@ -3,7 +3,7 @@
 namespace Serenity\Actions\User\TwoFactor\QrCode;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 use Symfony\Component\HttpFoundation\Response;
 
 class ShowAction extends Action

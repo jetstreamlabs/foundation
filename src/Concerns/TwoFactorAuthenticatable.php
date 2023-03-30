@@ -9,8 +9,8 @@ use BaconQrCode\Renderer\RendererStyle\Fill;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use Serenity\Contracts\TwoFactorAuthenticationProvider;
-use Serenity\RecoveryCode;
 use Serenity\Serenity;
+use Serenity\Support\RecoveryCode;
 
 trait TwoFactorAuthenticatable
 {

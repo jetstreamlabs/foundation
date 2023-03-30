@@ -5,7 +5,7 @@ namespace Serenity\Concerns;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Serenity\Features;
+use Serenity\Foundation\Features;
 
 trait HasProfilePhoto
 {

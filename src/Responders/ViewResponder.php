@@ -4,7 +4,6 @@ namespace Serenity\Responders;
 
 use Inertia\ResponseFactory;
 use Serenity\Contracts\ViewResponder as ViewResponderInterface;
-use Serenity\Responder;
 
 abstract class ViewResponder extends Responder implements ViewResponderInterface
 {

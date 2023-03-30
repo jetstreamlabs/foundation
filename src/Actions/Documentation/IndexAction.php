@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Documentation;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\DocumentationIndex;
+use Serenity\Foundation\Action;
 use Serenity\Services\DocumentationService;
 
 class IndexAction extends Action

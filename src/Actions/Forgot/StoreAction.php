@@ -5,9 +5,9 @@ namespace Serenity\Actions\Forgot;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Serenity\Action;
 use Serenity\Contracts\FailedPasswordResetLinkRequest;
 use Serenity\Contracts\SuccessfulPasswordResetLinkRequest;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 use Serenity\Support\Broker;
 

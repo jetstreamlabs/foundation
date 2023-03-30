@@ -5,9 +5,9 @@ namespace Serenity\Actions\Register;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\CreatesNewUsers;
 use Serenity\Contracts\Register;
+use Serenity\Foundation\Action;
 
 class StoreAction extends Action
 {

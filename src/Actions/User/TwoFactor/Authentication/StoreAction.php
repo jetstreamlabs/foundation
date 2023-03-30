@@ -3,8 +3,8 @@
 namespace Serenity\Actions\User\TwoFactor\Authentication;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\TwoFactorEnabled;
+use Serenity\Foundation\Action;
 use Serenity\Operations\EnableTwoFactorAuthentication;
 
 class StoreAction extends Action

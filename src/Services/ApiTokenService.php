@@ -5,7 +5,6 @@ namespace Serenity\Services;
 use Illuminate\Http\Request;
 use Serenity\Contracts\Payload;
 use Serenity\Serenity;
-use Serenity\Service;
 
 class ApiTokenService extends Service
 {

@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Email\Verify;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\VerifyEmailView;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 
 class PromptAction extends Action

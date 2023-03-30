@@ -8,9 +8,4 @@ class Find
   {
     return new FindActions();
   }
-
-  public static function docs(): FindDocs
-  {
-    return new FindDocs();
-  }
 }

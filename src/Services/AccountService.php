@@ -4,8 +4,7 @@ namespace Serenity\Services;
 
 use Illuminate\Http\Request;
 use Serenity\Contracts\Payload;
-use Serenity\Features;
-use Serenity\Service;
+use Serenity\Foundation\Features;
 use Serenity\Support\ConfirmsTwoFactor;
 use Serenity\Support\Sessions;
 

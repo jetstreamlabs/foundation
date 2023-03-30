@@ -4,8 +4,8 @@ namespace Serenity\Actions\TwoFactor\Challenge;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Serenity\Action;
 use Serenity\Contracts\TwoFactorChallengeView;
+use Serenity\Foundation\Action;
 use Serenity\Requests\TwoFactorLoginRequest;
 
 class CreateAction extends Action

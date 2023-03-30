@@ -3,8 +3,8 @@
 namespace Serenity\Actions\User\ApiTokens;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\UserApiTokensShow;
+use Serenity\Foundation\Action;
 use Serenity\Services\ApiTokenService;
 
 class ShowAction extends Action

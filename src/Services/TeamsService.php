@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Serenity\Contracts\Payload;
 use Serenity\Serenity;
-use Serenity\Service;
 
 class TeamsService extends Service
 {

@@ -2,8 +2,6 @@
 
 namespace Serenity\Payloads;
 
-use Serenity\Payload;
-
 class InertiaPayload extends Payload
 {
   /**

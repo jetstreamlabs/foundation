@@ -3,8 +3,8 @@
 namespace Serenity\Actions\User\Account;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\UserAccountShow;
+use Serenity\Foundation\Action;
 use Serenity\Services\AccountService;
 
 class ShowAction extends Action

@@ -4,7 +4,7 @@ namespace Serenity\Concerns;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Serenity\Features;
+use Serenity\Foundation\Features;
 use Serenity\Operations\DisableTwoFactorAuthentication;
 
 trait ConfirmsTwoFactorAuthentication

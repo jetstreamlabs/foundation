@@ -4,21 +4,21 @@ namespace Serenity\Operations;
 
 use Illuminate\Auth\Events\Lockout;
 use Serenity\Contracts\LockoutInterface;
-use Serenity\LoginRateLimiter;
+use Serenity\Routing\LoginRateLimiter;
 
 class EnsureLoginIsNotThrottled
 {
   /**
    * The login rate limiter instance.
    *
-   * @var \Serenity\LoginRateLimiter
+   * @var \Serenity\Routing\LoginRateLimiter
    */
   protected $limiter;
 
   /**
    * Create a new class instance.
    *
-   * @param  \Serenity\LoginRateLimiter  $limiter
+   * @param  \Serenity\Routing\LoginRateLimiter  $limiter
    * @return void
    */
   public function __construct(LoginRateLimiter $limiter)

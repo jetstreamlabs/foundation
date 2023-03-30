@@ -2,471 +2,246 @@
 
 namespace Serenity\Providers;
 
-use Illuminate\Console\Signals;
-use Illuminate\Contracts\Support\DeferrableProvider;
+use App\Domain\Middleware\HandleInertiaRequests;
+use Illuminate\Cache\Repository;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Serenity\Console\Commands\ActionMakeCommand;
-use Serenity\Console\Commands\CastMakeCommand;
-use Serenity\Console\Commands\ChannelMakeCommand;
-use Serenity\Console\Commands\ConsoleMakeCommand;
-use Serenity\Console\Commands\DocsCommand;
-use Serenity\Console\Commands\EventGenerateCommand;
-use Serenity\Console\Commands\EventMakeCommand;
-use Serenity\Console\Commands\ExceptionMakeCommand;
-use Serenity\Console\Commands\FactoryMakeCommand;
-use Serenity\Console\Commands\JobMakeCommand;
-use Serenity\Console\Commands\ListenerMakeCommand;
-use Serenity\Console\Commands\MailMakeCommand;
-use Serenity\Console\Commands\MiddlewareMakeCommand;
-use Serenity\Console\Commands\ModelMakeCommand;
-use Serenity\Console\Commands\ModelRepositoryMakeCommand;
-use Serenity\Console\Commands\NotificationMakeCommand;
-use Serenity\Console\Commands\ObserverMakeCommand;
-use Serenity\Console\Commands\PageMakeCommand;
-use Serenity\Console\Commands\PolicyMakeCommand;
-use Serenity\Console\Commands\ProviderMakeCommand;
-use Serenity\Console\Commands\RepositoryInterfaceMakeCommand;
-use Serenity\Console\Commands\RepositoryMakeCommand;
-use Serenity\Console\Commands\RequestMakeCommand;
-use Serenity\Console\Commands\ResourceMakeCommand;
-use Serenity\Console\Commands\ResponderInterfaceMakeCommand;
-use Serenity\Console\Commands\ResponderMakeCommand;
-use Serenity\Console\Commands\RuleMakeCommand;
-use Serenity\Console\Commands\ScaffoldMakeCommand;
-use Serenity\Console\Commands\ScopeMakeCommand;
-use Serenity\Console\Commands\ServiceMakeCommand;
-use Serenity\Console\Commands\StubPublishCommand;
-use Serenity\Console\Commands\TestMakeCommand;
+use Inertia\Inertia;
+use PragmaRX\Google2FA\Google2FA;
+use Serenity\Console\InstallCommand;
+use Serenity\Contracts\ContractMapper;
+use Serenity\Contracts\TwoFactorAuthenticationProvider as TwoFactorAuthenticationProviderInterface;
+use Serenity\Middleware\MuteActions;
+use Serenity\Middleware\ShareInertiaData;
+use Serenity\Routing\Finder\Find;
+use Serenity\Serenity;
 
-class ZenServiceProvider extends ServiceProvider implements DeferrableProvider
+class ZenServiceProvider extends ServiceProvider
 {
-  /**
-   * The commands to be registered.
-   *
-   * @var array
-   */
-  protected $devCommands = [
-    'ActionMake' => ActionMakeCommand::class,
-    'CastMake' => CastMakeCommand::class,
-    'ChannelMake' => ChannelMakeCommand::class,
-    'ConsoleMake' => ConsoleMakeCommand::class,
-    'Docs' => DocsCommand::class,
-    'EventGenerate' => EventGenerateCommand::class,
-    'EventMake' => EventMakeCommand::class,
-    'ExceptionMake' => ExceptionMakeCommand::class,
-    'FactoryMake' => FactoryMakeCommand::class,
-    'JobMake' => JobMakeCommand::class,
-    'ListenerMake' => ListenerMakeCommand::class,
-    'MailMake' => MailMakeCommand::class,
-    'MiddlewareMake' => MiddlewareMakeCommand::class,
-    'ModelMake' => ModelMakeCommand::class,
-    'ModelRepositoryMake' => ModelRepositoryMakeCommand::class,
-    'NotificationMake' => NotificationMakeCommand::class,
-    'ObserverMake' => ObserverMakeCommand::class,
-    'PageMake' => PageMakeCommand::class,
-    'PolicyMake' => PolicyMakeCommand::class,
-    'ProviderMake' => ProviderMakeCommand::class,
-    'RepositoryMake' => RepositoryMakeCommand::class,
-    'RepositoryInterfaceMake' => RepositoryInterfaceMakeCommand::class,
-    'RequestMake' => RequestMakeCommand::class,
-    'ResourceMake' => ResourceMakeCommand::class,
-    'ResponderMake' => ResponderMakeCommand::class,
-    'ResponderInterfaceMake' => ResponderInterfaceMakeCommand::class,
-    'RuleMake' => RuleMakeCommand::class,
-    'ServiceMake' => ServiceMakeCommand::class,
-    'ScaffoldMake' => ScaffoldMakeCommand::class,
-    'ScopeMake' => ScopeMakeCommand::class,
-    'StubPublish' => StubPublishCommand::class,
-    'TestMake' => TestMakeCommand::class,
-  ];
-
-  /**
-   * Register the service provider.
-   *
-   * @return void
-   */
   public function register()
   {
-    $this->registerCommands($this->devCommands);
+    $this->mergeConfigFrom(
+      __DIR__.'/../Config/serenity.php', 'serenity'
+    );
+  }
 
-    Signals::resolveAvailabilityUsing(function () {
-      return $this->app->runningInConsole()
-          && ! $this->app->runningUnitTests()
-          && extension_loaded('pcntl');
+  public function boot()
+  {
+    Serenity::viewPrefix('auth.');
+
+    $this->app->singleton(TwoFactorAuthenticationProviderInterface::class, function ($app) {
+      return new TwoFactorAuthenticationProvider(
+        $app->make(Google2FA::class),
+        $app->make(Repository::class)
+      );
+    });
+
+    $this->app->bind(StatefulGuard::class, function () {
+      return Auth::guard(config('serenity.auth_guard', null));
+    });
+
+    RedirectResponse::macro('banner', function ($message) {
+      /** @var \Illuminate\Http\RedirectResponse $this */
+      return $this->with('flash', [
+        'bannerStyle' => 'success',
+        'banner' => $message,
+      ]);
+    });
+
+    RedirectResponse::macro('dangerBanner', function ($message) {
+      /** @var \Illuminate\Http\RedirectResponse $this */
+      return $this->with('flash', [
+        'bannerStyle' => 'danger',
+        'banner' => $message,
+      ]);
+    });
+
+    $this->registerProviders();
+    $this->registerMacros();
+    $this->configurePublishing();
+    $this->configureRoutes();
+    $this->configureCommands();
+    $this->registerResponseBindings();
+    $this->bootInertia();
+  }
+
+  protected function registerMacros()
+  {
+    Builder::macro('scope', function ($scope) {
+      return $scope->getQuery($this);
     });
   }
 
-  /**
-   * Register the given commands.
-   *
-   * @param  array  $commands
-   * @return void
-   */
-  protected function registerCommands(array $commands)
+  protected function registerProviders()
   {
-    foreach ($commands as $commandName => $command) {
-      $method = "register{$commandName}Command";
+    $this->app->register(DocumentationServiceProvider::class);
 
-      if (method_exists($this, $method)) {
-        $this->{$method}();
-      } else {
-        $this->app->singleton($command);
-      }
+    $this->app->bind(
+      \Serenity\Contracts\SerenityManager::class,
+      \Serenity\Foundation\SerenityManager::class
+    );
+
+    $this->app->bind(
+      \Serenity\Contracts\Breadcrumbs::class,
+      \Serenity\Foundation\Breadcrumbs::class
+    );
+
+    $this->app->bind(ContractMapper::class, function (Container $app) {
+      return $app->make(\Serenity\Support\ContractMapper::class);
+    });
+
+    $this->app->singleton(SerenityManager::class, function (Container $app) {
+      return $app->make(\Serenity\Contracts\SerenityManager::class);
+    });
+
+    $this->app->singleton('breadcrumbs', function (Container $app) {
+      $breadcrumbs = $app->make(\Serenity\Contracts\Breadcrumbs::class);
+      $breadcrumbs->add(env('APP_NAME'), route('home'));
+
+      return $breadcrumbs;
+    });
+  }
+
+  protected function configurePublishing()
+  {
+    if ($this->app->runningInConsole()) {
+      $this->publishes([
+        __DIR__.'/../../config/serenity.php' => config_path('serenity.php'),
+      ], 'serenity-config');
+    }
+  }
+
+  protected function configureRoutes()
+  {
+    if (Serenity::$registersRoutes) {
+      Route::group([
+        'namespace' => 'Serenity\Actions',
+        'domain' => config('serenity.domain', null),
+        'prefix' => config('serenity.prefix'),
+      ], function () {
+        $this->loadRoutesFrom(__DIR__.'/../Routing/routes/routes.php');
+      });
     }
 
-    $this->commands(array_values($commands));
+    if ($this->app->routesAreCached()) {
+      return;
+    }
+
+    $this->registerRoutesForActions();
   }
 
   /**
-   * Register the command.
+   * Configure the commands offered by the application.
    *
    * @return void
    */
-  protected function registerCastMakeCommand()
+  protected function configureCommands()
   {
-    $this->app->singleton(CastMakeCommand::class, function ($app) {
-      return new CastMakeCommand($app['files']);
-    });
+    if ($this->app->runningInConsole()) {
+      $this->commands([
+        InstallCommand::class,
+      ]);
+    }
   }
 
   /**
-   * Register the command.
+   * Auto-bind all of our responders to their interfaces.
    *
    * @return void
    */
-  protected function registerChannelMakeCommand()
+  protected function registerResponseBindings(): void
   {
-    $this->app->singleton(ChannelMakeCommand::class, function ($app) {
-      return new ChannelMakeCommand($app['files']);
+    $mapper = $this->app->make(ContractMapper::class);
+    $mapper
+      ->setConcretePath('Responders')
+      ->setInterfacePath('Contracts');
+
+    $mapper->map();
+  }
+
+  protected function bootInertia()
+  {
+    $kernel = $this->app->make(Kernel::class);
+
+    $kernel->appendMiddlewareToGroup('web', ShareInertiaData::class);
+    $kernel->appendMiddlewareToGroup('web', MuteActions::class);
+    $kernel->appendToMiddlewarePriority(ShareInertiaData::class);
+
+    if (class_exists(HandleInertiaRequests::class)) {
+      $kernel->appendToMiddlewarePriority(HandleInertiaRequests::class);
+    }
+
+    Serenity::loginView(function () {
+      return Inertia::render('Auth/Login', [
+        'canResetPassword' => Route::has('password.request'),
+        'status' => session('status'),
+      ]);
     });
+
+    Serenity::requestPasswordResetLinkView(function () {
+      return Inertia::render('Auth/ForgotPassword', [
+        'status' => session('status'),
+      ]);
+    });
+
+    Serenity::resetPasswordView(function (Request $request) {
+      return Inertia::render('Auth/ResetPassword', [
+        'email' => $request->input('email'),
+        'token' => $request->route('token'),
+      ]);
+    });
+
+    Serenity::registerView(function () {
+      return Inertia::render('Auth/Register');
+    });
+
+    Serenity::verifyEmailView(function () {
+      return Inertia::render('Auth/VerifyEmail', [
+        'status' => session('status'),
+      ]);
+    });
+
+    Serenity::twoFactorChallengeView(function () {
+      return Inertia::render('Auth/TwoFactorChallenge');
+    });
+
+    Serenity::confirmPasswordView(function () {
+      return Inertia::render('Auth/ConfirmPassword');
+    });
+  }
+
+  public function registerRoutesForActions(): self
+  {
+    collect(config('serenity.action_directory'))
+      ->each(
+        fn (string $directory) => Find::actions()->in($directory)
+      );
+
+    return $this;
+  }
+
+  protected function rebindLaravelDefaults(): void
+  {
+    $this->app->bind(
+      'command.controller.make',
+      'command.action.make'
+    );
   }
 
   /**
-   * Register the command.
+   * Get the services provided by the provider.
    *
-   * @return void
+   * @return array
    */
-  protected function registerConsoleMakeCommand()
+  public function provides(): array
   {
-    $this->app->singleton(ConsoleMakeCommand::class, function ($app) {
-      return new ConsoleMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerActionMakeCommand()
-  {
-    $this->app->singleton(ActionMakeCommand::class, function ($app) {
-      return new ActionMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerEventMakeCommand()
-  {
-    $this->app->singleton(EventMakeCommand::class, function ($app) {
-      return new EventMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerExceptionMakeCommand()
-  {
-    $this->app->singleton(ExceptionMakeCommand::class, function ($app) {
-      return new ExceptionMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerFactoryMakeCommand()
-  {
-    $this->app->singleton(FactoryMakeCommand::class, function ($app) {
-      return new FactoryMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerJobMakeCommand()
-  {
-    $this->app->singleton(JobMakeCommand::class, function ($app) {
-      return new JobMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerListenerMakeCommand()
-  {
-    $this->app->singleton(ListenerMakeCommand::class, function ($app) {
-      return new ListenerMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerMailMakeCommand()
-  {
-    $this->app->singleton(MailMakeCommand::class, function ($app) {
-      return new MailMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerMiddlewareMakeCommand()
-  {
-    $this->app->singleton(MiddlewareMakeCommand::class, function ($app) {
-      return new MiddlewareMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerModelMakeCommand()
-  {
-    $this->app->singleton(ModelMakeCommand::class, function ($app) {
-      return new ModelMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerModelRepositoryMakeCommand()
-  {
-    $this->app->singleton(ModelRepositoryMakeCommand::class, function ($app) {
-      return new ModelRepositoryMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerNotificationMakeCommand()
-  {
-    $this->app->singleton(NotificationMakeCommand::class, function ($app) {
-      return new NotificationMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerObserverMakeCommand()
-  {
-    $this->app->singleton(ObserverMakeCommand::class, function ($app) {
-      return new ObserverMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerPageMakeCommand()
-  {
-    $this->app->singleton(PageMakeCommand::class, function ($app) {
-      return new PageMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerPolicyMakeCommand()
-  {
-    $this->app->singleton(PolicyMakeCommand::class, function ($app) {
-      return new PolicyMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerProviderMakeCommand()
-  {
-    $this->app->singleton(ProviderMakeCommand::class, function ($app) {
-      return new ProviderMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerRepositoryMakeCommand()
-  {
-    $this->app->singleton(RepositoryMakeCommand::class, function ($app) {
-      return new RepositoryMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerRepositoryInterfaceMakeCommand()
-  {
-    $this->app->singleton(RepositoryInterfaceMakeCommand::class, function ($app) {
-      return new RepositoryInterfaceMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerRequestMakeCommand()
-  {
-    $this->app->singleton(RequestMakeCommand::class, function ($app) {
-      return new RequestMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerResourceMakeCommand()
-  {
-    $this->app->singleton(ResourceMakeCommand::class, function ($app) {
-      return new ResourceMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerResponderMakeCommand()
-  {
-    $this->app->singleton(ResponderMakeCommand::class, function ($app) {
-      return new ResponderMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerResponderInterfaceMakeCommand()
-  {
-    $this->app->singleton(ResponderInterfaceMakeCommand::class, function ($app) {
-      return new ResponderInterfaceMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerRuleMakeCommand()
-  {
-    $this->app->singleton(RuleMakeCommand::class, function ($app) {
-      return new RuleMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerScaffoldMakeCommand()
-  {
-    $this->app->singleton(ScaffoldMakeCommand::class, function ($app) {
-      return new ScaffoldMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerScopeMakeCommand()
-  {
-    $this->app->singleton(ScopeMakeCommand::class, function ($app) {
-      return new ScopeMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerServiceMakeCommand()
-  {
-    $this->app->singleton(ServiceMakeCommand::class, function ($app) {
-      return new ServiceMakeCommand($app['files']);
-    });
-  }
-
-  /**
-   * Register the command.
-   *
-   * @return void
-   */
-  protected function registerTestMakeCommand()
-  {
-    $this->app->singleton(TestMakeCommand::class, function ($app) {
-      return new TestMakeCommand($app['files']);
-    });
-  }
-
-  public function provides()
-  {
-    return array_values($this->devCommands);
+    return [];
   }
 }

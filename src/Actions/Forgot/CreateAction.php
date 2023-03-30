@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Forgot;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\RequestPasswordResetLinkView;
+use Serenity\Foundation\Action;
 
 class CreateAction extends Action
 {

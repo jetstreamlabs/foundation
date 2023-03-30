@@ -3,7 +3,7 @@
 namespace Serenity\Actions\Teams\Members;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 use Serenity\Operations\UpdateTeamMemberRole;
 use Serenity\Serenity;
 

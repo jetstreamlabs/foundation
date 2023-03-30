@@ -3,8 +3,8 @@
 namespace Serenity\Actions\TermsOfService;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\TermsOfServiceShow;
+use Serenity\Foundation\Action;
 
 class ShowAction extends Action
 {

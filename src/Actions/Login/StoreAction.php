@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Login;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Serenity\Action;
 use Serenity\Contracts\Login;
+use Serenity\Foundation\Action;
 use Serenity\Requests\LoginRequest;
 use Serenity\Support\LoginPipeline;
 

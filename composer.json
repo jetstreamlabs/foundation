@@ -57,7 +57,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Serenity\\SerenityServiceProvider"
+        "Serenity\\Providers\\ZenServiceProvider"
       ],
       "aliases": {
         "ContractBinder": "Serenity\\Support\\ContractBinder"

@@ -4,9 +4,9 @@ namespace Serenity\Actions\User\Password;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\FailedPasswordConfirmation;
 use Serenity\Contracts\PasswordConfirmed;
+use Serenity\Foundation\Action;
 use Serenity\Operations\ConfirmPassword;
 
 class StoreAction extends Action

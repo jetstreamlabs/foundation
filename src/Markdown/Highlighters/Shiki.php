@@ -77,7 +77,7 @@ class Shiki
 
   public function getWorkingDirPath(): string
   {
-    return realpath(config('markdown.shiki.path'));
+    return realpath(config('serenity.shiki.path'));
   }
 
   protected function callShiki(...$arguments): string
@@ -87,7 +87,7 @@ class Shiki
         '/usr/local/bin',
         '/opt/homebrew/bin',
       ]),
-      'Shiki.js',
+      'shiki.js',
       json_encode(array_values($arguments)),
     ];
 

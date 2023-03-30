@@ -4,7 +4,7 @@ namespace {{ namespace }};
 
 use {{ responderContract }};
 use {{ namespacedViewRequest }};
-use Serenity\Action;
+use Serenity\Foundation\Action;
 
 class {{ class }} extends Action
 {

@@ -4,7 +4,7 @@ namespace DummyNamespace;
 
 use DummyRootNamespaceDomain\Contracts\Repositories\DummyClass as DummyClassContract;
 use DummyRootNamespaceDomain\Models\DummyEntity;
-use Serenity\Repository;
+use Serenity\Database\Repository;
 
 class DummyClass extends Repository implements DummyClassContract
 {

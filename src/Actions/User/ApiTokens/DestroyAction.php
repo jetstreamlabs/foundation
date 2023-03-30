@@ -3,7 +3,7 @@
 namespace Serenity\Actions\User\ApiTokens;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 
 class DestroyAction extends Action
 {

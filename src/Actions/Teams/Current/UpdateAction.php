@@ -3,7 +3,7 @@
 namespace Serenity\Actions\Teams\Current;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 
 class UpdateAction extends Action

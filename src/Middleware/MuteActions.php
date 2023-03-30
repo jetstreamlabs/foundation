@@ -39,7 +39,7 @@ class MuteActions
   {
     $names = [];
 
-    $action = new \ReflectionClass(\Serenity\Action::class);
+    $action = new \ReflectionClass(\Serenity\Foundation\Action::class);
     $methods = $action->getMethods();
 
     foreach ($methods as $method) {

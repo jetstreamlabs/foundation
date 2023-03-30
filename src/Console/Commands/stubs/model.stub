@@ -6,7 +6,7 @@ use Database\Factories\{{ class }}Factory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Serenity\Model;
+use Serenity\Database\Model;
 
 class {{ class }} extends Model
 {

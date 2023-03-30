@@ -4,7 +4,7 @@ namespace Serenity\Operations;
 
 use Illuminate\Support\Collection;
 use Serenity\Events\RecoveryCodesGenerated;
-use Serenity\RecoveryCode;
+use Serenity\Support\RecoveryCode;
 
 class GenerateNewRecoveryCodes
 {

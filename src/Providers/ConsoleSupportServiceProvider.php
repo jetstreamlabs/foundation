@@ -14,7 +14,7 @@ class ConsoleSupportServiceProvider extends AggregateServiceProvider implements 
    * @var string[]
    */
   protected $providers = [
-    ZenServiceProvider::class,
+    GeneratorServiceProvider::class,
     ArtisanServiceProvider::class,
     MigrationServiceProvider::class,
     ComposerServiceProvider::class,

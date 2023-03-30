@@ -4,7 +4,7 @@ namespace Serenity\Routing\PendingRouteTransformers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
-use Serenity\Action as DefaultAppController;
+use Serenity\Foundation\Action as DefaultAppController;
 use Serenity\Routing\PendingRoutes\PendingRoute;
 use Serenity\Routing\PendingRoutes\PendingRouteAction;
 use Serenity\Routing\Tests\Support\TestClasses\Controllers\DefaultController\ControllerWithDefaultLaravelTraits;

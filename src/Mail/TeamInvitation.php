@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
-use Serenity\TeamInvitation as TeamInvitationModel;
+use Serenity\Database\TeamInvitation as TeamInvitationModel;
 
 class TeamInvitation extends Mailable
 {
@@ -15,14 +15,14 @@ class TeamInvitation extends Mailable
   /**
    * The team invitation instance.
    *
-   * @var \Serenity\TeamInvitation
+   * @var \Serenity\Database\TeamInvitation
    */
   public $invitation;
 
   /**
    * Create a new message instance.
    *
-   * @param  \Serenity\TeamInvitation  $invitation
+   * @param  \Serenity\Database\TeamInvitation  $invitation
    * @return void
    */
   public function __construct(TeamInvitationModel $invitation)

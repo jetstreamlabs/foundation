@@ -3,7 +3,7 @@
 namespace Serenity\Actions\User\ApiTokens;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 
 class StoreAction extends Action

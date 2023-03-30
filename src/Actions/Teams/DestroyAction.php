@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Teams;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\DeletesTeams;
+use Serenity\Foundation\Action;
 use Serenity\Operations\ValidateTeamDeletion;
 use Serenity\Serenity;
 use Serenity\Support\Redirection;

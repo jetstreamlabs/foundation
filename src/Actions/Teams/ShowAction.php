@@ -4,8 +4,8 @@ namespace Serenity\Actions\Teams;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Serenity\Action;
 use Serenity\Contracts\TeamsShow;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 use Serenity\Services\TeamsService;
 

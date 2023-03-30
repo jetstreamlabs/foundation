@@ -27,11 +27,11 @@ class CacheManager
    */
   public function remember(Closure $callback, $key)
   {
-    if (! config('docs.cache.enabled')) {
+    if (! config('serenity.cache.enabled')) {
       return $callback();
     }
 
-    $cachePeriod = $this->checkTtlNeedsChanged(config('docs.cache.period'));
+    $cachePeriod = $this->checkTtlNeedsChanged(config('serenity.cache.period'));
 
     return $this->cache->remember($key, $cachePeriod, $callback);
   }
@@ -47,7 +47,7 @@ class CacheManager
     $app_version = explode('.', app()->version());
 
     if (((int) $app_version[0] == 5 && (int) $app_version[1] >= 8) || $app_version[0] > 5) {
-      return config('docs.cache.period') * 60;
+      return config('serenity.cache.period') * 60;
     }
 
     return $ttl;

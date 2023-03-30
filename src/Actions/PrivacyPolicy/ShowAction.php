@@ -3,8 +3,8 @@
 namespace Serenity\Actions\PrivacyPolicy;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\PrivacyPolicyShow;
+use Serenity\Foundation\Action;
 
 class ShowAction extends Action
 {

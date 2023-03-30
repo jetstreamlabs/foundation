@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Teams;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\UpdatesTeamNames;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 
 class UpdateAction extends Action

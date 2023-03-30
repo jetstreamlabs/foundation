@@ -4,8 +4,8 @@ namespace Serenity\Actions\Login;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\LoginView;
+use Serenity\Foundation\Action;
 
 class CreateAction extends Action
 {

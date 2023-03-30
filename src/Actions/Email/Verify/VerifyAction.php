@@ -3,8 +3,8 @@
 namespace Serenity\Actions\Email\Verify;
 
 use Illuminate\Auth\Events\Verified;
-use Serenity\Action;
 use Serenity\Contracts\VerifyEmail;
+use Serenity\Foundation\Action;
 use Serenity\Requests\VerifyEmailRequest;
 
 class VerifyAction extends Action

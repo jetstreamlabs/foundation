@@ -5,7 +5,7 @@ namespace Serenity\Actions\Teams\Invitations;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 
 class DestroyAction extends Action

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Validation\ValidationException;
 use Serenity\Concerns\TwoFactorAuthenticatable;
 use Serenity\Events\TwoFactorAuthenticationChallenged;
-use Serenity\LoginRateLimiter;
+use Serenity\Routing\LoginRateLimiter;
 use Serenity\Serenity;
 
 class RedirectIfTwoFactorAuthenticatable
@@ -16,7 +16,7 @@ class RedirectIfTwoFactorAuthenticatable
    * Create a new controller instance.
    *
    * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
-   * @param  \Serenity\LoginRateLimiter  $limiter
+   * @param  \Serenity\Routing\LoginRateLimiter  $limiter
    * @return void
    */
   public function __construct(

@@ -3,9 +3,9 @@
 namespace Serenity\Actions\User\Password;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
 use Serenity\Contracts\PasswordUpdate;
 use Serenity\Contracts\UpdatesUserPasswords;
+use Serenity\Foundation\Action;
 
 class UpdateAction extends Action
 {

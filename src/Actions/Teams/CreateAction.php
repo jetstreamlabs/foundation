@@ -4,8 +4,8 @@ namespace Serenity\Actions\Teams;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Serenity\Action;
 use Serenity\Contracts\TeamsCreate;
+use Serenity\Foundation\Action;
 use Serenity\Serenity;
 
 class CreateAction extends Action

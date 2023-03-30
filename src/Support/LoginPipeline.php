@@ -3,7 +3,7 @@
 namespace Serenity\Support;
 
 use Illuminate\Routing\Pipeline;
-use Serenity\Features;
+use Serenity\Foundation\Features;
 use Serenity\Operations\AttemptToAuthenticate;
 use Serenity\Operations\EnsureLoginIsNotThrottled;
 use Serenity\Operations\PrepareAuthenticatedSession;

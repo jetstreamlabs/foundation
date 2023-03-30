@@ -2,8 +2,8 @@
 
 namespace Serenity\Actions\Documentation;
 
-use Serenity\Action;
 use Serenity\Contracts\DocumentationShow;
+use Serenity\Foundation\Action;
 use Serenity\Services\DocumentationService;
 
 class ShowAction extends Action

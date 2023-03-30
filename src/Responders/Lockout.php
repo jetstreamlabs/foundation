@@ -5,7 +5,7 @@ namespace Serenity\Responders;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Serenity\Contracts\Lockout as LockoutInterface;
-use Serenity\LoginRateLimiter;
+use Serenity\Routing\LoginRateLimiter;
 use Serenity\Serenity;
 
 class Lockout implements LockoutInterface
@@ -13,7 +13,7 @@ class Lockout implements LockoutInterface
   /**
    * Create a new response instance.
    *
-   * @param  \Serenity\LoginRateLimiter  $limiter
+   * @param  \Serenity\Routing\LoginRateLimiter  $limiter
    * @return void
    */
   public function __construct(

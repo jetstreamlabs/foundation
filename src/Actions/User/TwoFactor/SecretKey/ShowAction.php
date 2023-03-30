@@ -3,7 +3,7 @@
 namespace Serenity\Actions\User\TwoFactor\SecretKey;
 
 use Illuminate\Http\Request;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 
 class ShowAction extends Action
 {

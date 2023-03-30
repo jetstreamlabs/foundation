@@ -6,8 +6,8 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
-use Serenity\Action;
 use Serenity\Contracts\DeletesUsers;
+use Serenity\Foundation\Action;
 use Serenity\Operations\ConfirmPassword;
 
 class DestroyAction extends Action

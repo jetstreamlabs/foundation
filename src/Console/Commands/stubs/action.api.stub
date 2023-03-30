@@ -3,7 +3,7 @@
 namespace {{ namespace }};
 
 use Illuminate\Http\Request;
-use Serenity\Action;
+use Serenity\Foundation\Action;
 use {{ rootNamespace }}Api\Services\{{ service }};
 
 class DummyClass extends Action
