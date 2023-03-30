@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+# [2.3.0](https://github.com/jetstreamlabs/foundation/compare/v2.2.1...v2.3.0) (2023-03-30)
+
+
+### Features
+
+* complete restructure to organize ([cc93a49](https://github.com/jetstreamlabs/foundation/commit/cc93a494927ba397fbd2de4336a56c0eb075b67c))
+
 ## [2.2.1](https://github.com/jetstreamlabs/foundation/compare/v2.2.0...v2.2.1) (2023-03-29)
 
 
