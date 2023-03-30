@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [2.3.1](https://github.com/jetstreamlabs/foundation/compare/v2.3.0...v2.3.1) (2023-03-30)
+
+
+### Task Commit
+
+* update gitattributes to remove exports ([4b3aa0e](https://github.com/jetstreamlabs/foundation/commit/4b3aa0e1e4a806ccf8e4ff1a9b292606fe4aaeb5))
+
 # [2.3.0](https://github.com/jetstreamlabs/foundation/compare/v2.2.1...v2.3.0) (2023-03-30)
 
 
