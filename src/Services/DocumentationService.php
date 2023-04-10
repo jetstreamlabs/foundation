@@ -3,7 +3,6 @@
 namespace Serenity\Services;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use League\CommonMark\ConverterInterface;
 use Serenity\Contracts\Payload;
