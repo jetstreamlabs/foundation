@@ -3,10 +3,12 @@
 namespace Serenity\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use League\CommonMark\ConverterInterface;
 use Serenity\Contracts\Payload;
 use Serenity\Support\CacheManager;
+use Symfony\Component\DomCrawler\Crawler;
 
 class DocumentationService extends Service
 {
@@ -23,6 +25,10 @@ class DocumentationService extends Service
   protected string $version = '';
 
   protected string $content = '';
+
+  protected ?array $prevPage = null;
+
+  protected ?array $nextPage = null;
 
   protected string $canonical = '';
 
@@ -109,15 +115,9 @@ class DocumentationService extends Service
     $this->version = $version;
     $this->sectionPage = $page ?: config('serenity.docs.landing');
 
-    $menu = config('serenity.docs.path')
-      .DIRECTORY_SEPARATOR
-      .$version
-      .DIRECTORY_SEPARATOR
-      .'navigation.json';
+    $this->buildMenuIndex();
 
-    $this->index = json_decode(File::get($menu), true);
-
-    $this->toc = [];
+    $this->generatePreviousNext();
 
     $path = config('serenity.docs.path')
       .DIRECTORY_SEPARATOR
@@ -126,40 +126,34 @@ class DocumentationService extends Service
       .$page.'.md';
 
     if (File::exists($path)) {
-      return $this->cache->remember(function () use ($path, $page) {
-        $file = File::get($path);
+      $this->currentSection = $this->sectionPage;
 
-        $this->currentSection = $page;
+      $this->buildContent($path);
 
-        $raw = $this->converter->convert($file);
-        $frontMatter = $raw->getFrontMatter();
+      $this->renderToc();
 
-        $this->title = $frontMatter['title'];
-        $this->description = $frontMatter['description'];
-        $this->tags = $frontMatter['tags'] ?: implode(', ', $frontMatter['tags']);
-        $this->content = $raw->getContent();
+      $this->canonical = route('docs.show', [
+        'version' => $this->defaultVersion,
+        'page' => $this->sectionPage,
+      ]);
 
-        $this->canonical = route('docs.show', [
-          'version' => $this->defaultVersion,
-          'page' => $this->sectionPage,
-        ]);
-
-        return $this->payloadResponse([
-          'title' => $this->title,
-          'description' => $this->description,
-          'keywords' => $this->tags,
-          'canonical' => $this->canonical,
-          'toc' => $this->toc,
-          'content' => $this->content,
-          'sidebar' => $this->index,
-          'versions' => $this->publishedVersions,
-          'currentVersion' => $this->version,
-          'currentSection' => $this->currentSection,
-          'github' => config('serenity.docs.github'),
-          'twitter' => config('serenity.docs.twitter'),
-          'status' => $this->statusCode,
-        ]);
-      }, 'docs.'.$version.'.'.$page);
+      return $this->payloadResponse([
+        'title' => $this->title,
+        'description' => $this->description,
+        'keywords' => $this->tags,
+        'canonical' => $this->canonical,
+        'toc' => $this->toc,
+        'content' => $this->content,
+        'sidebar' => $this->index,
+        'versions' => $this->publishedVersions,
+        'nextPage' => $this->nextPage,
+        'prevPage' => $this->prevPage,
+        'currentVersion' => $this->version,
+        'currentSection' => $this->currentSection,
+        'github' => config('serenity.docs.github'),
+        'twitter' => config('serenity.docs.twitter'),
+        'status' => $this->statusCode,
+      ]);
     }
 
     $pathNotFound = config('serenity.docs.path').'/404.md';
@@ -183,12 +177,106 @@ class DocumentationService extends Service
       'content' => $this->content,
       'sidebar' => $this->index,
       'versions' => $this->publishedVersions,
+      'nextPage' => $this->nextPage,
+      'prevPage' => $this->prevPage,
       'currentVersion' => $this->version,
       'currentSection' => $this->currentSection,
       'github' => config('serenity.docs.github'),
       'twitter' => config('serenity.docs.twitter'),
       'status' => $this->statusCode,
     ]);
+  }
+
+  protected function buildMenuIndex()
+  {
+    $this->index = $this->cache->remember(function () {
+      $menu = config('serenity.docs.path')
+        .DIRECTORY_SEPARATOR
+        .$this->version
+        .DIRECTORY_SEPARATOR
+        .'navigation.json';
+
+      return File::json($menu);
+    }, 'doc-nav.'.$this->version);
+  }
+
+  protected function buildContent(string $path)
+  {
+    $raw = $this->cache->remember(function () use ($path) {
+      $file = File::get($path);
+
+      return $this->converter->convert($file);
+    }, 'doc-page.'.$this->version.'.'.$this->currentSection);
+
+    $frontMatter = $raw->getFrontMatter();
+
+    $this->title = $frontMatter['title'];
+    $this->description = $frontMatter['description'];
+    $this->tags = $frontMatter['tags'] ?: implode(', ', $frontMatter['tags']);
+    $this->content = $raw->getContent();
+  }
+
+  protected function generatePreviousNext()
+  {
+    $links = [];
+
+    foreach ($this->index as $category => $subLinks) {
+      foreach ($subLinks as $set) {
+        $links[] = [
+          'text' => $set['title'],
+          'link' => $set['uri'],
+          'version' => $set['version'],
+        ];
+      }
+    }
+
+    collect($links)->filter(function ($link, $i) use ($links) {
+      if ($link['link'] === $this->sectionPage && $i > 0) {
+        $key = $i - 1;
+
+        $prev = $links[$key];
+
+        $this->prevPage = [
+          'title' => $prev['text'],
+          'link' => route('docs.show', ['version' => $prev['version'], 'page' => $prev['link']]),
+        ];
+      }
+
+      if ($link['link'] === $this->sectionPage && $i < (count($links) - 1)) {
+        $key = $i + 1;
+        $next = $links[$key];
+
+        $this->nextPage = [
+          'title' => $next['text'],
+          'link' => route('docs.show', ['version' => $next['version'], 'page' => $next['link']]),
+        ];
+      }
+    });
+  }
+
+  /**
+   * Generate TOC links from the toc in content.
+   *
+   * @return void
+   */
+  protected function renderToc(): void
+  {
+    $urls = (new Crawler($this->content, route('docs.home')))
+      ->filter('ul:first-of-type > li > a')
+      ->links();
+
+    $links = [];
+
+    foreach ($urls as $url) {
+      $link = str_replace(route('docs.home'), '', $url->getNode()->getAttribute('href'));
+
+      $links[] = [
+        'text' => $url->getNode()->nodeValue,
+        'href' => $link,
+      ];
+    }
+
+    $this->toc = $links;
   }
 
   /**

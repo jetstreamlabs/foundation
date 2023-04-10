@@ -6,6 +6,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
+use JSW\Container\ContainerExtension;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
@@ -48,6 +49,7 @@ class DocumentationServiceProvider extends ServiceProvider implements Deferrable
       $environment->addExtension(new FrontMatterExtension());
       $environment->addExtension(new TableOfContentsExtension());
       $environment->addExtension(new HeadingPermalinkExtension());
+      $environment->addExtension(new ContainerExtension());
 
       foreach ((array) Arr::get($config, 'extensions') as $extension) {
         $environment->addExtension($app->make($extension));

@@ -31,25 +31,8 @@ class CacheManager
       return $callback();
     }
 
-    $cachePeriod = $this->checkTtlNeedsChanged(config('serenity.cache.period'));
+    $cachePeriod = now()->addMinutes(config('serenity.cache.period'));
 
-    return $this->cache->remember($key, $cachePeriod, $callback);
-  }
-
-  /**
-   * Checks if minutes need to be changed to seconds
-   *
-   * @param $ttl
-   * @return float|int
-   */
-  public function checkTtlNeedsChanged($ttl)
-  {
-    $app_version = explode('.', app()->version());
-
-    if (((int) $app_version[0] == 5 && (int) $app_version[1] >= 8) || $app_version[0] > 5) {
-      return config('serenity.cache.period') * 60;
-    }
-
-    return $ttl;
+    return $this->cache->remember(md5($key), $cachePeriod, $callback);
   }
 }
