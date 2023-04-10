@@ -1,5 +1,17 @@
 # Serenity Foundation Changelog
 
+## [2.3.2](https://github.com/jetstreamlabs/foundation/compare/v2.3.1...v2.3.2) (2023-04-10)
+
+
+### Code Refactoring
+
+* add containers and update caching ([bfa26fe](https://github.com/jetstreamlabs/foundation/commit/bfa26fed93a7543c4debda2a5c67a8f1afe0e3cf))
+
+
+### Maintenance
+
+* unused imports ([28d9e78](https://github.com/jetstreamlabs/foundation/commit/28d9e78479c6b658b3ee2b801f8b493bbac0b7a1))
+
 ## [2.3.1](https://github.com/jetstreamlabs/foundation/compare/v2.3.0...v2.3.1) (2023-03-30)
 
 
