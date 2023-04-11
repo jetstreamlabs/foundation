@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [2.3.3](https://github.com/jetstreamlabs/foundation/compare/v2.3.2...v2.3.3) (2023-04-11)
+
+
+### Task Commit
+
+* version bump ([ab16583](https://github.com/jetstreamlabs/foundation/commit/ab1658374630a3fe85e72411ff765d649c4c10a4))
+
 ## [2.3.2](https://github.com/jetstreamlabs/foundation/compare/v2.3.1...v2.3.2) (2023-04-10)
 
 
