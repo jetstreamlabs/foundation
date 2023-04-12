@@ -1,5 +1,17 @@
 # Serenity Foundation Changelog
 
+## [2.3.4](https://github.com/jetstreamlabs/foundation/compare/v2.3.3...v2.3.4) (2023-04-12)
+
+
+### Bug Fixes
+
+* update to resolve 409 status in docs ([1e64d2e](https://github.com/jetstreamlabs/foundation/commit/1e64d2ec632d94814998acd286dfa4bd86d7b030))
+
+
+### Maintenance
+
+* **deps-dev:** bump semantic-release from 21.0.0 to 21.0.1 ([f0acae1](https://github.com/jetstreamlabs/foundation/commit/f0acae130210d0b989759cec33f4e1a2e7e3dc2c))
+
 ## [2.3.3](https://github.com/jetstreamlabs/foundation/compare/v2.3.2...v2.3.3) (2023-04-11)
 
 
