@@ -68,14 +68,10 @@ class DocumentationService extends Service
    */
   public function handle(Request $request): Payload
   {
-    $route = route('docs.show', [
+    return $this->payloadResponse([
       'version' => $this->defaultVersion,
       'page' => config('serenity.docs.landing'),
-    ]);
-
-    return $this->payloadResponse([
-      'route' => $route,
-      'status' => 303,
+      'status' => 302,
     ]);
   }
 

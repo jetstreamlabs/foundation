@@ -84,7 +84,7 @@ class Serenity
    */
   public static function version()
   {
-    return '2.3.3';
+    return '2.3.4';
   }
 
   /**

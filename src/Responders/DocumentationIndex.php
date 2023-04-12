@@ -11,6 +11,9 @@ class DocumentationIndex extends ViewResponder implements DocumentationIndexCont
 
   public function toResponse()
   {
-    return $this->view->location($this->route);
+    $version = $this->data['version'];
+    $page = $this->data['page'];
+
+    return redirect()->route('docs.show', ['version' => $version, 'page' => $page]);
   }
 }
