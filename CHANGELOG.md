@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [2.3.5](https://github.com/jetstreamlabs/foundation/compare/v2.3.4...v2.3.5) (2023-04-13)
+
+
+### Code Refactoring
+
+* add commonmark attributes extension ([78f9c3b](https://github.com/jetstreamlabs/foundation/commit/78f9c3b7463f6dd3ba9644e7f9995f70b95e7f2a))
+
 ## [2.3.4](https://github.com/jetstreamlabs/foundation/compare/v2.3.3...v2.3.4) (2023-04-12)
 
 
