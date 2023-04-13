@@ -11,6 +11,7 @@ use League\CommonMark\ConverterInterface;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Environment\EnvironmentInterface;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
@@ -45,6 +46,7 @@ class DocumentationServiceProvider extends ServiceProvider implements Deferrable
       $environment = new Environment(Arr::except($config, ['extensions']));
 
       $environment->addExtension(new CommonMarkCoreExtension());
+      $environment->addExtension(new AttributesExtension());
       $environment->addExtension(new HighlightCodeExtension());
       $environment->addExtension(new FrontMatterExtension());
       $environment->addExtension(new TableOfContentsExtension());
