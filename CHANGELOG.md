@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [2.3.7](https://github.com/jetstreamlabs/foundation/compare/v2.3.6...v2.3.7) (2023-04-27)
+
+
+### Code Refactoring
+
+* update dev deps ([729c476](https://github.com/jetstreamlabs/foundation/commit/729c476774233bd4a9fd5ac076c688a7e70eadd2))
+
 ## [2.3.6](https://github.com/jetstreamlabs/foundation/compare/v2.3.5...v2.3.6) (2023-04-27)
 
 
