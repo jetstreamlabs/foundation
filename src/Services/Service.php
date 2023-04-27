@@ -52,6 +52,18 @@ abstract class Service implements ServiceInterface
   }
 
   /**
+   * Return a status response payload.
+   *
+   * @param  array  $data
+   * @param  int  $status
+   * @return \Serenity\Contracts\Payload
+   */
+  public function statusResponse(array $data, $status = 303): Payload
+  {
+    return $this->respond($data['message'], 'status', $data['route'], $status);
+  }
+
+  /**
    * Return a warning response payload.
    *
    * @param  array  $data
@@ -77,13 +89,13 @@ abstract class Service implements ServiceInterface
   /**
    * Build up and return a payload.
    *
-   * @param  string  $message
+   * @param  mixed  $message
    * @param  string  $level
    * @param  string  $route
    * @param  int  $status
    * @return \Serenity\Contracts\Payload
    */
-  public function respond($message, $level, $route, $status): Payload
+  public function respond(mixed $message, string $level, string $route, int $status): Payload
   {
     return $this->payload()->setData([
       'message' => $message,

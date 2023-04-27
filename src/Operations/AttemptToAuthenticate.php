@@ -4,6 +4,7 @@ namespace Serenity\Operations;
 
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Serenity\Routing\LoginRateLimiter;
 use Serenity\Serenity;
@@ -54,6 +55,18 @@ class AttemptToAuthenticate
       $request->only(Serenity::username(), 'password'),
       $request->boolean('remember'))
     ) {
+      $user = $request->user();
+      $name = explode(' ', $user->name, 2)[0];
+
+      if (! is_null(config('serenity.hello'))) {
+        $message = [
+          'title' => Str::replace('%name%', $name, config('serenity.hello.title')),
+          'message' => Str::replace('%name%', $name, config('serenity.hello.message')),
+        ];
+
+        session()->flash(config('serenity.hello.style'), $message);
+      }
+
       return $next($request);
     }
 
@@ -78,6 +91,17 @@ class AttemptToAuthenticate
     }
 
     $this->guard->login($user, $request->boolean('remember'));
+
+    $name = explode(' ', $user->name, 2)[0];
+
+    if (! is_null(config('serenity.hello'))) {
+      $message = [
+        'title' => Str::replace('%name%', $name, config('serenity.hello.title')),
+        'message' => Str::replace('%name%', $name, config('serenity.hello.message')),
+      ];
+
+      session()->flash(config('serenity.hello.style'), $message);
+    }
 
     return $next($request);
   }

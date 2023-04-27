@@ -36,7 +36,7 @@ abstract class Responder implements ResponderInterface
   /**
    * Message returned by our payload.
    */
-  protected ?string $message = '';
+  protected mixed $message = null;
 
   /**
    * Build up the HTTP response.

@@ -3,7 +3,6 @@
 namespace Serenity\Middleware;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Serenity\Foundation\Features;
@@ -22,9 +21,6 @@ class ShareInertiaData
   {
     Inertia::share(array_filter([
       'breadcrumbs' => app('breadcrumbs')->render(),
-      'canLogin' => Route::has('login'),
-      'canRegister' => Route::has('register'),
-      'copyright' => '&copy; '.date('Y').'. Jetstream Labs, LLC.',
       'serenityVersion' => Serenity::version(),
       'phpVersion' => PHP_VERSION,
       'serenity' => function () use ($request) {
@@ -38,7 +34,6 @@ class ShareInertiaData
           'canUpdatePassword' => Features::enabled(Features::updatePasswords()),
           'canUpdateProfileInformation' => Features::canUpdateProfileInformation(),
           'hasEmailVerification' => Features::enabled(Features::emailVerification()),
-          'flash' => $request->session()->get('flash', []),
           'hasAccountDeletionFeatures' => Serenity::hasAccountDeletionFeatures(),
           'hasApiFeatures' => Serenity::hasApiFeatures(),
           'hasTeamFeatures' => Serenity::hasTeamFeatures(),
