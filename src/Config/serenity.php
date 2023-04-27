@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Providers\RouteServiceProvider;
 use Serenity\Foundation\Features;
 use Serenity\Middleware\AuthenticateSession;
 
