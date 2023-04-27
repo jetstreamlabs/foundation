@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [2.3.6](https://github.com/jetstreamlabs/foundation/compare/v2.3.5...v2.3.6) (2023-04-27)
+
+
+### Code Refactoring
+
+* updated messaging ([260d957](https://github.com/jetstreamlabs/foundation/commit/260d957981577ee242bfe4f6591fbcf46a174866))
+
 ## [2.3.5](https://github.com/jetstreamlabs/foundation/compare/v2.3.4...v2.3.5) (2023-04-13)
 
 
