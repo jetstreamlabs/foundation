@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+## [2.3.8](https://github.com/jetstreamlabs/foundation/compare/v2.3.7...v2.3.8) (2023-04-27)
+
+
+### Bug Fixes
+
+* missing import ([8e9e41b](https://github.com/jetstreamlabs/foundation/commit/8e9e41bb4ffd716fc66a4ebf1edef541ba61075c))
+
 ## [2.3.7](https://github.com/jetstreamlabs/foundation/compare/v2.3.6...v2.3.7) (2023-04-27)
 
 
