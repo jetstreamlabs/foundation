@@ -1,5 +1,12 @@
 # Serenity Foundation Changelog
 
+# [2.4.0](https://github.com/jetstreamlabs/foundation/compare/v2.3.8...v2.4.0) (2023-05-03)
+
+
+### Features
+
+* remove commonmark install parsedown ([7e559c9](https://github.com/jetstreamlabs/foundation/commit/7e559c97ba11b66f0baadd913c4e09f11d5f0ca9))
+
 ## [2.3.8](https://github.com/jetstreamlabs/foundation/compare/v2.3.7...v2.3.8) (2023-04-27)
 
 
