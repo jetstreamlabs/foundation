@@ -4,8 +4,9 @@ namespace Serenity\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use League\CommonMark\ConverterInterface;
+use Illuminate\Support\Str;
 use Serenity\Contracts\Payload;
+use Serenity\Markdown\Contracts\Frontmatter;
 use Serenity\Support\CacheManager;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -52,7 +53,7 @@ class DocumentationService extends Service
    * @param  \Serenity\Support\CacheManager  $cache
    */
   public function __construct(
-      protected ConverterInterface $converter,
+      protected Frontmatter $converter,
       protected CacheManager $cache
     ) {
     $this->docsRoute = route('docs.home');
@@ -138,7 +139,6 @@ class DocumentationService extends Service
         'keywords' => $this->tags,
         'canonical' => $this->canonical,
         'toc' => $this->toc,
-        'content' => $this->content,
         'sidebar' => $this->index,
         'versions' => $this->publishedVersions,
         'nextPage' => $this->nextPage,
@@ -153,12 +153,12 @@ class DocumentationService extends Service
 
     $pathNotFound = config('serenity.docs.path').'/404.md';
 
-    $content = $this->converter->convert(File::get($pathNotFound));
+    $content = $this->converter->parse(File::get($pathNotFound));
 
     $this->title = 'Page Not Found';
     $this->description = '';
     $this->tags = [];
-    $this->content = $content->getContent();
+    $this->content = $content->getBody();
     $this->currentSection = '';
     $this->canonical = '';
     $this->statusCode = 404;
@@ -200,15 +200,15 @@ class DocumentationService extends Service
     $raw = $this->cache->remember(function () use ($path) {
       $file = File::get($path);
 
-      return $this->converter->convert($file);
+      return $this->converter->parse($file);
     }, 'doc-page.'.$this->version.'.'.$this->currentSection);
 
-    $frontMatter = $raw->getFrontMatter();
+    $frontMatter = $raw->getFrontmatter();
 
     $this->title = $frontMatter['title'];
     $this->description = $frontMatter['description'];
     $this->tags = $frontMatter['tags'] ?: implode(', ', $frontMatter['tags']);
-    $this->content = $raw->getContent();
+    $this->content = $raw->getBody();
   }
 
   protected function generatePreviousNext()
@@ -256,17 +256,17 @@ class DocumentationService extends Service
    */
   protected function renderToc(): void
   {
-    $urls = (new Crawler($this->content, route('docs.home')))
-      ->filter('ul:first-of-type > li > a')
-      ->links();
+    $headings = (new Crawler($this->content, route('docs.home')))
+      ->filter('h2, h3')
+      ->extract(['_text']);
 
     $links = [];
 
-    foreach ($urls as $url) {
-      $link = str_replace(route('docs.home'), '', $url->getNode()->getAttribute('href'));
+    foreach ($headings as $heading) {
+      $link = '#'.Str::of($heading)->lower()->slug();
 
       $links[] = [
-        'text' => $url->getNode()->nodeValue,
+        'text' => $heading,
         'href' => $link,
       ];
     }

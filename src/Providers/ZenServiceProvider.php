@@ -18,6 +18,7 @@ use PragmaRX\Google2FA\Google2FA;
 use Serenity\Console\InstallCommand;
 use Serenity\Contracts\ContractMapper;
 use Serenity\Contracts\TwoFactorAuthenticationProvider as TwoFactorAuthenticationProviderInterface;
+use Serenity\Markdown\Contracts\Frontmatter;
 use Serenity\Middleware\MuteActions;
 use Serenity\Middleware\ShareInertiaData;
 use Serenity\Routing\Finder\Find;
@@ -81,8 +82,6 @@ class ZenServiceProvider extends ServiceProvider
 
   protected function registerProviders()
   {
-    $this->app->register(DocumentationServiceProvider::class);
-
     $this->app->bind(
       \Serenity\Contracts\SerenityManager::class,
       \Serenity\Foundation\SerenityManager::class
@@ -91,6 +90,31 @@ class ZenServiceProvider extends ServiceProvider
     $this->app->bind(
       \Serenity\Contracts\Breadcrumbs::class,
       \Serenity\Foundation\Breadcrumbs::class
+    );
+
+    $this->app->bind(
+      \Serenity\Markdown\Contracts\BlockParser::class,
+      \Serenity\Markdown\Parsers\BlockParser::class
+    );
+
+    $this->app->bind(
+      \Serenity\Markdown\Contracts\MarkdownParser::class,
+      \Serenity\Markdown\Parsers\MarkdownParser::class
+    );
+
+    $this->app->bind(
+      \Serenity\Markdown\Contracts\VoidParser::class,
+      \Serenity\Markdown\Parsers\VoidParser::class
+    );
+
+    $this->app->bind(
+      \Serenity\Markdown\Contracts\YamlParser::class,
+      \Serenity\Markdown\Parsers\YamlParser::class
+    );
+
+    $this->app->bind(
+      \Serenity\Markdown\Contracts\Frontmatter::class,
+      \Serenity\Markdown\Frontmatter::class
     );
 
     $this->app->bind(ContractMapper::class, function (Container $app) {
@@ -106,6 +130,10 @@ class ZenServiceProvider extends ServiceProvider
       $breadcrumbs->add(env('APP_NAME'), route('home'));
 
       return $breadcrumbs;
+    });
+
+    $this->app->singleton(Frontmatter::class, function (Container $app) {
+      return $app->make(\Serenity\Markdown\Frontmatter::class);
     });
   }
 

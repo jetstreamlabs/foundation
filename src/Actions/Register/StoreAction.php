@@ -17,8 +17,9 @@ class StoreAction extends Action
    * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
    * @return void
    */
-  public function __construct(protected StatefulGuard $guard)
-  {
+  public function __construct(
+      protected StatefulGuard $guard
+    ) {
   }
 
   /**
