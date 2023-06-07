@@ -18,6 +18,6 @@ class ProfileInformationUpdated implements ProfileInformationUpdatedInterface
   {
     return $request->wantsJson()
       ? new JsonResponse('', 200)
-      : back()->with('status', Serenity::PROFILE_INFORMATION_UPDATED);
+      : back()->with('success', trans('app.'.Serenity::PROFILE_INFORMATION_UPDATED));
   }
 }

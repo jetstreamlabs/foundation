@@ -51,12 +51,20 @@ class AttemptToAuthenticate
       return $this->handleUsingCustomCallback($request, $next);
     }
 
+    $login = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+    $credentials = [
+      $login => $request->login,
+      'password' => $request->password,
+    ];
+
     if ($this->guard->attempt(
-      $request->only(Serenity::username(), 'password'),
+      $credentials,
       $request->boolean('remember'))
     ) {
       $user = $request->user();
-      $name = explode(' ', $user->name, 2)[0];
+
+      $name = is_null($user->fname) ? $user->username : $user->fname;
 
       if (! is_null(config('serenity.hello'))) {
         $message = [
@@ -92,7 +100,7 @@ class AttemptToAuthenticate
 
     $this->guard->login($user, $request->boolean('remember'));
 
-    $name = explode(' ', $user->name, 2)[0];
+    $name = is_null($user->fname) ? $user->username : $user->fname;
 
     if (! is_null(config('serenity.hello'))) {
       $message = [
@@ -118,8 +126,10 @@ class AttemptToAuthenticate
   {
     $this->limiter->increment($request);
 
+    $login = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
     throw ValidationException::withMessages([
-      Serenity::username() => [trans('auth.failed')],
+      $login => [trans('auth.failed')],
     ]);
   }
 
@@ -131,8 +141,10 @@ class AttemptToAuthenticate
    */
   protected function fireFailedEvent($request)
   {
+    $login = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
     event(new Failed(config('Authenticate.guard'), null, [
-      Serenity::username() => $request->{Serenity::username()},
+      $login => $request->login,
       'password' => $request->password,
     ]));
   }

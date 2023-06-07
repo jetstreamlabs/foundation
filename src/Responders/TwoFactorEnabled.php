@@ -18,6 +18,6 @@ class TwoFactorEnabled implements TwoFactorEnabledInterface
   {
     return $request->wantsJson()
       ? new JsonResponse('', 200)
-      : back()->with('status', Serenity::TWO_FACTOR_AUTHENTICATION_ENABLED);
+      : back()->with('success', trans('app.'.Serenity::TWO_FACTOR_AUTHENTICATION_ENABLED));
   }
 }

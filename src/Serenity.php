@@ -504,7 +504,7 @@ class Serenity
    */
   public static function username()
   {
-    return config('serenity.username', 'email');
+    return config('serenity.username', 'username');
   }
 
   /**

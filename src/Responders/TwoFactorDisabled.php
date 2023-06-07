@@ -18,6 +18,6 @@ class TwoFactorDisabled implements TwoFactorDisabledInterface
   {
     return $request->wantsJson()
       ? new JsonResponse('', 200)
-      : back()->with('status', Serenity::TWO_FACTOR_AUTHENTICATION_DISABLED);
+      : back()->with('warning', trans('app.'.Serenity::TWO_FACTOR_AUTHENTICATION_DISABLED));
   }
 }

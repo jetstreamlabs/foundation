@@ -18,6 +18,6 @@ class RecoveryCodesGenerated implements RecoveryCodesGeneratedInterface
   {
     return $request->wantsJson()
       ? new JsonResponse('', 200)
-      : back()->with('status', Serenity::RECOVERY_CODES_GENERATED);
+      : back()->with('success', trans('app.'.Serenity::RECOVERY_CODES_GENERATED));
   }
 }

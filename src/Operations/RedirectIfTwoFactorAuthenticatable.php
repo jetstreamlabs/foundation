@@ -74,7 +74,9 @@ class RedirectIfTwoFactorAuthenticatable
 
     $model = $this->guard->getProvider()->getModel();
 
-    return tap($model::where(Serenity::username(), $request->{Serenity::username()})->first(), function ($user) use ($request) {
+    $login = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+    return tap($model::where($login, $request->login)->first(), function ($user) use ($request) {
       if (! $user || ! $this->guard->getProvider()->validateCredentials($user, ['password' => $request->password])) {
         $this->fireFailedEvent($request, $user);
 
@@ -95,8 +97,10 @@ class RedirectIfTwoFactorAuthenticatable
   {
     $this->limiter->increment($request);
 
+    $login = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
     throw ValidationException::withMessages([
-      Serenity::username() => [trans('auth.failed')],
+      $login => [trans('auth.failed')],
     ]);
   }
 
@@ -109,8 +113,10 @@ class RedirectIfTwoFactorAuthenticatable
    */
   protected function fireFailedEvent($request, $user = null)
   {
+    $login = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
     event(new Failed(config('Authenticate.guard'), $user, [
-      Serenity::username() => $request->{Serenity::username()},
+      $login => $request->login,
       'password' => $request->password,
     ]));
   }

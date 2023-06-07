@@ -27,6 +27,6 @@ class StoreAction extends Action
 
     return $request->wantsJson()
       ? new JsonResponse('', 202)
-      : back()->with('status', Serenity::VERIFICATION_LINK_SENT);
+      : back()->with('success', trans('app.'.Serenity::VERIFICATION_LINK_SENT));
   }
 }

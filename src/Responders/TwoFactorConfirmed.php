@@ -18,6 +18,6 @@ class TwoFactorConfirmed implements TwoFactorConfirmedInterface
   {
     return $request->wantsJson()
       ? new JsonResponse('', 200)
-      : back()->with('status', Serenity::TWO_FACTOR_AUTHENTICATION_CONFIRMED);
+      : back()->with('status', trans('app.'.Serenity::TWO_FACTOR_AUTHENTICATION_CONFIRMED));
   }
 }

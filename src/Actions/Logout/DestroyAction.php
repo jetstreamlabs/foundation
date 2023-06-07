@@ -29,7 +29,7 @@ class DestroyAction extends Action
   public function __invoke(Request $request): Logout
   {
     $user = $request->user();
-    $name = explode(' ', $user->name, 2)[0];
+    $name = is_null($user->fname) ? $user->username : $user->fname;
 
     if (! is_null(config('serenity.goodbye'))) {
       $message = [

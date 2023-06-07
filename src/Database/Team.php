@@ -2,14 +2,10 @@
 
 namespace Serenity\Database;
 
-use Illuminate\Database\Eloquent\Model;
-use Jetlabs\Snowflake\Concerns\HasSnowflakePrimary;
 use Serenity\Serenity;
 
 abstract class Team extends Model
 {
-  use HasSnowflakePrimary;
-
   /**
    * Get the owner of the team.
    *
@@ -38,9 +34,9 @@ abstract class Team extends Model
   public function users()
   {
     return $this->belongsToMany(Serenity::userModel(), Serenity::membershipModel())
-                    ->withPivot('role')
-                    ->withTimestamps()
-                    ->as('membership');
+      ->withPivot('role')
+      ->withTimestamps()
+      ->as('membership');
   }
 
   /**
@@ -114,10 +110,10 @@ abstract class Team extends Model
   public function purge()
   {
     $this->owner()->where('current_team_id', $this->id)
-            ->update(['current_team_id' => null]);
+      ->update(['current_team_id' => null]);
 
     $this->users()->where('current_team_id', $this->id)
-            ->update(['current_team_id' => null]);
+      ->update(['current_team_id' => null]);
 
     $this->users()->detach();
 

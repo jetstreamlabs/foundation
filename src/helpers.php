@@ -1,15 +1,15 @@
 <?php
 
+use Serenity\Settings\GeneralSettings;
+
 if (! function_exists('bcs')) {
   /**
    * Return the breadcrumb instance from the container
    * or push new crumbs to instance.
    *
-   * @param  string|array  $text
-   * @param  string  $route
-   * @return \App\Services\Breadcrumbs|void
+   * @return \Serenity\Contracts\Breadcrumbs|void
    */
-  function bcs($text = null, $route = null)
+  function bcs(mixed $text = null, string $route = null): mixed
   {
     // If nothing is passed return the object.
     if (is_null($text) && is_null($route)) {
@@ -26,7 +26,7 @@ if (! function_exists('bcs')) {
         }
       }
 
-      return;
+      return app('breadcrumbs');
     }
 
     // No route
@@ -35,6 +35,30 @@ if (! function_exists('bcs')) {
     }
 
     // Normal single add
-    app('breadcrumbs')->add($text, $route);
+    return app('breadcrumbs')->add($text, $route);
+  }
+}
+
+if (! function_exists('___')) {
+  function ___($group, $key, $params = [], $locale = null)
+  {
+    return trans($group.'.'.$key, $params, $locale);
+  }
+
+  function ___ch($group, $key, $number, $params = [], $locale = null)
+  {
+    return trans_choice($group.'.'.$key, $number, $params, $locale);
+  }
+}
+
+if (! function_exists('getAvailableLocalesTranslated')) {
+  function getAvailableLocalesTranslated()
+  {
+    return collect(app(GeneralSettings::class)->available_locales)->map(function ($locale) {
+      return [
+        'key' => $locale,
+        'value' => trans("locales.admin.$locale"),
+      ];
+    })->all();
   }
 }

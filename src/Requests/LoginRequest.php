@@ -3,7 +3,6 @@
 namespace Serenity\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Serenity\Serenity;
 
 class LoginRequest extends FormRequest
 {
@@ -25,7 +24,7 @@ class LoginRequest extends FormRequest
   public function rules()
   {
     return [
-      Serenity::username() => 'required|string',
+      'login' => 'required|string',
       'password' => 'required|string',
     ];
   }

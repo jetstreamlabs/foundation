@@ -4,7 +4,7 @@ namespace Serenity\Concerns;
 
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
-use Serenity\OwnerRole;
+use Serenity\Foundation\OwnerRole;
 use Serenity\Serenity;
 
 trait HasTeams

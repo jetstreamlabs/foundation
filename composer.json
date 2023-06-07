@@ -25,6 +25,8 @@
     "jetstreamlabs/snowflake": "^3.1",
     "league/commonmark": "^2.3",
     "pragmarx/google2fa": "^8.0",
+    "spatie/laravel-permission": "^5.10",
+    "spatie/laravel-query-builder": "^5.2",
     "symfony/dom-crawler": "^6.2",
     "symfony/yaml": "^6.2"
   },

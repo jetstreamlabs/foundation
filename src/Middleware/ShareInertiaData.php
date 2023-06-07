@@ -23,6 +23,15 @@ class ShareInertiaData
       'breadcrumbs' => app('breadcrumbs')->render(),
       'serenityVersion' => Serenity::version(),
       'phpVersion' => PHP_VERSION,
+      'flash' => function () use ($request) {
+        return [
+          'success' => $request->session()->get('success'),
+          'error' => $request->session()->get('error'),
+          'warning' => $request->session()->get('warning'),
+          'info' => $request->session()->get('info'),
+          'status' => $request->session()->get('status'),
+        ];
+      },
       'serenity' => function () use ($request) {
         $user = $request->user();
 
@@ -53,6 +62,8 @@ class ShareInertiaData
         }
 
         return array_merge($user->toArray(), array_filter([
+          'permissions' => $user->getPermissionNames(),
+          'roles' => $user->getRoleNames(),
           'all_teams' => $userHasTeamFeatures ? $user->allTeams()->values() : null,
         ]), [
           'two_factor_enabled' => ! is_null($user->two_factor_secret),

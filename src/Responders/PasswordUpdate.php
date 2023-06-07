@@ -18,6 +18,6 @@ class PasswordUpdate implements PasswordUpdateInterface
   {
     return $request->wantsJson()
       ? new JsonResponse('', 200)
-      : back()->with('status', Serenity::PASSWORD_UPDATED);
+      : back()->with('success', trans('app.'.Serenity::PASSWORD_UPDATED));
   }
 }
