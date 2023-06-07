@@ -18,5 +18,6 @@ class ConsoleSupportServiceProvider extends AggregateServiceProvider implements 
     ArtisanServiceProvider::class,
     MigrationServiceProvider::class,
     ComposerServiceProvider::class,
+    OpenAiServiceProvider::class,
   ];
 }
