@@ -1,5 +1,26 @@
 # Serenity Foundation Changelog
 
+## [2.4.1](https://github.com/jetstreamlabs/foundation/compare/v2.4.0...v2.4.1) (2023-06-07)
+
+
+### Code Refactoring
+
+* add openai and other small fixes ([c202833](https://github.com/jetstreamlabs/foundation/commit/c202833764829b83eee9609c7e22cadb46d3985a))
+
+
+* Merge branch 'develop' ([cf45880](https://github.com/jetstreamlabs/foundation/commit/cf458808586e2adf46616b68ad27beabd65f2f0e))
+
+
+### Maintenance
+
+* **deps-dev:** —dpbot deps ([896f3d8](https://github.com/jetstreamlabs/foundation/commit/896f3d8a0b784c6030aee1834fe5faeba8a05bbb))
+* **deps-dev:** bump @commitlint/cli from 17.6.1 to 17.6.3 ([cde90c0](https://github.com/jetstreamlabs/foundation/commit/cde90c0c3cbc548c6b1c31b93404363adeede1b2))
+* **dev-deps:** dpbot updates ([e69c9c4](https://github.com/jetstreamlabs/foundation/commit/e69c9c48bd32fbb1f7e118480e644cfa1a885e29))
+* removed old admin junk ([f250bc8](https://github.com/jetstreamlabs/foundation/commit/f250bc894e99e8bcebf3ea2eb822ad7c8827dfe1))
+* small adjustments for permissions ([df9359d](https://github.com/jetstreamlabs/foundation/commit/df9359ddd55f03acd4e0d6be192b4fc64c8f7e05))
+* update README.md ([c914ebf](https://github.com/jetstreamlabs/foundation/commit/c914ebf6a9e6e91bc96f8c9ce9465b1be7ab7899))
+* update README.md ([4235aab](https://github.com/jetstreamlabs/foundation/commit/4235aab3c157e8f00a0470534f22d9bed459816f))
+
 # [2.4.0](https://github.com/jetstreamlabs/foundation/compare/v2.3.8...v2.4.0) (2023-05-03)
 
 
