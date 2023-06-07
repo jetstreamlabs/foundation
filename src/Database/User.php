@@ -12,26 +12,20 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Support\Collection;
 use Jetlabs\Snowflake\Concerns\HasSnowflakePrimary;
-use Serenity\Media\AutoProcessMediaTrait;
-use Serenity\Media\HasMediaPreviewsTrait;
-use Serenity\Media\InteractsWithMedia;
-use Serenity\Media\ProcessMediaTrait;
-use Spatie\MediaLibrary\HasMedia;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, HasMedia, MustVerifyEmailContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, MustVerifyEmailContract
 {
   use Authenticatable;
   use Authorizable;
-  use AutoProcessMediaTrait;
   use CanResetPassword;
-  use HasMediaPreviewsTrait;
-  use HasSnowflakePrimary;
+  use HasPermissions;
   use HasRoles;
-  use InteractsWithMedia;
+  use HasSnowflakePrimary;
   use MustVerifyEmail;
-  use ProcessMediaTrait;
   use SoftDeletes;
 
   /**
@@ -40,4 +34,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
    * @var bool
    */
   public $incrementing = false;
+
+  /**
+   * Get all of the permissions for the user.
+   */
+  public function getPermissions(): Collection
+  {
+    return $this->getAllPermissions()->pluck('name');
+  }
+
+  /**
+   * Get the roles for the user.
+   */
+  public function getRoles(): Collection
+  {
+    return $this->getRoleNames();
+  }
 }

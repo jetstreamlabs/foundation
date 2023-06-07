@@ -32,8 +32,8 @@ class ShareInertiaData
           'status' => $request->session()->get('status'),
         ];
       },
-      'serenity' => function () use ($request) {
-        $user = $request->user();
+      'serenity' => function () {
+        $user = auth()->user();
 
         return [
           'canCreateTeams' => $user &&
@@ -62,8 +62,8 @@ class ShareInertiaData
         }
 
         return array_merge($user->toArray(), array_filter([
-          'permissions' => $user->getPermissionNames(),
-          'roles' => $user->getRoleNames(),
+          'permissions' => $user->getPermissions(),
+          'roles' => $user->getRoles(),
           'all_teams' => $userHasTeamFeatures ? $user->allTeams()->values() : null,
         ]), [
           'two_factor_enabled' => ! is_null($user->two_factor_secret),
