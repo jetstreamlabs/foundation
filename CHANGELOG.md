@@ -1,5 +1,17 @@
 # Serenity Foundation Changelog
 
+## [2.4.2](https://github.com/jetstreamlabs/foundation/compare/v2.4.1...v2.4.2) (2023-06-08)
+
+
+### Bug Fixes
+
+* broken class name ([607c14f](https://github.com/jetstreamlabs/foundation/commit/607c14f070d2aa7b6a7c18f28b5adf1425937efb))
+
+
+### Maintenance
+
+* typo in service provider ([a37befd](https://github.com/jetstreamlabs/foundation/commit/a37befd229a53bef437a85d0d83ad34d5bc951df))
+
 ## [2.4.1](https://github.com/jetstreamlabs/foundation/compare/v2.4.0...v2.4.1) (2023-06-07)
 
 
