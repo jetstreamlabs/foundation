@@ -24,7 +24,7 @@
     "jenssegers/agent": "^2.6",
     "jetstreamlabs/snowflake": "^3.1",
     "league/commonmark": "^2.3",
-    "openai-php/laravel": "^0.5.3",
+    "openai-php/laravel": "^0.6.0",
     "pragmarx/google2fa": "^8.0",
     "spatie/laravel-permission": "^5.10",
     "spatie/laravel-query-builder": "^5.2",
