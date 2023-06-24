@@ -1,5 +1,19 @@
 # Serenity Foundation Changelog
 
+# [2.5.0](https://github.com/jetstreamlabs/foundation/compare/v2.4.2...v2.5.0) (2023-06-24)
+
+
+### Features
+
+* add console wizard package ([8304e9a](https://github.com/jetstreamlabs/foundation/commit/8304e9a47c75bfb2665a2b3e64e64f4903cbecfa))
+
+
+### Maintenance
+
+* **deps-dev:** bump semantic-release from 21.0.3 to 21.0.5 ([78ffee1](https://github.com/jetstreamlabs/foundation/commit/78ffee174c798188451633b3a867a030895e9444))
+* **deps-dev:** update dependencies —dpbot ([e20ea7b](https://github.com/jetstreamlabs/foundation/commit/e20ea7bf7f26209b8f5f91f24d29425fb7b86f96))
+* **deps:** update openai-php/laravel requirement from ^0.5.3 to ^0.6.0 ([1312803](https://github.com/jetstreamlabs/foundation/commit/13128035ca31843b78df2bf340449179c39dea6a))
+
 ## [2.4.2](https://github.com/jetstreamlabs/foundation/compare/v2.4.1...v2.4.2) (2023-06-08)
 
 
