@@ -248,7 +248,11 @@ class ActionMakeCommand extends GeneratorCommand
     if (in_array($action, $actions)) {
       $namespace = 'App\\Domain\\Requests';
 
-      $requestClass = class_basename($this->getNamespace($name));
+      $requestClass = Str::studly(
+        Str::singular(
+          class_basename($this->getNamespace($name))
+        )
+      );
 
       $viewRequestClass = $this->generateFormRequests($requestClass);
 

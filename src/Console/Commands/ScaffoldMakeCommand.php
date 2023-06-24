@@ -2,86 +2,182 @@
 
 namespace Serenity\Console\Commands;
 
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 use Serenity\Concerns\ResolvesStubPath;
+use Serenity\Console\Wizard\Command\AggregateWizard;
+use Serenity\Console\Wizard\Contracts\Step;
+use Serenity\Console\Wizard\Steps\ChoiceStep;
+use Serenity\Console\Wizard\Steps\ConfirmStep;
+use Serenity\Console\Wizard\Steps\TextStep;
+use Serenity\Console\Wizard\Steps\UniqueMultipleChoiceStep;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 #[AsCommand(name: 'make:scaffold')]
-class ScaffoldMakeCommand extends GeneratorCommand
+class ScaffoldMakeCommand extends AggregateWizard
 {
   use ResolvesStubPath;
 
-  /**
-   * The console command name.
-   *
-   * @var string
-   */
-  protected $name = 'make:scaffold';
+  protected $signature = 'make:scaffold';
+
+  protected $description = 'Namespace scaffold wizard.';
 
   /**
-   * The console command description.
-   *
-   * @var string
+   * Generate the steps for the wizard.
    */
-  protected $description = 'Scaffold all classes for a namespace.';
-
-  /**
-   * The type of class being generated.
-   *
-   * @var string
-   */
-  protected $type = 'Namespace';
-
-  /**
-   * Execute the console command.
-   *
-   * @return bool|null
-   */
-  public function handle()
+  public function getSteps(): array
   {
-    if ($this->option('basic')) {
-      $this->createModel();
-      $this->createBasicActions();
-    }
+    return [
+      'visibility' => new ChoiceStep('What visibility should the namespace have?', [
+        'Public', 'Protected', 'Private', 'API',
+      ]),
+      'actions' => new UniqueMultipleChoiceStep('Select all the actions to create for your namespace', [
+        'Index', 'Create', 'Show', 'Store', 'Edit', 'Update', 'Delete', 'Restore', 'Destroy',
+      ], [
+        'end_keyword' => 'done',
+        'retain_end_keyword' => false,
+      ]),
+      'model' => new TextStep('Enter the name of the Model to use for this namespace'),
+      'service' => new ConfirmStep('Do you want to create a service?', true),
+      'repository' => new ConfirmStep('Would you like a repository?', true),
+      'observer' => new ConfirmStep('Do you need an Observer?'),
+    ];
+  }
 
-    if ($this->option('api')) {
-      $this->createModel();
-      $this->createService();
-      $this->createApiActions();
-    }
+  /**
+   * First wizard step - ie: name.
+   */
+  public function getNameStep(): Step
+  {
+    return new TextStep('What namespace would you like to create?');
+  }
 
-    if ($this->option('all')) {
-      $this->createModel();
-      $this->createService();
-      $this->createBasicActions();
-      $this->createRepository();
-      $this->createObserver();
-    }
+  /**
+   * Message for pre-action step.
+   */
+  public function takingActions(Step $step)
+  {
+    $this->info("Next we'll select your actions. Each action you create will automatically create");
+    $this->info('a responder and a corresponding Vue page. There will also be a single namespace service');
+    $this->info('with corresponding Form Requests for each action, and a Policy to govern action access.');
+  }
 
-    if ($this->option('repo')) {
-      $this->createRepository();
-    }
+  /**
+   * Run all generators, mocks `handle`
+   */
+  public function generateTarget(): string
+  {
+    $this->createModel();
+    $this->createService();
 
-    if ($this->option('observer')) {
-      $this->createObserver();
+    $this->answers->get('visibility') === 'API'
+      ? $this->createApiActions()
+      : $this->createAppActions();
+
+    $this->createRepository();
+    $this->createObserver();
+
+    return '';
+  }
+
+  /**
+   * Generate a repository if requested.
+   */
+  protected function createRepository(): void
+  {
+    if ($this->answers->get('repository')) {
+      $name = Str::singular($this->answers->get('name_'));
+
+      $model = Str::studly(Str::singular($this->answers->get('model')));
+
+      $this->call('make:repository', [
+        'name' => "{$name}Repository",
+        'model' => $model,
+      ]);
     }
   }
 
   /**
-   * Create a set of standard actions, responders and pages.
-   *
-   * @return void
+   * Generate an observer if requested.
    */
-  protected function createBasicActions(): void
+  protected function createObserver(): void
   {
-    $files = ['Index', 'Create', 'Show', 'Store', 'Edit', 'Update', 'Delete', 'Restore', 'Destroy'];
+    if ($this->answers->get('observer')) {
+      $name = Str::singular($this->answers->get('name_'));
 
-    $namespace = Str::studly(class_basename($this->argument('name')));
+      $model = Str::studly(Str::singular($this->answers->get('model')));
 
-    $model = Str::studly(Str::singular($this->argument('name')));
+      $this->call('make:observer', [
+        'name' => "{$name}Observer",
+        '--model' => $model,
+      ]);
+    }
+  }
+
+  /**
+   * Generate a service if requested.
+   */
+  protected function createService(): void
+  {
+    if ($this->answers->get('service')) {
+      $service = Str::singular($this->answers->get('name_'));
+
+      $model = Str::studly(Str::singular($this->answers->get('model')));
+
+      $this->call('make:service', [
+        'name' => "{$service}Service",
+        '--model' => $model,
+        '--api' => $this->answers->get('visibility') === 'API' ?? false,
+      ]);
+    }
+  }
+
+  /**
+   * Generate the model.
+   */
+  protected function createModel(): void
+  {
+    $name = $this->qualifyModel($this->answers->get('model'));
+
+    if ($this->alreadyExists($name)) {
+      $this->info('This model already exists, skipping');
+    } else {
+      $this->call('make:model', [
+        'name' => Str::studly(Str::singular($this->answers->get('model'))),
+        '--migration' => true,
+        '--factory' => true,
+        '--policy' => true,
+      ]);
+    }
+  }
+
+  /**
+   * Generate a Vue page for each action requested.
+   */
+  protected function createPage(string $file): void
+  {
+    $files = ['Index', 'Create', 'Show', 'Edit'];
+
+    $namespace = Str::studly(Str::replace('\\', '/', $this->answers->get('name_')));
+
+    if (in_array($file, $files)) {
+      $page = $namespace.DIRECTORY_SEPARATOR.$file;
+
+      $this->call('make:page', [
+        'name' => "{$page}",
+      ]);
+    }
+  }
+
+  /**
+   * Generate actions for the main app.
+   */
+  protected function createAppActions(): void
+  {
+    $namespace = Str::studly(Str::replace('\\', '/', $this->answers->get('name_')));
+
+    $model = Str::studly(Str::singular($this->answers->get('model')));
+
+    $files = $this->answers->get('actions');
 
     foreach ($files as $file) {
       $action = $namespace
@@ -90,7 +186,7 @@ class ScaffoldMakeCommand extends GeneratorCommand
 
       $this->call('make:action', [
         'name' => "{$action}Action",
-        'visibility' => $this->argument('visibility'),
+        'visibility' => $this->convertVisibility($this->answers->get('visibility')),
         '--model' => $model,
         '--resp' => true,
       ]);
@@ -100,17 +196,15 @@ class ScaffoldMakeCommand extends GeneratorCommand
   }
 
   /**
-   * Generate Api actions for the application.
-   *
-   * @return void
+   * Generate API actions if requested.
    */
-  public function createApiActions()
+  protected function createApiActions(): void
   {
-    $files = ['List', 'Store', 'Update', 'Delete', 'Restore', 'Destroy'];
+    $namespace = Str::studly(Str::replace('\\', '/', $this->answers->get('name_')));
 
-    $namespace = Str::studly(class_basename($this->argument('name')));
+    $model = Str::studly(Str::singular($this->answers->get('model')));
 
-    $model = Str::studly(Str::singular($this->argument('name')));
+    $files = $this->answers->get('actions');
 
     foreach ($files as $file) {
       $action = $namespace
@@ -127,129 +221,16 @@ class ScaffoldMakeCommand extends GeneratorCommand
   }
 
   /**
-   * Create a new Inertia view page.
-   *
-   * @param  string  $file
-   * @return void
+   * Convert the requested plain text visibility to var
+   * for passing into given generators.
    */
-  protected function createPage(string $file): void
+  protected function convertVisibility(string $choice): string
   {
-    $files = ['Index', 'Create', 'Show', 'Edit'];
-
-    $namespace = Str::studly(class_basename($this->argument('name')));
-
-    if (in_array($file, $files)) {
-      $page = $namespace.DIRECTORY_SEPARATOR.$file;
-
-      $this->call('make:page', [
-        'name' => "{$page}",
-      ]);
-    }
-  }
-
-  /**
-   * Create a new model, factory, migration, policy.
-   *
-   * @return void
-   */
-  public function createModel(): void
-  {
-    $name = $this->qualifyModel($this->argument('name'));
-
-    if ($this->alreadyExists($name)) {
-      $this->info('This model already exists, skipping');
-    } else {
-      $this->call('make:model', [
-        'name' => Str::studly(Str::singular($this->argument('name'))),
-        '--migration' => true,
-        '--factory' => true,
-        '--policy' => true,
-      ]);
-    }
-  }
-
-  /**
-   * Create a service class for the application.
-   *
-   * @param  string  $model
-   * @return void
-   */
-  protected function createService(): void
-  {
-    $service = Str::singular($this->argument('name'));
-
-    $model = Str::studly(Str::singular($this->argument('name')));
-
-    $this->call('make:service', [
-      'name' => "{$service}Service",
-      '--model' => $model,
-      '--api' => $this->option('api') ?? false,
-    ]);
-  }
-
-  protected function createRepository()
-  {
-    $name = Str::singular($this->argument('name'));
-
-    $model = Str::studly(Str::singular($this->argument('name')));
-
-    $this->call('make:repository', [
-      'name' => "{$name}Repository",
-      'model' => $model,
-    ]);
-  }
-
-  public function createObserver()
-  {
-    $name = Str::singular($this->argument('name'));
-
-    $model = Str::studly(Str::singular($this->argument('name')));
-
-    $this->call('make:observer', [
-      'name' => "{$name}Observer",
-      '--model' => $model,
-    ]);
-  }
-
-  public function getStub()
-  {
-    // No stub, this command only runs other generators.
-  }
-
-  /**
-   * Get the console command options.
-   *
-   * @return array
-   */
-  protected function getArguments()
-  {
-    return [
-      ['name', InputArgument::REQUIRED, 'The '.strtolower($this->type).' to create for the app'],
-      ['visibility', InputArgument::REQUIRED, 'Set the visibility for the namespace (G: Public, M: Protected, A: Private)'],
-    ];
-  }
-
-  /**
-   * Prompt for missing input arguments using the returned questions.
-   *
-   * @return array
-   */
-  protected function promptForMissingArgumentsUsing()
-  {
-    return [
-      'name' => 'The '.strtolower($this->type).' to create for the app?',
-      'visibility' => 'Set the visibility for the namespace (G: Public, M: Protected, A: Private)',
-    ];
-  }
-
-  protected function getOptions()
-  {
-    return [
-      ['all', null, InputOption::VALUE_NONE, 'Create all classes for a namespace.'],
-      ['api', null, InputOption::VALUE_NONE, 'Create all classes for an Api namespace.'],
-      ['basic', null, InputOption::VALUE_NONE, 'Include actions, responders, model and service.'],
-      ['repo', null, InputOption::VALUE_NONE, 'Include a repository.'],
-      ['observer', null, InputOption::VALUE_NONE, 'Include an observer.'],
-    ];
+    return match ($choice) {
+      'Public' => 'G',
+      'Protected' => 'M',
+      'Private' => 'A',
+      'API' => 'N'
+    };
   }
 }

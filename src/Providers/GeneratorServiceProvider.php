@@ -37,6 +37,7 @@ use Serenity\Console\Commands\ScopeMakeCommand;
 use Serenity\Console\Commands\ServiceMakeCommand;
 use Serenity\Console\Commands\StubPublishCommand;
 use Serenity\Console\Commands\TestMakeCommand;
+use Serenity\Console\Wizard\Command\Generators\GenerateWizardWizard;
 
 class GeneratorServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -78,6 +79,7 @@ class GeneratorServiceProvider extends ServiceProvider implements DeferrableProv
     'ScopeMake' => ScopeMakeCommand::class,
     'StubPublish' => StubPublishCommand::class,
     'TestMake' => TestMakeCommand::class,
+    'WizardMake' => GenerateWizardWizard::class,
   ];
 
   /**
@@ -462,6 +464,18 @@ class GeneratorServiceProvider extends ServiceProvider implements DeferrableProv
   {
     $this->app->singleton(TestMakeCommand::class, function ($app) {
       return new TestMakeCommand($app['files']);
+    });
+  }
+
+  /**
+   * Register the command.
+   *
+   * @return void
+   */
+  protected function registerWizardMakeCommand()
+  {
+    $this->app->singleton(GenerateWizardWizard::class, function ($app) {
+      return new GenerateWizardWizard($app['files']);
     });
   }
 

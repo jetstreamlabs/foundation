@@ -83,6 +83,11 @@ class ZenServiceProvider extends ServiceProvider
   protected function registerProviders()
   {
     $this->app->bind(
+      \Serenity\Console\Wizard\Contracts\Wizard::class,
+      \Serenity\Console\Wizard\Command\Wizard::class
+    );
+
+    $this->app->bind(
       \Serenity\Contracts\SerenityManager::class,
       \Serenity\Foundation\SerenityManager::class
     );
